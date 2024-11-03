@@ -67,26 +67,26 @@ exports.createBusiness = async (req, res) => {
 };
 
 // Get a single business by ID with subCategory details
-exports.getBusinessById = async (req, res) => {
-    try {
-        const business = await BusinessAndService.findById(req.params.id)
-            .populate('owner')
-            .populate({
-                path: 'category',
-                populate: {
-                    path: 'subCategories',
-                    match: { _id: new mongoose.Types.ObjectId(req.body.subCategory) }, // Corrected ObjectId instantiation
-                    select: 'title image'
-                }
-            });
+// exports.getBusinessById = async (req, res) => {
+//     try {
+//         const business = await BusinessAndService.findById(req.params.id)
+//             .populate('owner')
+//             .populate({
+//                 path: 'category',
+//                 populate: {
+//                     path: 'subCategories',
+//                     match: { _id: new mongoose.Types.ObjectId(req.body.subCategory) }, // Corrected ObjectId instantiation
+//                     select: 'title image'
+//                 }
+//             });
 
-        if (!business) return res.status(404).json({ success: false, message: 'Business not found' });
+//         if (!business) return res.status(404).json({ success: false, message: 'Business not found' });
         
-        res.status(200).json({ success: true, data: business });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-};
+//         res.status(200).json({ success: true, data: business });
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: error.message });
+//     }
+// };
 
 
 // Get all businesses with user, category, and subCategory details
@@ -246,3 +246,49 @@ exports.getBusinessesByUserId = async (req, res) => {
     }
 };
 
+exports.getBusinessById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Find the business by ID and populate owner and category details
+        const business = await BusinessAndService.findById(id)
+            .populate('owner') // Populate owner details
+            .populate({
+                path: 'category', // Populate main category details
+                select: 'title image',
+            });
+        
+        if (!business) {
+            return res.status(404).json({ success: false, message: 'Business not found' });
+        }
+
+        // Get categories that match the business's category IDs and contain the business's subCategory IDs
+        const categories = await AdminCategories.find({
+            _id: { $in: business.category },
+            'subCategories._id': { $in: business.subCategory },
+        });
+
+        // Extract details of all matching subCategories
+        const subCategoryDetails = categories.flatMap(category =>
+            category.subCategories.filter(subCat => 
+                business.subCategory.includes(subCat._id.toString())
+            ).map(subCat => ({
+                _id: subCat._id,
+                title: subCat.title,
+                // Include other properties as needed
+            }))
+        );
+
+        // Return the business data with populated subCategory details
+        res.status(200).json({
+            success: true,
+            data: {
+                ...business.toObject(),
+                subCategoryDetails,
+            },
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};

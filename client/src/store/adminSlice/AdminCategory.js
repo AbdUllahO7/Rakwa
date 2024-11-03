@@ -48,10 +48,11 @@ export const deleteCategory = createAsyncThunk('/admin/deleteCategory' ,async (i
 
 export const fetchAllSubCategory = createAsyncThunk('/Admin/fetchAllSubCategory', async ({ ids }) => {
     const result = await axios.get(`http://localhost:5000/api/AdminCategories/subcategories`, {
-        params: { categoryIds: ids }
+        params: { categoryIds: ids.join(',') } // Convert array to a comma-separated string
     });
     return result?.data;
 });
+
 
 
 export const createSubCategory = createAsyncThunk('/admin/createSubCategory/', 

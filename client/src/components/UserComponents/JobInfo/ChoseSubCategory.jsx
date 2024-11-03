@@ -3,6 +3,10 @@ import Category from "@/components/common/Category";
 import { CircleArrowRight } from "lucide-react";
 
 function ChoseSubCategory({ SubCategoriesList, handleCardClick , selectedSubCategoryIds }) {
+
+    console.log(SubCategoriesList)
+
+
     return (
         <section className="w-full py-12">
             <div className="mb-10 text-center text-2xl font-bold text-secondary flex justify-center items-center">

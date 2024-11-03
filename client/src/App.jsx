@@ -23,6 +23,7 @@ import AdminUserBusiness from './pages/AdminView/AdminUserBusiness';
 import ProfileLayout from './pages/UserView/Porfile/ProfileLayout';
 import UserDashBoard from './components/UserComponents/Profile/UserDashBoard';
 import UserBusiness from './components/UserComponents/Profile/UserBusiness';
+import BusinessInfo from './components/UserComponents/Profile/BusinessInfo';
 
 function App() {
 
@@ -85,6 +86,7 @@ function App() {
           <Route path="userProfile" element={<ProfileLayout />} >
               <Route path="dashboard" element={<UserDashBoard />} />
               <Route path="UserBusiness" element={<UserBusiness />} />
+              <Route path="BusinessInfo/:businessId" element={<BusinessInfo isAdmin={false}/>} />
 
           </Route>
 
@@ -102,7 +104,8 @@ function App() {
           <Route path="category" element={<AdminCategory />} />
           <Route path="PricingPlan" element={<AdminPricingPlan />} />
           <Route path="AdminUserBusiness" element={<AdminUserBusiness />} />
-        
+          <Route path="BusinessInfo/:businessId" element={<BusinessInfo  isAdmin={true}/>} />
+
         </Route>
 
       

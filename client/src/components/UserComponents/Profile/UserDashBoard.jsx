@@ -2,7 +2,6 @@ import { fetchBusinessByUserId } from "@/store/userSlice/businessServiceSlice";
 import { ClockAlert, FolderKanban, Rss, UserRoundPlus } from "lucide-react"
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
-
 function UserDashBoard() {
 
     const {businessList} = useSelector(state => state.businessList);
@@ -17,10 +16,23 @@ function UserDashBoard() {
         <div className="py-12">
             <div className="container mx-auto px-4">
                 <div className="flex justify-center gap-7 items-center flex-wrap ">
+                    <div className = {` bg-primary w-[250px] rounded-lg flex justify-evenly h-[100px]  items-center border border-r-2 text-secondary   border-r-secondary `}>
+                        <div className="text-center">
+                            <h2 className="text-secondary font-bold ">Pending Business</h2>
+                            <span className="text-secondary font-bold">
+                                {businessList ? businessList.filter(business => !business.Accept).length : 0}
+                            </span>
+
+                        </div>
+                        <ClockAlert />
+                    </div>
                     <div className="bg-primary w-[250px] rounded-lg flex justify-evenly h-[100px] items-center border border-r-2  border-r-secondary ">
                         <div className="text-center">
-                            <h2 className="text-secondary font-bold">Pending Business</h2>
-                            <span className="text-secondary font-bold">{businessList.Accept ?  0 : businessList.length}</span>
+                            <h2 className="text-secondary font-bold">Accept Business</h2>
+                            <span className="text-secondary font-bold">
+                                {businessList ? businessList.filter(business => business.Accept).length : 0}
+                            </span>
+
                         </div>
                         <ClockAlert />
                     </div>

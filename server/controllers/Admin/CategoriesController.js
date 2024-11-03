@@ -119,7 +119,13 @@ const createSubCategory = async (req, res) => {
 // Get all subcategories for a category
 const getAllSubCategories = async (req, res) => {
     try {
-        const { categoryIds } = req.query;  // Expect categoryIds as a comma-separated string
+        const { categoryIds } = req.query; // Expect categoryIds as a comma-separated string
+
+        // Check if categoryIds is defined and is a string
+        if (!categoryIds || typeof categoryIds !== 'string') {
+            return res.status(400).json({ success: false, message: 'Invalid categoryIds' });
+        }
+
         const categoryIdArray = categoryIds.split(','); // Split IDs into an array
         
         const categories = await AdminCategories.find({ _id: { $in: categoryIdArray } }).populate('subCategories');
@@ -136,6 +142,7 @@ const getAllSubCategories = async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 };
+
 
 
 

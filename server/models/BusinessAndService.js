@@ -15,10 +15,10 @@ const BusinessAndServiceSchema = new mongoose.Schema({
     phone: { type: String },
     images: { type: String },
     open: { type: Boolean, default: true },
-    facebook: { type: String },
-    instagram: { type: String },
-    whatsapp: { type: String },
-    features: { type: String },
+    facebook: { type: String ,default: "" },
+    instagram: { type: String , default: ""},
+    whatsapp: { type: String , default: "" },
+    features: { type: String , default: "" },
     Accept: { type: Boolean, default: false },
 });
 

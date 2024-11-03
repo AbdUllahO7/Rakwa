@@ -38,7 +38,7 @@ function JobInfoLayout() {
     useEffect(() => {
         dispatch(fetchAllCategory());
         if (selectedCategoryIds.length > 0) {
-            dispatch(fetchAllSubCategory({ ids: selectedCategoryIds.join(',') }));
+            dispatch(fetchAllSubCategory({ ids: selectedCategoryIds }));
         }
     }, [dispatch, selectedCategoryIds]);
     

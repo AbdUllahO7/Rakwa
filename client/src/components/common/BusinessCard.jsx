@@ -1,52 +1,80 @@
 import PropTypes from 'prop-types';
 import { Separator } from '../ui/separator';
-import { BadgeAlert, CircleCheckBig, UserRound } from 'lucide-react';
+import { BadgeAlert, CircleCheckBig, Info } from 'lucide-react';
+import { Button } from '../ui/button';
+import { useNavigate } from 'react-router-dom';
 
-function BusinessCard({ business, handleGetBusinessDetails  }) {
+function BusinessCard({ business , isAdmin }) {
+
+    const navigate = useNavigate();
+
+
     return (
-        <div className="max-w-sm w-[400px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#" onClick={() => handleGetBusinessDetails(business?._id)}>
-                <img className="rounded-t-lg w-[200px] h-[200px] m-auto mt-5" src={business?.images} alt="Business" />
-            </a>
-            <div className="p-5">
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {business?.title}
-                </h5>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    {business?.description}
-                </p>
-                <Separator/>
-                <div className="flex gap-1 flex-col mt-2">
-                                <div>
-                                {business?.category?.map((cat, index) => (
-                                        <div key={index} className='inline-flex flex-wrap items-center gap-2 bg-primary rounded-lg '>
-                                            <img src={cat?.image} alt="" className='w-8 h-8 ' />
-                                            <span className='font-bold p-1   mr-1' >{cat?.title}{index < business.category.length - 1 ? '' : ''}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div>
-                                {business?.subCategoryDetails?.map((subCat, index) => (
-                                        <div key={index} className='inline-flex flex-wrap items-center gap-3 bg-primary rounded-lg'>
-                                            <img src={subCat?.image} alt="" className='w-6 h-6' />
-                                            <span className='font-bold text-sm p-1 bg-primary rounded-lg mr-1' key={index}>{subCat?.title}{index < business.subCategoryDetails.length - 1 ? '' : ''}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className='flex mt-5 gap-4'>
-                                    <span className='mb-5 p-1 bg-primary rounded-lg mr-1 flex gap-2 font-bold text-md w-fit'> <UserRound /> {business?.owner?.userName || 'N/A'}</span>
-                                    <span  className={`${business?.Accept ? 'bg-green-700': 'bg-red-900 '} text-primary mb-5 p-1  rounded-lg mr-1 flex gap-2 font-bold text-md w-[130px]`}> {business?.Accept ? <CircleCheckBig /> : <BadgeAlert />} {business?.Accept ? 'Accept' : 'Not Accept'}</span>
-                                </div>
-                            </div>
+        <div className="max-w-full relative sm:max-w-sm md:max-w-md lg:max-w-lg w-[300px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className=''>
+                <img 
+                    className="rounded-t-lg w-20 h-20 sm:w-28 sm:h-28 md:w-35 md:h-30 lg:w-30 lg:h-30 m-auto mt-5" 
+                    src={business?.images} 
+                    alt="Business" 
+                />
+                <span 
+                    className={`${business?.Accept ? 'bg-green-700' : 'bg-red-900'} absolute top-0 text-primary  rounded-lg flex items-center gap-1 
+                        text-xs w-fit p-1 text-center`}
+                >
+                    {business?.Accept ? <CircleCheckBig className='size-1'/> : <BadgeAlert className='size-3'/>} {business?.Accept ? 'Accept' : 'Not Accept'}
+                </span>
             </div>
-        
+            <div className="p-3">
+                    <h5 className="mb-1 text-lg sm:text-xl font-bold  text-center  overflow-clip">
+                            {business?.title}
+                        </h5>
+                        <p className="mb-1 font-normal w-full text-sm sm:text-base text-center  overflow-clip">
+                            {business?.description}
+                        </p>
+                <Separator />
+                <div className="flex flex-col gap-1 mt-1">
+                    <div>
+                        <h2 className="font-bold text-secondary text-md sm:text-lg">Categories </h2>
+                        <div className="flex  rounded-lg flex-wrap items-center gap-1 p-1">
+                            {business?.category?.map((cat, index) => (
+                                <div key={index} className="flex items-center mt-1">
+                                    <span className="font-bold text-sm bg-primary p-1 rounded-md sm:text-base">{cat?.title}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 className="font-bold text-secondary text-md sm:text-lg">Sub Categories</h2>
+                        <div className="flex  rounded-lg flex-wrap items-center gap-1 p-1">
+                            {business?.subCategoryDetails?.map((subCat, index) => (
+                                <div key={index} className="flex items-center">
+                                    <span className="font-bold text-sm bg-primary p-1 rounded-md sm:text-base">{subCat?.title}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {
+                        isAdmin ?
+                                <Button onClick = {()=> navigate(`/admin/BusinessInfo/${business?._id}`)} className="bg-secondary mt-3 w-full sm:w-auto mx-auto">
+                                    <Info className="mr-2" /> Show All Details
+                                </Button> 
+                                : 
+                                <Button onClick = {()=> navigate(`/user/userProfile/BusinessInfo/${business?._id}`)} className="bg-secondary mt-3 w-full sm:w-auto mx-auto">
+                                    <Info className="mr-2" /> Show All Details
+                                </Button>
+                    }
+            
+                </div>
+            </div>
         </div>
     );
 }
 
 BusinessCard.propTypes = {
     business: PropTypes.object.isRequired,
-    handleGetBusinessDetails: PropTypes.func.isRequired,
+    isAdmin : PropTypes.bool,
 };
 
 export default BusinessCard;

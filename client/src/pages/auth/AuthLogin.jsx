@@ -35,7 +35,7 @@ function AuthLogin() {
 };
 
     return (
-        <div className="mx-auto w-full max-w-md space-y-6 p-4 sm:p-6 md:p-8">
+        <div className="mx-auto w-full max-w-md space-y-6 p-4 sm:p-6 md:p-8" >
         <div className="flex items-center justify-center">
             <LogIn className="w-16 h-16 sm:w-20 sm:h-20 text-purple-950 animate-fade-in-up" />
         </div>
