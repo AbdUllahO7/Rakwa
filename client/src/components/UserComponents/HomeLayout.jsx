@@ -6,7 +6,7 @@ function HomeLayout() {
     return (
         <div className="flex flex-col bg-white overflow-hidden justify-start items-start min-h-screen ">
             <Header />
-            <main className="grid grid-col w-full">
+            <main className=" w-full">
                 <Outlet />
             </main>
             <Footer/>

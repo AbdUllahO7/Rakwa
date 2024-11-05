@@ -40,6 +40,13 @@ const SpecialProducts = [
         category : 'accessories',
 
     },
+    {
+        id : '5',
+        image : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D',
+        title : 'Apple',
+        category : 'accessories',
+
+    },
 ];
 
 const BusinessesAndServicesItems = [
@@ -165,6 +172,19 @@ const LatestBusinessAndServicesItems = [
         whatsapp: '+0678901234',
         Features: 'Personalized training plans, nutrition guidance, group classes available',
     },
+    {
+        id: 6,
+        title: 'Personal Fitness Training',
+        description: 'Offering personalized fitness training sessions tailored to your individual goals and fitness levels.',
+        category: 'fitness',
+        images: 'https://hips.hearstapps.com/hmg-prod/images/mh-trainer-2-1533576998.png', // Replace with a valid image URL
+        open: true,
+        phone: '+0678901234',
+        facebook: 'https://facebook.com/personalfitnesstraining',
+        instagram: 'https://instagram.com/personalfitnesstraining',
+        whatsapp: '+0678901234',
+        Features: 'Personalized training plans, nutrition guidance, group classes available',
+    },
 ];
 const BlogItems = [
     {
@@ -237,7 +257,7 @@ function Home() {
     return (
         <div className="flex flex-col min-h-screen">
             {/* Hero section  */}
-            <Hero/>
+                <Hero/>
             {/* category section */}
             <section className='py-12'>
                 <div className='container mx-auto px-4'>
@@ -272,7 +292,7 @@ function Home() {
                         <StarIcon className='text-yellow-600 mr-4' />
                         <h2 className='text-3xl font-bold text-center'>Special</h2>
                     </div>
-                    <div className='grid grid-col-1 sm:grid-col-3 md:grid-3 lg:grid-cols-4 gap-6 '>
+                    <div className='grid  sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6'>
                         {SpecialProducts && SpecialProducts.length > 0 ? (
                             SpecialProducts.map(productItem => (
                                 <Special 
@@ -288,12 +308,12 @@ function Home() {
 
               {/* Businesses And Services */}
                 <section className='py-12'>
-                    <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-24">
+                    <div className="container mx-auto px-5 ">
                         <div className='flex justify-center items-center mx-auto w-full mb-8'>
                             <StarIcon className='text-yellow-600 mr-4' />
                             <h2 className='text-3xl font-bold text-center'>Businesses And Services</h2>
                         </div>
-                        <div className='grid grid-col-1 sm:grid-col-3 md:grid-3 lg:grid-cols-3 gap-6 '>
+                        <div className='grid  sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6'>
                             {BusinessesAndServicesItems && BusinessesAndServicesItems.length > 0 ? (
                                 BusinessesAndServicesItems.map(productItem => (
                                     <BusinessesAndServices 
@@ -319,7 +339,7 @@ function Home() {
                         <StarIcon className='text-yellow-600 mr-4' />
                         <h2 className='text-3xl font-bold text-center'>Latest Business And Services</h2>
                     </div>
-                    <div className='grid grid-col-1 sm:grid-col-3 md:grid-3 lg:grid-cols-4 gap-6 '>
+                    <div className='grid  sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6'>
                         {LatestBusinessAndServicesItems && LatestBusinessAndServicesItems.length > 0 ? (
                             LatestBusinessAndServicesItems.map(productItem => (
                                 <LatestBusinessAndServices 
@@ -330,11 +350,12 @@ function Home() {
                         ) : null}
                     </div>
                     <div className='flex justify-center items-center mx-auto w-full mb-8 '>
-                        <Button className='mt-10 bg-secondary text-primary font-extrabold text-2xl w-[480px] flex gap-2 pt-6 pb-6'>
+                    <Button className='mt-10 bg-secondary text-primary font-extrabold text-2xl w-[300px] flex gap-2 pt-6 pb-6'>
                         <Bolt className="size-7"/>
-                            All Latest Business And Services
+                            All Services
                         </Button>
                     </div>
+                   
                 </div>
             </section>
 
@@ -345,7 +366,7 @@ function Home() {
                         <StarIcon className='text-yellow-600 mr-4' />
                         <h2 className='text-3xl font-bold text-center'>Blogs</h2>
                     </div>
-                    <div className='grid grid-col-1 sm:grid-col-3 md:grid-3 lg:grid-cols-4 gap-6 '>
+                    <div className='grid  sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6'>
                         {BlogItems && BlogItems.length > 0 ? (
                             BlogItems.map(productItem => (
                                 <Blog 
@@ -363,6 +384,7 @@ function Home() {
                     </div>
                 </div>
             </section>
+            
         </div>
     )
 }

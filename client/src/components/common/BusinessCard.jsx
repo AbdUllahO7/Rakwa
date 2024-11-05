@@ -23,6 +23,12 @@ function BusinessCard({ business , isAdmin }) {
                 >
                     {business?.Accept ? <CircleCheckBig className='size-1'/> : <BadgeAlert className='size-3'/>} {business?.Accept ? 'Accept' : 'Not Accept'}
                 </span>
+                <span 
+                    className={`${business?.Accept ? 'bg-green-700' : 'bg-red-900'} absolute top-0 right-0 text-primary  rounded-lg flex items-center gap-1 
+                        text-xs w-fit p-1 text-center`}
+                >
+                    {business.BusinessType}
+                </span>
             </div>
             <div className="p-3">
                     <h5 className="mb-1 text-lg sm:text-xl font-bold  text-center  overflow-clip">

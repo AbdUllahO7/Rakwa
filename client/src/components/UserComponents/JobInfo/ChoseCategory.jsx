@@ -5,9 +5,10 @@ import { CircleArrowRight } from "lucide-react";
 function ChoseCategory({ CategoriesList, handleCardClick, selectedCategoryIds }) {
     return (
         <section className="w-full py-12">
+        <div className='container mx-auto'>
             <div className="mb-10 text-center text-2xl font-bold text-secondary flex justify-center items-center">
                 <CircleArrowRight className="mt-1 mr-2" />
-                <h2>Choose your business type or category</h2>
+                <h2 className=' '>Choose your business type or category</h2>
             </div>
             <div className="container mx-auto px-4">
                 <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
@@ -26,6 +27,7 @@ function ChoseCategory({ CategoriesList, handleCardClick, selectedCategoryIds })
                     )}
                 </div>
             </div>
+        </div>
         </section>
     );
 }

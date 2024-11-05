@@ -23,16 +23,21 @@ exports.handleImageUpload = async (req, res) => {
 
 // Create a new business
 exports.createBusiness = async (req, res) => {
-    const requiredFields = ['title', 'description', 'category', 'owner', 'email', 'country', 'state', 'city', 'images', 'subCategory'];
+    // Determine required fields based on BusinessType
+    const { BusinessType, category, subCategory } = req.body;
+    console.log(subCategory)
+    
+    const commonRequiredFields = ['title', 'description', 'BusinessType', 'category', 'owner', 'email', 'images'];
+    const locationRequiredFields = BusinessType === "Location" ? ['country', 'state', 'city'] : [];
+    const requiredFields = [...commonRequiredFields, ...locationRequiredFields];
+    
+    // Check for missing fields
     const missingFields = requiredFields.filter(field => !req.body[field]);
-
     if (missingFields.length > 0) {
         return res.status(400).json({ success: false, message: `Missing required fields: ${missingFields.join(', ')}` });
     }
 
     try {
-        const { category, subCategory } = req.body;
-
         // Validate each category and subCategory
         const invalidCategories = await Promise.all(
             category.map(async (catId) => {
@@ -56,8 +61,18 @@ exports.createBusiness = async (req, res) => {
             return res.status(400).json({ success: false, message: `Invalid subCategory IDs: ${invalidSubCategories.filter(Boolean).join(', ')}` });
         }
 
+        // Prepare the data for saving
+        const newBusinessData = { ...req.body };
+        
+        // If it's an Online Business, set location fields to empty strings if they don't exist
+        if (BusinessType === "Online") {
+            newBusinessData.country = newBusinessData.country || "";
+            newBusinessData.state = newBusinessData.state || "";
+            newBusinessData.city = newBusinessData.city || "";
+        }
+        
         // Create and save the new business
-        const newBusiness = new BusinessAndService({ ...req.body });
+        const newBusiness = new BusinessAndService(newBusinessData);
         const savedBusiness = await newBusiness.save();
 
         res.status(201).json({ success: true, data: savedBusiness });
@@ -65,6 +80,7 @@ exports.createBusiness = async (req, res) => {
         res.status(400).json({ success: false, message: error.message });
     }
 };
+
 
 // Get a single business by ID with subCategory details
 // exports.getBusinessById = async (req, res) => {

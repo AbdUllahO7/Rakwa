@@ -4,7 +4,6 @@ import { CircleArrowRight } from "lucide-react";
 
 function ChoseSubCategory({ SubCategoriesList, handleCardClick , selectedSubCategoryIds }) {
 
-    console.log(SubCategoriesList)
 
 
     return (

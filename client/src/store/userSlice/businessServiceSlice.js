@@ -154,6 +154,8 @@ const businessServiceSlice = createSlice({
             
     },
 });
+
+
 export const { setDetails } = businessServiceSlice.actions;
 
 export default businessServiceSlice.reducer;

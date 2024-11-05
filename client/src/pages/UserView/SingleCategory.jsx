@@ -17,7 +17,7 @@ function SingleCategory() {
 
     useEffect(() => {
         window.scrollTo(0, 0); // Scroll to the top of the page on mount
-        dispatch(fetchAllSubCategory({ ids : id }));
+        dispatch(fetchAllSubCategory({ ids : [id] }));
     }, [dispatch, id]);
 
     const handleCardCategoryClick = (Category_id) => {
@@ -31,6 +31,11 @@ function SingleCategory() {
     const handleSort = (value) => {
         setSort(value); // Update sort state
     };
+
+
+    console.log(SubCategoriesList)
+
+
 
     return (
         <section className='py-12'>

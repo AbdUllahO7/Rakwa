@@ -13,7 +13,7 @@ function AdminUserBusiness() {
 
 
     return (
-        <div className="flex justify-center gap-10">
+        <div className="flex justify-center gap-10 flex-wrap">
             {businessList && businessList.length > 0
                 ? businessList.map(item => (
                     <BusinessCard

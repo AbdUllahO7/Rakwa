@@ -63,7 +63,7 @@ function JobInfoLayout() {
             {components[currentIndex]}
             {/* Only show buttons if not on the last component */}
             {currentIndex < components.length - 1 && (
-                <div className="mt-4">
+                <div className="mt-4 mb-4">
                     <Button
                         onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}
                         disabled={currentIndex === 0}

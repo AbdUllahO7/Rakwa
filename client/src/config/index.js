@@ -247,3 +247,50 @@ export const addBusinessFormElements = [
         validation: (value) => /^\+?[\d\s-]{10,}$/.test(value), // Phone number validation regex
     },
 ];
+export const addOnlineBusinessFormElements = [
+    {
+        label: "Email",
+        name: "email",
+        componentType: "input",
+        type: "email",
+        placeholder: "Enter Business Email",
+        validation: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), // Email validation regex
+    },
+    {
+        label: "Business Name",
+        name: "title",
+        componentType: "input",
+        type: "text",
+        placeholder: "Enter Business Name",
+        validation: (value) => value.length >= 3, // Business name validation (min length)
+    },
+    {
+        label: "Business Description",
+        name: "description",
+        componentType: "textarea",
+        placeholder: "Enter Business Description",
+        validation: (value) => value.length >= 10, // Description validation (min length)
+    },
+    {
+        label: "WhatsApp",
+        name: "whatsApp",
+        componentType: "input",
+        type: "url",
+        placeholder: "Enter Business WhatsApp Link",
+    },
+    {
+        label: "FaceBook",
+        name: "faceBook",
+        componentType: "input",
+        type: "url",
+        placeholder: "Enter Business FaceBook Link",
+    },
+    {
+        label: "Instagram",
+        name: "instagram",
+        componentType: "input",
+        type: "url",
+        placeholder: "Enter Business Instagram Link",
+    },
+
+];
