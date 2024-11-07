@@ -232,6 +232,13 @@ export const addBusinessFormElements = [
         placeholder: "Enter Business City",
     },
     {
+        label: "Full Address",
+        name: "fullAddress",
+        componentType: "input",
+        type: "text",
+        placeholder: "Enter Business fullAddress",
+    },
+    {
         label: "Google Map Location",
         name: "map",
         componentType: "input",

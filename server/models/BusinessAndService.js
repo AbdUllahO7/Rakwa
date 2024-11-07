@@ -12,6 +12,7 @@ const BusinessAndServiceSchema = new mongoose.Schema({
     state: { type: String, required: function() { return this.BusinessType === 'Location'; } },
     city: { type: String, required: function() { return this.BusinessType === 'Location'; } },
     map: { type: String, required: function() { return this.BusinessType === 'Location'; } },
+    fullAddress: { type: String, required: function() { return this.BusinessType === 'Location'; }},
     phone: { type: String },
     images: { type: String },
     open: { type: Boolean, default: true },
@@ -20,6 +21,9 @@ const BusinessAndServiceSchema = new mongoose.Schema({
     whatsapp: { type: String, default: "" },
     features: { type: String, default: "" },
     Accept: { type: Boolean, default: false },
+    features: { type: [String], default: [] }, 
+    listImages: { type: [String], default: [] },  
+
 });
 
 module.exports = mongoose.model('BusinessAndService', BusinessAndServiceSchema);

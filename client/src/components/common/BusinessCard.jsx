@@ -34,7 +34,7 @@ function BusinessCard({ business , isAdmin }) {
                     <h5 className="mb-1 text-lg sm:text-xl font-bold  text-center  overflow-clip">
                             {business?.title}
                         </h5>
-                        <p className="mb-1 font-normal w-full text-sm sm:text-base text-center  overflow-clip">
+                        <p className="mb-1 font-normal w-full text-sm sm:text-base text-center  overflow-clip  line-clamp-2">
                             {business?.description}
                         </p>
                 <Separator />

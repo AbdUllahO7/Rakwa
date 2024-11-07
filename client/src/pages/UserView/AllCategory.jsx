@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SideBarFilter from "@/components/common/SideBarFilter";
 import { handleFilter } from "@/utils/filterUtils";
+import BusinessComponent from "@/components/UserComponents/BusinessComponent";
 
 function AllCategory() {
     const [sort, setSort] = useState(null);
@@ -36,13 +37,13 @@ function AllCategory() {
         <section className="py-12">
             <div className="container mx-auto px-4 ">
                 {/* Sidebar Filter and Sort */}
-                <div className="flex flex-wrap-reverse lg:flex-row gap-8">
-                <aside className="w-full lg:w-1/4 space-y-6">
-                    <SideBarFilter filters={filters} handleFilter={applyFilter} />
-                </aside>
+                <div className="flex flex-wrap-reverse  lg:flex-row gap-8">
+                    <aside className="w-full lg:w-1/4 space-y-6">
+                        <SideBarFilter filters={filters} handleFilter={applyFilter} />
+                    </aside>
 
                 {/* Categories Grid */}
-                <div className="flex-1">
+                <div className="flex-col w-[1000px]">
                     <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                         {CategoriesList && CategoriesList.length > 0 ? (
                             CategoriesList.map((productItem) => (
@@ -56,11 +57,13 @@ function AllCategory() {
                             <p className="col-span-full text-center text-gray-600">No categories available.</p>
                         )}
                     </div>
-                </div>
-                </div>
                 <div className="mt-10 ">
                     <SortByComponent sort={sort} handleSort={handleSort} title="Latest works" />
                 </div>
+                    <BusinessComponent/>
+                </div>
+                </div>
+            
             </div>
             
         </section>

@@ -1,16 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import logo2 from '../../../../src/assets/dalil-high-resolution-logo.png'
 
 function Hero() {
     return (
         <div className="relative min-h-screen w-full overflow-hidden">
         <img 
-            src="https://www.dalil.io/dalilweb/assets/dalil_main_page-f80003a5.png"
+            src={logo2}
             alt="Banner" 
             className="absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000" 
         />
-        <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center w-full">
+        <div className="absolute inset-0 bg-black bg-opacity-90 flex items-center justify-center w-full">
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full px-4 flex flex-col justify-center items-center">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl text-center font-extrabold text-primary pb-2">
                 Welcome to Dalil

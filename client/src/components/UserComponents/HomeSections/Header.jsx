@@ -1,4 +1,4 @@
-import { HousePlug, LogOut, Menu, Plus, UserCog } from "lucide-react"
+import { LogOut, Menu, Plus, UserCog } from "lucide-react"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { shoppingViewHeaderMenuItems } from "@/config"
@@ -85,9 +85,8 @@ function Header() {
 
     return <header className="sticky top-0 w-full text-primary  bg-[#05080e]">
         <div className="flex h-16 items-center justify-between px-4 md:px-6">
-            <Link to ="/shopping/home" className="flex items-center gap-2">
-                <HousePlug className="h-6 w-6"/>
-                <span className="font-bold">D-Ail</span>
+            <Link to ="/user/home" className="flex items-center gap-2">
+                <span className="font-bold">D-ALil</span>
             </Link>
             <Sheet>
                 <SheetTrigger asChild>

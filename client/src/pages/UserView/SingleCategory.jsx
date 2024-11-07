@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { handleFilter  } from "@/utils/filterUtils";
+import BusinessComponent from "@/components/UserComponents/BusinessComponent";
 
 function SingleCategory() {
     const { id } = useParams();
@@ -47,7 +48,7 @@ function SingleCategory() {
                 </aside>
 
                 {/* Categories Grid */}
-                <div className="flex-1">
+                    <div className="flex-col w-[1000px] ">
                     <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                         {SubCategoriesList && SubCategoriesList.length > 0 ? (
                             SubCategoriesList.map((productItem) => (
@@ -61,11 +62,14 @@ function SingleCategory() {
                             <p className="col-span-full text-center text-gray-600">No categories available.</p>
                         )}
                     </div>
+                    <div className="mt-10 ">
+                        <SortByComponent sort={sort} handleSort={handleSort} title="Latest works" />
+                    </div>
+                    <BusinessComponent/>
+
+                    </div>
                 </div>
-                </div>
-                <div className="mt-10 ">
-                    <SortByComponent sort={sort} handleSort={handleSort} title="Latest works" />
-                </div>
+
             </div>
         </section>
     );

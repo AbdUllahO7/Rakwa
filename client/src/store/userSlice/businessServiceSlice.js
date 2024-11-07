@@ -31,8 +31,7 @@ export const createBusiness = createAsyncThunk('/BusinessAndService/create', asy
 });
 
 export const updateBusiness = createAsyncThunk('/BusinessAndService/update', async ({ id, formData, selectedCategoryIds  , selectedSubCategoryIds}) => {
-
-
+    console.log(formData)
     const response = await axios.put(`http://localhost:5000/api/BusinessAndService/${id}`, {
         ...formData, 
         category: selectedCategoryIds,  // Adding selected categories for the update

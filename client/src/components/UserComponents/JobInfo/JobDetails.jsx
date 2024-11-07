@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { addBusinessFormElements, addOnlineBusinessFormElements } from "@/config";
 import ImageUpload from "@/hooks/ImageUpload";
 import { useToast } from "@/hooks/use-toast";
-import { createBusiness, fetchAllBusinesses } from "@/store/userSlice/businessServiceSlice";
+import { createBusiness } from "@/store/userSlice/businessServiceSlice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -12,13 +12,14 @@ import { useNavigate } from "react-router-dom";
 const initialFormData = {
     title: "",
     description: "",
-    BusinessType: null,
+    BusinessType: "Location",
     owner: null,
     category: null, 
     email: "",
     country: "",
     state: "",
     city: "",
+    fullAddress : "",
     map: "",
     phone: "",
     images: null,
@@ -59,7 +60,8 @@ export function JobDetails({ selectedCategoryIds, selectedSubCategoryIds }) {
             delete formSubmissionData.state;
             delete formSubmissionData.city;
             delete formSubmissionData.map;
-    
+            delete formSubmissionData.fullAddress;
+
             // Ensure all required online business fields are set, with defaults if necessary
             formSubmissionData.whatsapp = formData.whatsapp || "";
             formSubmissionData.facebook = formData.facebook || "";
@@ -90,7 +92,7 @@ export function JobDetails({ selectedCategoryIds, selectedSubCategoryIds }) {
     function isFormValid() {
         const requiredFields = formData.BusinessType === "Online"
             ? ["title", "description", "email"] // Required for Online
-            : ["title", "description", "email", "country", "state", "city"]; // Required for Location
+            : ["title", "description", "email", "country", "state", "city" , "fullAddress"]; // Required for Location
     
         return requiredFields.every((field) => formData[field] !== "");
     }

@@ -8,7 +8,7 @@ import ImageUpload from "@/hooks/ImageUpload";
 import { useToast } from "@/hooks/use-toast";
 import { fetchAllCategory, fetchAllSubCategory } from "@/store/adminSlice/AdminCategory";
 import { deleteBusiness, fetchAllBusinesses, fetchBusinessById, fetchBusinessByUserId, updateBusiness } from "@/store/userSlice/businessServiceSlice";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, XIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -27,11 +27,12 @@ function BusinessInfo({ isAdmin }) {
   const [businessData, setBusinessData] = useState({
     title: "", description: "", city: "", country: "",
     state: "", email: "", phone: "", facebook: "",
-    instagram: "", whatsapp: "", features: "", imageUrl: "",
+    instagram: "", whatsapp: "", features: [], imageUrl: "", fullAddress : "",
   });
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSubCategories, setSelectedSubCategories] = useState([]);
   const [imageFile, setImageFile] = useState(null);
+  const [listImages, setListImages] = useState([]); // New state for list of images
 
   // Fetch data when businessId changes
   useEffect(() => {
@@ -47,11 +48,26 @@ function BusinessInfo({ isAdmin }) {
         ...prevData,
         ...singleBusiness,
         imageUrl: singleBusiness.images || "",
+        features: Array.isArray(singleBusiness.features) ? singleBusiness.features : [], // Ensure it's an array
       }));
       setSelectedCategories(singleBusiness.category?.map(cat => cat._id) || []);
       setSelectedSubCategories(singleBusiness.subCategory || []);
     }
   }, [singleBusiness]);
+  
+  const handleListImagesUpload = (files) => {
+    const newFiles = Array.from(files);
+  
+    // Filter out any files that are already in the list
+    const filteredFiles = newFiles.filter(file => 
+      !listImages.some(existingFile => existingFile.name === file.name)
+    );
+  
+    setListImages(prev => [...prev, ...filteredFiles]); // Add only non-duplicate files
+    console.log(listImages)
+  };
+  
+  
 
   // Fetch subcategories when selectedCategories changes
   useEffect(() => {
@@ -82,11 +98,20 @@ function BusinessInfo({ isAdmin }) {
 
   const handleSave = useCallback(async () => {
     const imageUrl = imageFile ? URL.createObjectURL(imageFile) : businessData.imageUrl;
-    
+  
+    // Ensure 'features' is an array before saving
+    let featuresArray = businessData.features;
+  
+    // If 'features' is a string, split it into an array
+    if (typeof featuresArray === "string") {
+      featuresArray = featuresArray.split(/[\n,]+/).map((feature) => feature.trim()).filter((feature) => feature);
+    }
+  
     try {
       await dispatch(updateBusiness({
         formData: {
           ...businessData,
+          features: featuresArray, // Save as an array
           images: imageUrl,
           owner: user?.id,
         },
@@ -95,13 +120,11 @@ function BusinessInfo({ isAdmin }) {
         id: businessId,
       })).unwrap();
   
-      // Show success toast if update was successful
       toast({
         title: "Business updated successfully",
         variant: 'success',
       });
     } catch (error) {
-      // Handle any errors here, e.g., show an error toast
       toast({
         title: "Failed to update business",
         description: error.message || "Something went wrong.",
@@ -146,6 +169,7 @@ function BusinessInfo({ isAdmin }) {
       />
     </>
   ), [businessData, handleChange]);
+
   
   // Function to toggle the Accept status
   function handleToggleAcceptStatus() {
@@ -171,7 +195,7 @@ function BusinessInfo({ isAdmin }) {
 
   return (
     <section className="py-6 sm:py-12 w-full">
-      <div className="container mx-auto px-4 bg-white rounded-xl shadow-lg pb-10  sm:h-[700px]">
+      <div className="container mx-auto px-4 bg-white rounded-xl shadow-lg pb-10  sm:h-full">
         <Tabs defaultValue="BasicInfo" className="w-full ">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-secondary  text-primary">
             {["Basic Info", "Location Info", "Category Info", "Contact Info"].map((tab, idx) => (
@@ -194,6 +218,46 @@ function BusinessInfo({ isAdmin }) {
                 placeholder="Enter description"
                 className="w-full sm:w-[400px] bg-secondary text-primary rounded-lg outline-none focus:border-none"
               />
+              <Label className="font-extrabold text-lg">Features</Label>
+              <span className="w-[400px]">Please enter the features, separating each one with a comma. 
+                For example: Feature 1, Feature 2, Feature 3</span>
+              <Textarea
+                value={businessData?.features}
+                onChange={(e) => handleChange("features", e.target.value)}
+                placeholder="Enter features"
+                className="w-full sm:w-[400px] bg-secondary text-primary rounded-lg outline-none focus:border-none"
+              />
+              {renderInputField("Full Address", "fullAddress")}
+               {/* New image upload component for listImages */}
+          <div className="w-full sm:w-[400px]">
+            <Label className="font-extrabold text-lg">Upload Multiple Images</Label>
+            <input
+              type="file"
+              multiple
+              onChange={(e) => handleListImagesUpload(e.target.files)}
+              className="w-full bg-secondary text-primary rounded-lg"
+            />
+        <div className="mt-2">
+          {listImages.length > 0 && (
+            <ul>
+              {listImages.map((image, index) => (
+                <li key={index} className="flex justify-between items-center">
+                  <span>{image.name}</span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-muted-foreground hover:text-foreground"
+                    onClick={() => setListImages(prev => prev.filter((_, i) => i !== index))}
+                  >
+                    <XIcon className="w-4 h-4" />
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+          </div>
             </div>
           </TabsContent>
 
@@ -202,6 +266,8 @@ function BusinessInfo({ isAdmin }) {
               {renderInputField("Country", "country")}
               {renderInputField("State", "state")}
               {renderInputField("City", "city")}
+              {renderInputField("Map", "map")}
+
             </div>
           </TabsContent>
 

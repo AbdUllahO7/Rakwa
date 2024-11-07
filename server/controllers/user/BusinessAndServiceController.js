@@ -24,11 +24,11 @@ exports.handleImageUpload = async (req, res) => {
 // Create a new business
 exports.createBusiness = async (req, res) => {
     // Determine required fields based on BusinessType
-    const { BusinessType, category, subCategory } = req.body;
-    console.log(subCategory)
+    const { BusinessType, category = [], subCategory = [], features = [] } = req.body;
+    console.log(subCategory);
     
     const commonRequiredFields = ['title', 'description', 'BusinessType', 'category', 'owner', 'email', 'images'];
-    const locationRequiredFields = BusinessType === "Location" ? ['country', 'state', 'city'] : [];
+    const locationRequiredFields = BusinessType === "Location" ? ['country', 'state', 'city', 'fullAddress'] : [];
     const requiredFields = [...commonRequiredFields, ...locationRequiredFields];
     
     // Check for missing fields
@@ -38,7 +38,7 @@ exports.createBusiness = async (req, res) => {
     }
 
     try {
-        // Validate each category and subCategory
+        // Validate each category
         const invalidCategories = await Promise.all(
             category.map(async (catId) => {
                 const categoryData = await AdminCategories.findById(catId);
@@ -50,6 +50,7 @@ exports.createBusiness = async (req, res) => {
             return res.status(400).json({ success: false, message: `Invalid category IDs: ${invalidCategories.filter(Boolean).join(', ')}` });
         }
 
+        // Validate each subCategory
         const invalidSubCategories = await Promise.all(
             subCategory.map(async (subCatId) => {
                 const validSubCategory = await AdminCategories.findOne({ "subCategories._id": subCatId });
@@ -61,8 +62,16 @@ exports.createBusiness = async (req, res) => {
             return res.status(400).json({ success: false, message: `Invalid subCategory IDs: ${invalidSubCategories.filter(Boolean).join(', ')}` });
         }
 
+        // Ensure features is an array and handle empty case
+        if (!Array.isArray(features)) {
+            return res.status(400).json({ success: false, message: 'Features must be an array.' });
+        }
+
         // Prepare the data for saving
-        const newBusinessData = { ...req.body };
+        const newBusinessData = {
+            ...req.body,
+            features, // Ensure features is passed correctly as an array
+        };
         
         // If it's an Online Business, set location fields to empty strings if they don't exist
         if (BusinessType === "Online") {
@@ -70,7 +79,7 @@ exports.createBusiness = async (req, res) => {
             newBusinessData.state = newBusinessData.state || "";
             newBusinessData.city = newBusinessData.city || "";
         }
-        
+
         // Create and save the new business
         const newBusiness = new BusinessAndService(newBusinessData);
         const savedBusiness = await newBusiness.save();
@@ -80,6 +89,7 @@ exports.createBusiness = async (req, res) => {
         res.status(400).json({ success: false, message: error.message });
     }
 };
+
 
 
 // Get a single business by ID with subCategory details
@@ -166,7 +176,7 @@ exports.getBusinessWithDetails = async (req, res) => {
 // Update a business by ID
 
 exports.updateBusiness = async (req, res) => {
-    const requiredFields = ['title', 'description', 'category', 'owner', 'email', 'country', 'state', 'city', 'images', 'subCategory'];
+    const requiredFields = ['title', 'description', 'category', 'owner', 'email', 'country', 'state', 'city', 'images', 'subCategory', 'fullAddress'];
     const missingFields = requiredFields.filter(field => req.body[field] === undefined);
 
     if (missingFields.length > 0) {
@@ -174,9 +184,9 @@ exports.updateBusiness = async (req, res) => {
     }
 
     try {
-        const { category, subCategory } = req.body;
+        const { category = [], subCategory = [], features = [], listImages = [] } = req.body;
 
-        // Validate each category and subCategory
+        // Validate each category
         const invalidCategories = await Promise.all(
             category.map(async (catId) => {
                 const categoryData = await AdminCategories.findById(catId);
@@ -188,6 +198,7 @@ exports.updateBusiness = async (req, res) => {
             return res.status(400).json({ success: false, message: `Invalid category IDs: ${invalidCategories.filter(Boolean).join(', ')}` });
         }
 
+        // Validate each subCategory
         const invalidSubCategories = await Promise.all(
             subCategory.map(async (subCatId) => {
                 const validSubCategory = await AdminCategories.findOne({ "subCategories._id": subCatId });
@@ -199,9 +210,26 @@ exports.updateBusiness = async (req, res) => {
             return res.status(400).json({ success: false, message: `Invalid subCategory IDs: ${invalidSubCategories.filter(Boolean).join(', ')}` });
         }
 
+        // Ensure features is an array if provided
+        if (features && !Array.isArray(features)) {
+            return res.status(400).json({ success: false, message: 'Features must be an array.' });
+        }
+
+        // Ensure listImages is an array if provided
+        if (listImages && !Array.isArray(listImages)) {
+            return res.status(400).json({ success: false, message: 'listImages must be an array.' });
+        }
+
+        // Prepare the data for updating
+        const updatedBusinessData = {
+            ...req.body,
+            features,   // Ensure features is passed correctly as an array
+            listImages, // Update the listImages field with the new array
+        };
+
         // Update the business only if validation is successful
-        const updatedBusiness = await BusinessAndService.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        
+        const updatedBusiness = await BusinessAndService.findByIdAndUpdate(req.params.id, updatedBusinessData, { new: true });
+
         if (!updatedBusiness) {
             return res.status(404).json({ success: false, message: 'Business not found' });
         }
@@ -211,6 +239,7 @@ exports.updateBusiness = async (req, res) => {
         res.status(400).json({ success: false, message: error.message });
     }
 };
+
 
 
 // Delete a business by ID
