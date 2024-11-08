@@ -39,6 +39,10 @@ const UserSchema = new mongoose.Schema({
     businesses: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'BusinessAndService'
+    }],
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CommentAndRating'
     }]
 });
 

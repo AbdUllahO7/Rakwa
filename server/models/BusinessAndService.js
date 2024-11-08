@@ -23,7 +23,10 @@ const BusinessAndServiceSchema = new mongoose.Schema({
     Accept: { type: Boolean, default: false },
     features: { type: [String], default: [] }, 
     listImages: { type: [String], default: [] },  
-
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CommentAndRating'
+    }]
 });
 
 module.exports = mongoose.model('BusinessAndService', BusinessAndServiceSchema);

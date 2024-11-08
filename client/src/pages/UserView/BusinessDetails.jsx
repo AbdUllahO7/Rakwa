@@ -1,4 +1,5 @@
 import BusinessDetailsSkeleton from "@/components/common/BusinessDetailsSkeleton";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -6,20 +7,74 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import BusinessComponent from "@/components/UserComponents/BusinessComponent";
+import { useToast } from "@/hooks/use-toast";
 import { fetchBusinessById } from "@/store/userSlice/businessServiceSlice";
+import { createCommentAndRating, getCommentsByBusiness } from "@/store/userSlice/commentAndRating";
 import { Facebook, Instagram, MailIcon, MapPin, PhoneCall, PhoneCallIcon, PhoneForwarded, QrCode, Save, Share, Star } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+
+
+const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+        stars.push(
+            <Star
+                key={i}
+                size={20}
+                className={i < rating ? "text-yellow-400" : "text-gray-300"}
+            />
+        );
+    }
+    return stars;
+};
+const renderAverageStars = (averageRating) => {
+    const stars = [];
+        for (let i = 0; i < 5; i++) {
+        stars.push(
+            <Star
+            key={i}
+            size={20}
+            className={i < averageRating ? "text-yellow-400" : "text-gray-300"}
+            />
+        );
+        }
+        return stars;
+    };
+
+const calculateAverageRating = (ratings) => {
+    if (ratings.length === 0) return 0; // Avoid division by zero
+    const total = ratings.reduce((acc, rating) => acc + rating, 0);
+    return total / ratings.length;
+  };
+
 
 function BusinessDetails() {
     const { id } = useParams();
     const { singleBusiness, isLoading } = useSelector(state => state.singleBusiness);
+    const {comments} = useSelector(state=> state.comments); // this will return a data {userId, businessID, comment, overallRating, customerService, prices }
     const dispatch = useDispatch();
-
+   // Define states for rating, comment, and additional fields as needed
+    const [comment, setComment] = useState("");
+    const [overallRating, setOverallRating] = useState("");
+    const [customerServiceRating, setCustomerServiceRating] = useState("");
+    const [priceRating, setPriceRating] = useState("");
+    const {user} = useSelector(state => state.auth);
+    const { toast } = useToast();
+  // Extract ratings for calculating averages
+    const overallRatings = Array.isArray(comments) ? comments.map((commentItem) => commentItem?.overallRating) : [];
+    const customerServiceRatings = Array.isArray(comments) ? comments.map((commentItem) => commentItem?.customerService) : [];
+    const priceRatings = Array.isArray(comments) ? comments.map((commentItem) => commentItem?.prices) : [];
+  
+    // Calculate average ratings
+    const averageOverallRating = calculateAverageRating(overallRatings);
+    const averageCustomerServiceRating = calculateAverageRating(customerServiceRatings);
+    const averagePriceRating = calculateAverageRating(priceRatings);
     useEffect(() => {
         window.scrollTo(0, 0); // Scroll to the top of the page on mount
         dispatch(fetchBusinessById(id));
+        dispatch(getCommentsByBusiness(id))
     }, [dispatch, id]);
 
     // Predefined list of image URLs
@@ -30,6 +85,38 @@ function BusinessDetails() {
         "https://picsum.photos/500/300?image=4", 
         "https://picsum.photos/500/300?image=5"
     ];
+
+      // Handle form submission
+    const handleSubmit = (userId) => {
+        const ratingData = {
+            comment : comment,
+            overallRating: overallRating,
+            customerService: customerServiceRating,
+            prices: priceRating,
+            user:userId , 
+            business : id
+        };
+
+        dispatch(createCommentAndRating({ formData: ratingData   }))
+        .then((data) => {
+            if (data?.payload?.success) {
+                toast({
+                    title: "Comment / Rating added successfully",
+                    variant: "success",
+                });
+                dispatch(fetchBusinessById(id));
+                dispatch(getCommentsByBusiness(id))
+                setComment('');
+                setCustomerServiceRating(null);
+                setOverallRating(null);
+                setPriceRating(null);
+            }
+        });
+
+        // Add logic here to send data to the backend if needed
+    };
+
+    console.log(customerServiceRating)
 
     return (
         <div className="relative">
@@ -58,6 +145,7 @@ function BusinessDetails() {
                                 <p className="text-black font-bold gap-2 text-lg">{singleBusiness?.country} <span> {singleBusiness?.state} </span></p>
                                 <MapPin className="text-black"/>
                                 <p className="flex text-black font-bold gap-2 text-lg">{singleBusiness?.fullAddress}</p>
+                                  {/* Average Ratings Section */}
                                 
                             </div>
                             <div className="flex justify-center items-end gap-6 w-[600px] flex-wrap">
@@ -69,7 +157,27 @@ function BusinessDetails() {
                                     <Button className="bg-secondary rounded-lg hover:bg-green-900 duration-300"><PhoneCall /></Button>
                                     <Button className="bg-secondary rounded-lg hover:bg-green-900 duration-300"><QrCode /></Button>
                                 </div>
+                                <div className="flex gap-4 mt-6">
+                                    <div className="flex flex-col items-center">
+                                        <h2 className=" text-lg font-bold">Overall Rating</h2>
+                                        <div className="flex gap-1">{renderAverageStars(averageOverallRating)}</div>
+                                        <span className="font-bold">{averageOverallRating.toFixed(1)} / 5</span>
+                                    </div>
+
+                                <div className="flex flex-col items-center">
+                                    <h2 className="font-bold text-lg">Customer Service</h2>
+                                    <div className="flex gap-1">{renderAverageStars(averageCustomerServiceRating)}</div>
+                                    <span className="font-bold">{averageCustomerServiceRating.toFixed(1)} / 5</span>
+                                </div>
+
+                                <div className="flex flex-col items-center">
+                                    <h2 className="font-bold text-lg">Prices</h2>
+                                    <div className="flex gap-1">{renderAverageStars(averagePriceRating)}</div>
+                                    <span className="font-bold">{averagePriceRating.toFixed(1)} / 5</span>
+                                </div>
+                                </div>
                             </div>
+                            
                         </>
                     )}
                 </div>
@@ -78,7 +186,7 @@ function BusinessDetails() {
             {/* Information Section */}
             <div className="flex justify-center items-start gap-10 flex-wrap w-full">
 
-                <div className="flex flex-col mt-10 justify-center items-center w-full lg:max-w-[600px] ">
+                <div className="flex flex-col mt-10 justify-center items-center w-full lg:max-w-[700px] ">
                     {/* Description */}
                     <div className="w-full">
                         <h1 className="font-bold text-2xl text-secondary">Description</h1>
@@ -118,12 +226,63 @@ function BusinessDetails() {
                         </Carousel>
                     </div>
 
+
+                   {/* Show Comments and Ratings */}
+                    <div className="mb-10 w-full">
+                        <h1 className="font-bold text-2xl text-secondary">Customer Reviews</h1>
+                    
+                        {/* Map through comments */}
+                        <div className="flex flex-wrap w-full gap-7">
+                        {comments && comments.length > 0 ? (
+                                comments.slice(-6).map((commentItem, index) => (
+                                <div key={index} className="flex flex-row gap-4 mt-5 flex-wrap w-[300px]">
+                                    {/* User Avatar */}
+                                    <div className="flex gap-4 items-center w-full">
+                                            <Avatar className="bg-black">
+                                                <AvatarFallback className="bg-secondary text-primary cursor-pointer font-extrabold">
+                                                    {commentItem?.user?.userName?.[0].toUpperCase()}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="flex gap-1 flex-col">
+                                                {/* Render star ratings for each category */}
+                                                <div className="flex gap-2">
+                                                    <span>Over All</span>
+                                                    {renderStars(commentItem?.overallRating)}
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    customerService{renderStars(commentItem?.customerService)}
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    prices{renderStars(commentItem?.prices)}
+                                                </div>
+                                                  {/* Comment */}
+                                                <div className="flex flex-col gap-2">
+                                                    <p className="text-black font-bold">{commentItem?.comment}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No reviews yet.</p>
+                        )}
+                            {
+                                comments && comments.length > 6 ? (
+                                    <div className=" mx-auto">
+                                <Button className="bg-secondary">Show More Reviews</Button>
+                                </div>
+                                ) : null
+                            }
+                        </div>
+                    </div>
+
+
                     {/* Rating */}
                     <div className="w-full mb-10">
                         <h1 className="font-bold text-2xl text-secondary">Rating</h1>
                         <div className="flex flex-wrap w-full justify-center items-center gap-7">
                             <div>
-                            <Select>
+                            <Select onValueChange={setOverallRating} value={overallRating || ""}>
                                 <h2 className="font-bold mb-1 text-center">Overall Rating</h2>
                                 <div>
                                 <SelectTrigger className="w-[180px]">
@@ -132,18 +291,18 @@ function BusinessDetails() {
                                 <SelectContent>
                                     <SelectGroup>
                                     <SelectLabel>Overall Rating</SelectLabel>
-                                    <SelectItem value="apple">1 Star</SelectItem>
-                                    <SelectItem value="banana">2 Star</SelectItem>
-                                    <SelectItem value="blueberry">3 Star</SelectItem>
-                                    <SelectItem value="grapes">4 Star</SelectItem>
-                                    <SelectItem value="pineapple">5 Star</SelectItem>
+                                    <SelectItem value="1">1 Star</SelectItem>
+                                    <SelectItem value="2">2 Star</SelectItem>
+                                    <SelectItem value="3">3 Star</SelectItem>
+                                    <SelectItem value="4">4 Star</SelectItem>
+                                    <SelectItem value="5">5 Star</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                                 </div>
                             </Select>
                             </div>
                             <div>
-                            <Select>
+                            <Select onValueChange = {setCustomerServiceRating} value={customerServiceRating || ""} >
                                 <h2 className="font-bold mb-1 text-center">Customer Service</h2>
                                 <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="Rate" />
@@ -151,17 +310,17 @@ function BusinessDetails() {
                                 <SelectContent>
                                     <SelectGroup>
                                     <SelectLabel>Customer Service</SelectLabel>
-                                    <SelectItem value="apple">1 Star</SelectItem>
-                                    <SelectItem value="banana">2 Star</SelectItem>
-                                    <SelectItem value="blueberry">3 Star</SelectItem>
-                                    <SelectItem value="grapes">4 Star</SelectItem>
-                                    <SelectItem value="pineapple">5 Star</SelectItem>
+                                    <SelectItem value="1">1 Star</SelectItem>
+                                    <SelectItem value="2">2 Star</SelectItem>
+                                    <SelectItem value="3">3 Star</SelectItem>
+                                    <SelectItem value="4">4 Star</SelectItem>
+                                    <SelectItem value="5">5 Star</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
                             </div>
                             <div>
-                            <Select>
+                            <Select onValueChange={setPriceRating} value={priceRating || ""}>
                             <h2 className="font-bold mb-1 text-center">Prices</h2>
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="Rate" />
@@ -169,11 +328,11 @@ function BusinessDetails() {
                             <SelectContent>
                                 <SelectGroup>
                                 <SelectLabel>Prices</SelectLabel>
-                                <SelectItem value="apple">1 Star</SelectItem>
-                                <SelectItem value="banana">2 Star</SelectItem>
-                                <SelectItem value="blueberry">3 Star</SelectItem>
-                                <SelectItem value="grapes">4 Star</SelectItem>
-                                <SelectItem value="pineapple">5 Star</SelectItem>
+                                <SelectItem value="1">1 Star</SelectItem>
+                                <SelectItem value="2">2 Star</SelectItem>
+                                <SelectItem value="3">3 Star</SelectItem>
+                                <SelectItem value="4">4 Star</SelectItem>
+                                <SelectItem value="5">5 Star</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
@@ -183,8 +342,16 @@ function BusinessDetails() {
 
                     {/* Comments */}
                     <div className="mb-10 grid w-full gap-2">
-                        <Textarea placeholder="Type your Comment here." />
-                        <Button className="bg-secondary">Send Comment</Button>
+                        <Textarea placeholder="Type your Comment here."                    
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}/>
+                        <Button
+                            onClick={() => handleSubmit(user?.id)}
+                            className={`bg-secondary ${(!comment && !overallRating && !customerServiceRating && !priceRating) && "opacity-50 cursor-not-allowed"}`}
+                            disabled={!comment && !overallRating && !customerServiceRating && !priceRating}
+                        >
+                            Send Comment
+                        </Button>
                     </div>
                     {/* Share */}
                     <div className="mb-10 w-full">
