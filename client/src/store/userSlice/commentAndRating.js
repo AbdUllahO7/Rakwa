@@ -91,7 +91,6 @@ const commentAndRatingSlice = createSlice({
             })
             .addCase(getCommentsByBusiness.fulfilled, (state, action) => {
                 state.isLoading = false;
-                console.log(action.payload.data)
                 state.comments = action.payload.data;
             })
             .addCase(getCommentsByBusiness.rejected, (state, action) => {

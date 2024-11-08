@@ -10,6 +10,7 @@ const authRouter = require('./routes/auth/authRoutes')
 // user 
 const BusinessAndServiceRouter = require('./routes/user/BusinessAndService')
 const CommentAndRatingRouter = require('./routes/user/CommentAndRating')
+const MessageRouter = require('./routes/user/Message')
 
 // admin 
 const CategoriesRoutes = require('./routes/admin/CategoryRoutes')
@@ -51,6 +52,7 @@ app.use('/api/auth' , authRouter)
 // user 
 app.use('/api/BusinessAndService' , BusinessAndServiceRouter)
 app.use('/api/CommentAndRatingRouter' , CommentAndRatingRouter)
+app.use('/api/MessageRouter' , MessageRouter)
 
 
 // admin 
