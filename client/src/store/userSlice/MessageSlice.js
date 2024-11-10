@@ -54,6 +54,7 @@ export const updateMessage = createAsyncThunk(
     }
 );
 
+
 // Async thunk for deleting a message
 export const deleteMessage = createAsyncThunk(
     'message/delete',
@@ -77,7 +78,7 @@ const messageSlice = createSlice({
             })
             .addCase(createMessage.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.messages.push(action.payload.data);  // Add new message to the state
+                state.messages = action.payload.data;  // Add new message to the state
             })
             .addCase(createMessage.rejected, (state, action) => {
                 state.isLoading = false;
@@ -130,9 +131,9 @@ const messageSlice = createSlice({
             .addCase(deleteMessage.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(deleteMessage.fulfilled, (state, action) => {
+            .addCase(deleteMessage.fulfilled, (state) => {
                 state.isLoading = false;
-                state.messages = state.messages.filter((message) => message._id !== action.meta.arg);  // Remove deleted message from state
+                state.messages = [];  // Remove deleted message from state
             })
             .addCase(deleteMessage.rejected, (state, action) => {
                 state.isLoading = false;

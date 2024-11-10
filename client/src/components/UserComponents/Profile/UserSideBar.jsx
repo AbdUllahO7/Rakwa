@@ -1,4 +1,4 @@
-import {   ChartNoAxesCombined, LayoutDashboard, Network   } from "lucide-react";
+import {   ChartNoAxesCombined, LayoutDashboard, MessageCircle, Network   } from "lucide-react";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -17,7 +17,12 @@ const adminSideBarMenuItems = [
         path: '/user/userProfile/UserBusiness',
         icon:<Network />
     },
-
+    {
+        id: 'messages',
+        label: 'Messages',
+        path: '/user/userProfile/Messages',
+        icon:<MessageCircle />
+    },
 ];
 
 function MenuItems({ setOpen }) {

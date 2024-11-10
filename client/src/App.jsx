@@ -25,6 +25,7 @@ import UserDashBoard from './components/UserComponents/Profile/UserDashBoard';
 import UserBusiness from './components/UserComponents/Profile/UserBusiness';
 import BusinessInfo from './components/UserComponents/Profile/BusinessInfo';
 import BusinessDetails from './pages/UserView/BusinessDetails';
+import UserMessages from './components/UserComponents/Profile/UserMessages';
 
 function App() {
 
@@ -88,6 +89,7 @@ function App() {
               <Route path="dashboard" element={<UserDashBoard />} />
               <Route path="UserBusiness" element={<UserBusiness />} />
               <Route path="BusinessInfo/:businessId" element={<BusinessInfo isAdmin={false}/>} />
+              <Route path="Messages" element={<UserMessages />} />
           </Route>
           <Route path="BusinessDetails/:id" element={<BusinessDetails />} />
 

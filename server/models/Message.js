@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
 
 const MessageSchema = new mongoose.Schema({
     userSender: {
@@ -19,14 +19,16 @@ const MessageSchema = new mongoose.Schema({
     subject: {
         type: String,
         required: true
-
+    },
+    replayed: {
+        type: Boolean,
+        default : false
     },
     message: {
         type: String,
         required: true
     },
-
-});
+}, { timestamps: true }); // Enable timestamps to add createdAt and updatedAt fields
 
 // Create the model
 const Message = mongoose.model('Message', MessageSchema);
