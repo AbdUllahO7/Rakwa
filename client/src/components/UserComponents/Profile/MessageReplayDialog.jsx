@@ -40,7 +40,7 @@ function MessageReplayDialog({
                                 </p>
                             </div>
                         </div>
-                        <div className="ml-10 p-2 bg-gray-100 rounded-md">
+                        <div className="ml-10 p-2 bg-gray-100 dark:bg-secondary rounded-md">
                             <h2>Subject : {selectedMessage?.subject}</h2>
                             <h1>Message : {selectedMessage?.message}</h1>
                         </div>
@@ -64,11 +64,11 @@ function MessageReplayDialog({
                     </div>
                 </div>
 
-                <DialogFooter>
+                <DialogFooter className="m-3">
                     <DialogClose asChild>
                         <Button className="bg-gray-200">Cancel</Button>
                     </DialogClose>
-                    <Button className="bg-blue-600 text-white" onClick={handleSendReply}>Send Reply</Button>
+                    <Button className="text-white dark:text-primary bg-secondary " onClick={handleSendReply}>Send Reply</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

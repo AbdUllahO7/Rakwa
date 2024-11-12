@@ -114,7 +114,7 @@ function UserMessages() {
     return (
         <div>
             <div className='flex w-full justify-end'>
-                <Button className="bg-secondary" onClick = {()=> navigate('/user/userProfile/AllMessages')}>Show All Messages</Button>
+                <Button className="bg-secondary dark:text-primary" onClick = {()=> navigate('/user/userProfile/AllMessages')}>Show All Messages</Button>
             </div>
             <div className='flex justify-center gap-10 flex-wrap w-full'>
             {messages.messages && messages.messages.length > 0 ? (
@@ -122,26 +122,26 @@ function UserMessages() {
             .filter((message) => message.userReceiver._id === user?.id && message.replayed === false) // Filter only messages for the current user and with replayed === false
             .map((message, index) => (
                 <div
-                className="shadow-xl h-fit w-[300px] flex flex-col justify-center items-center gap-7 p-10"
+                className="shadow-xl h-fit w-[300px] flex flex-col justify-center items-center gap-7 p-10 dark:bg-secondary"
                 key={index}
                 >
                 <Avatar className="bg-black">
-                    <AvatarFallback className="bg-secondary text-primary cursor-pointer font-extrabold">
+                    <AvatarFallback className="bg-secondary dark:bg-primary dark:text-secondary text-primary cursor-pointer font-extrabold">
                     {message.userSender['userName'][0].toUpperCase()}
                     </AvatarFallback>
                 </Avatar>
-                <span className="text-secondary font-semibold text-lg text-center">
+                <span className="text-secondary font-semibold text-lg text-center dark:text-primary">
                     You have an unread message awaiting your reply from {message.userSender['userName']}
                 </span>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-primary">
                     Sent on: {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
                 </p>
                 <div className="flex justify-evenly w-full">
                     {/* Reply Button to open the dialog */}
-                    <Button className="bg-secondary" onClick={() => handleReply(message)}>
+                    <Button className="bg-secondary  dark:bg-primary" onClick={() => handleReply(message)}>
                     <Send className="mr-2" /> Reply
                     </Button>
-                    <Button className="bg-red-800" onClick={() => handleDeleteMessage(message?._id)}>
+                    <Button className="bg-red-800 dark:text-primary" onClick={() => handleDeleteMessage(message?._id)}>
                     <Trash2 className="mr-2" /> Delete
                     </Button>
                 </div>

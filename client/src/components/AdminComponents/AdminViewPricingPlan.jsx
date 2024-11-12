@@ -23,7 +23,7 @@ function AdminViewPricingPlan({ PricingPlan, setCurrentEditId, setOpenCreateProd
                 <div className="flex justify-center">
                     <a
                         href="#"
-                        className="py-3 px-6 font-medium border rounded-md border-secondary text-secondary hover:bg-secondary hover:text-white transition-all duration-500"
+                        className="py-3 px-6 font-medium border rounded-md dark:text-primary border-secondary text-secondary hover:bg-secondary hover:text-white transition-all duration-500"
                         onClick={() => {
                             setCurrentEditId(PricingPlan._id);
                             setOpenCreateProductDialog(true);

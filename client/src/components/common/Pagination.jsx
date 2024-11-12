@@ -15,11 +15,11 @@ function Pagination({ currentPage, totalItems, itemsPerPage, onPageChange }) {
 
     return (
         <div className="flex justify-center items-center mt-5">
-            <Button className="bg-secondary" onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <Button className="bg-secondary dark:text-primary" onClick={handlePreviousPage} disabled={currentPage === 1}>
                 Previous
             </Button>
             <span className="px-4">{`Page ${currentPage} of ${totalPages}`}</span>
-            <Button className="bg-secondary" onClick={handleNextPage} disabled={currentPage === totalPages}>
+            <Button className="bg-secondary dark:text-primary" onClick={handleNextPage} disabled={currentPage === totalPages}>
                 Next
             </Button>
         </div>

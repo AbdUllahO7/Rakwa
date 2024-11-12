@@ -13,8 +13,8 @@ function AdminCategoryList({
 
 
     return (
-        <div className="border-none shadow-2xl text-primary font-bold mx-auto w-[300px]  md:w-[250px]  flex flex-col items-center justify-center cursor-pointer duration-500 rounded-lg">
-            <Card className="w-full h-full flex flex-col items-center justify-between p-4 bg-secondary">
+        <div className="p-2 dark:border dark:border-gray-500 shadow-2xl text-primary  font-bold mx-auto w-[300px]  md:w-[250px]  flex flex-col items-center justify-center cursor-pointer duration-500 rounded-lg">
+            <Card className="w-full h-full flex flex-col items-center justify-between p-4 bg-secondary ">
                 <CardHeader className="flex flex-col justify-center items-center text-center">
                     {Category.image && (
                         <img

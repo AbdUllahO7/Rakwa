@@ -86,7 +86,7 @@ return (
     </div>
 
     {/* the disabled is not work correctly  */}
-    <Button  type="submit" className="w-full bg-secondary mt-2 animate-fade-in " disabled = {isBtnDisabled}>
+    <Button  type="submit" className="w-full bg-secondary mt-2 animate-fade-in dark:text-primary " disabled = {isBtnDisabled}>
         {buttonText || 'Submit'}
         <span className='ml-4'> {icon}</span>
     </Button>

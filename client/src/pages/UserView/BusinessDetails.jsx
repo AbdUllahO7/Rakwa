@@ -155,7 +155,7 @@ function BusinessDetails() {
                                     <CarouselItem key={index} className="">
                                         <div className="">
                                             <Card className="h-fit  border-none">
-                                                <CardContent className="flex aspect-square items-center justify-center p-0 rounded-lg">
+                                                <CardContent className="flex aspect-square items-center justify-center p-0 rounded-lg dark:bg-black">
                                                     <img src={image} alt={`Carousel image ${index + 1}`} className="w-full rounded-lg" />
                                                 </CardContent>
                                             </Card>

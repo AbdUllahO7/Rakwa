@@ -7,8 +7,8 @@ function ChoseCategory({ CategoriesList, handleCardClick, selectedCategoryIds })
         <section className="w-full py-12">
         <div className='container mx-auto'>
             <div className="mb-10 text-center text-2xl font-bold text-secondary flex justify-center items-center">
-                <CircleArrowRight className="mt-1 mr-2" />
-                <h2 className=' '>Choose your business type or category</h2>
+                <CircleArrowRight className="mt-1 mr-2 dark:text-primary" />
+                <h2 className='dark:text-primary '>Choose your business type or category</h2>
             </div>
             <div className="container mx-auto px-4">
                 <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">

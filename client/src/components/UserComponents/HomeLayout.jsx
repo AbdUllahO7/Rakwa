@@ -4,7 +4,7 @@ import Footer from "./HomeSections/Footer"
 
 function HomeLayout() {
     return (
-        <div className="flex flex-col bg-white overflow-hidden justify-start items-start min-h-screen ">
+        <div className="flex flex-col bg-white dark:bg-black overflow-hidden justify-start items-start min-h-screen ">
             <Header />
             <main className=" w-full">
                 <Outlet />

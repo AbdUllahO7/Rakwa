@@ -102,9 +102,9 @@ function AdminPricingPlan() {
     return (
         <div>
             <div className="mb-5 flex justify-end w-full">
-                <Button className="bg-secondary" onClick={() => setOpenCreateProductDialog(true)}>Add New PricingPlan</Button>
+                <Button className="bg-secondary dark:text-primary" onClick={() => setOpenCreateProductDialog(true)}>Add New PricingPlan</Button>
             </div>
-            <section className='py-12 bg-white'>
+            <section className='py-12 '>
                 <div className='container mx-auto px-4 animate-fade-in-left'>
                 <div className="flex flex-wrap justify-evenly items-center gap-5">
                     {PricingPlanList && PricingPlanList.length > 0 ? (

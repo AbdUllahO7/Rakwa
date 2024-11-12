@@ -42,8 +42,6 @@ function AllMessages() {
         }
     }, [dispatch, sort, user?.id, currentPage, search]); // Add searchTerm to the dependency array
     
-
-
     function handleSearch(e) {
         setSearch(e.target.value);
     }
@@ -51,17 +49,12 @@ function AllMessages() {
     function handleTabChange(value) {
         setMessageType(value);
         setCurrentPage(1); // Reset page when switching tabs
-    }
-
-    // useEffect(() => {
-    //     dispatch(getMessagesByUser({ userId : user?.id , sort : sort}));
-    // }, [dispatch, sort, user?.id]);
-
- 
+    } 
 
     function handleDeleteAllMessage() {
         setIsModalOpen(true);
     }
+
 
     function handleConfirmDelete() {
         dispatch(deleteAllMessages({ userId: user?.id, type: MessageType })).then((data) => {
@@ -75,6 +68,7 @@ function AllMessages() {
         });
         setIsModalOpen(false);
     }
+
 
     function handleCloseModal() {
         setIsModalOpen(false);
@@ -92,27 +86,28 @@ function AllMessages() {
         currentPage * messagesPerPage
     );
 
+
     return (
         <section className="py-6 sm:py-12 w-full">
-            <div className="container mx-auto px-4 bg-white rounded-xl shadow-lg pb-10 sm:h-full ">
+            <div className="container mx-auto px-4 bg-white dark:bg-black rounded-xl shadow-lg pb-10 sm:h-full">
                 <Tabs defaultValue="SentMessages" className="w-full" onValueChange={handleTabChange}>
-                    <TabsList className="grid w-full grid-cols-2 sm:grid-cols-2 bg-secondary text-primary">
+                    <TabsList className="grid w-full grid-cols-2 sm:grid-cols-2 bg-secondary text-primary ">
                         {["Sent Messages", "IncomingMessages"].map((tab, idx) => (
                             <TabsTrigger key={idx} value={tab.replace(" ", "")}>{tab}</TabsTrigger>
                         ))}
-                        <div className="mt-10 mb-10 flex">
+                        <div className="mt-10 mb-10 flex ">
                             <SortByComponent sort={sort} handleSort={handleSort} />
                             <Input
                                 type="text"
                                 placeholder="Search"
                                 value={search}
-                                className="placeholder:text-secondary text-secondary ml-3"
+                                className="placeholder:text-secondary text-secondary ml-3 dark:placeholder:text-primary dark:text-primary"
                                 onChange={(e) => handleSearch(e)}
                             />
                         </div>
                         <div>
                             <Button 
-                                className={`bg-red-900 ml-10 ${filteredMessages.length === 0 ? 'disabled:opacity-50 cursor-not-allowed' : ''}`} 
+                                className={`bg-red-900 ml-10 dark:text-primary ${filteredMessages.length === 0 ? 'disabled:opacity-50 cursor-not-allowed' : ''}`} 
                                 onClick={handleDeleteAllMessage}
                                 disabled={filteredMessages.length === 0}
                             >
@@ -128,7 +123,7 @@ function AllMessages() {
                         {paginatedMessages.length > 0 ? (
                             paginatedMessages.map((message, index) => (
                                 <div
-                                    className="shadow-xl h-fit w-[500px] flex flex-row justify-center items-center gap-7 p-10 "
+                                    className="shadow-xl h-fit w-[500px] flex flex-row justify-center items-center gap-7 p-10 dark:shadow-secondary"
                                     key={index}
                                 >
                                     <Avatar className="bg-black">

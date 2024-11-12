@@ -17,7 +17,7 @@ function BusinessHeader({
     return (
         <>
             <div className="flex-col gap-1 flex-wrap items-center justify-center w-[500px] text-start">
-                <h2 className="text-4xl font-bold text-secondary mb-1">{title}</h2>
+                <h2 className="text-4xl font-bold text-secondary mb-1  ">{title}</h2>
                 {category?.map((item, index) => (
                     <span
                         key={index}
@@ -26,15 +26,15 @@ function BusinessHeader({
                         {item?.title}
                     </span>
                 ))}
-                <p className="text-black font-bold gap-2 text-lg">
+                <p className="text-black font-bold gap-2 text-lg dark:text-primary">
                     {country} <span> {state} </span>
                 </p>
-                <MapPin className="text-black" />
-                <p className="flex text-black font-bold gap-2 text-lg">{fullAddress}</p>
+                <MapPin className="text-black dark:text-primary" />
+                <p className="flex text-black font-bold gap-2 text-lg dark:text-primary">{fullAddress}</p>
                 {/* Average Ratings Section */}
             </div>
 
-            <div className="flex justify-center items-end gap-6 w-[600px] flex-wrap">
+            <div className="flex justify-center items-end gap-6 w-[600px] flex-wrap ">
                 <img src={images} alt="" className="rounded-lg w-[200px]" />
                 <div className="flex gap-2">
                     <Button className="bg-secondary rounded-lg hover:bg-green-900 duration-300"><Star /></Button>

@@ -59,8 +59,14 @@ theme: {
 			sm: 'calc(var(--radius) - 4px)'
 		},
 		colors: {
-			background: 'hsl(var(--background))',
-			foreground: 'hsl(var(--foreground))',
+			background: {
+				DEFAULT: 'hsl(var(--background))',
+				dark: '#121212', // Dark mode background color
+				},
+				foreground: {
+					DEFAULT: 'hsl(var(--foreground))',
+					dark: '#e0e0e0', // Dark mode foreground color
+				},
 			card: {
 				DEFAULT: 'hsl(var(--card))',
 				foreground: 'hsl(var(--card-foreground))'
@@ -71,7 +77,7 @@ theme: {
 			},
 			primary: {
 				DEFAULT: '#ebe2d6',
-				foreground: 'hsl(var(--primary-foreground))'
+				foreground: 'hsl(var(--primary-foreground))',
 			},
 			secondary: {
 				DEFAULT: '#01301e',

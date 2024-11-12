@@ -45,7 +45,7 @@ function ViewComments({
             )}
             {comments && comments.length > reviewsToShow && (
                 <div className="mx-auto">
-                <Button className="bg-secondary" onClick={showMoreReviews}>
+                <Button className="bg-secondary dark:text-primary" onClick={showMoreReviews}>
                     Show More Reviews
                 </Button>
                 </div>

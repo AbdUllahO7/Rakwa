@@ -59,7 +59,7 @@ function JobInfoLayout() {
     }
 
     return (
-        <div className="flex flex-col bg-white overflow-hidden justify-center items-center min-h-screen">
+        <div className="flex flex-col bg-white dark:bg-black overflow-hidden justify-center items-center min-h-screen">
             {components[currentIndex]}
             {/* Only show buttons if not on the last component */}
             {currentIndex < components.length - 1 && (
@@ -67,7 +67,7 @@ function JobInfoLayout() {
                     <Button
                         onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}
                         disabled={currentIndex === 0}
-                        className="bg-secondary"
+                        className="bg-secondary dark:text-primary"
                     >
                         Previous
                     </Button>
@@ -77,7 +77,7 @@ function JobInfoLayout() {
                             (currentIndex === 0 && selectedCategoryIds.length === 0) || // Disable if on first component and no categories selected
                             (currentIndex === 1 && selectedSubCategoryIds.length === 0) // Disable if on second component and no subcategories selected
                         }
-                        className="bg-secondary"
+                        className="bg-secondary dark:text-primary"
                     >
                         Next
                     </Button>

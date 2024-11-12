@@ -169,11 +169,11 @@ function AdminCategory() {
     return (
         <div>
             <div className="mb-5 flex justify-end w-full">
-                <Button className="bg-secondary" onClick={() => setOpenCreateProductDialog(true)}>Add New Category </Button>
+                <Button className="bg-secondary dark:text-primary" onClick={() => setOpenCreateProductDialog(true)}>Add New Category </Button>
             </div>
-            <section className='py-12 bg-white'>
+            <section className='py-12  dark:bg- '>
                 <div className='container mx-auto px-4 animate-fade-in-left'>
-                    <div className="flex flex-wrap justify-evenly items-center gap-5">
+                    <div className="flex flex-wrap justify-evenly items-center gap-5 ">
                         {
                             CategoriesList && CategoriesList.length > 0 ?
                                 CategoriesList.map(category => (

@@ -8,7 +8,7 @@ function ChoseSubCategory({ SubCategoriesList, handleCardClick , selectedSubCate
 
     return (
         <section className="w-full py-12">
-            <div className="mb-10 text-center text-2xl font-bold text-secondary flex justify-center items-center">
+            <div className="mb-10 text-center text-2xl font-bold text-secondary dark:text-primary flex justify-center items-center">
                 <CircleArrowRight className="mt-1 mr-2" />
                 <h2>Choose your business type or category</h2>
             </div>
@@ -25,7 +25,7 @@ function ChoseSubCategory({ SubCategoriesList, handleCardClick , selectedSubCate
                             />
                         ))
                     ) : (
-                        <p className="col-span-full text-center text-gray-600">No categories available.</p>
+                        <p className="col-span-full text-center text-gray-600 dark:text-primary">No categories available.</p>
                     )}
                 </div>
             </div>

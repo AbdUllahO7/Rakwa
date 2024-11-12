@@ -11,27 +11,27 @@ import { useToast } from '@/hooks/use-toast';
 
 // ContactInfo Component
 const ContactInfo = ({ business }) => (
-    <div className="mt-10 shadow-lg p-5 w-[400px] rounded-lg">
-        <h2 className="font-bold text-xl text-secondary">Contact</h2>
-        <div className="mt-5 flex-col flex gap-3">
-            <Link to="" className="flex gap-5 items-center justify-start text-secondary font-semibold">
+    <div className="mt-10 shadow-lg p-5 w-[400px] rounded-lg dark:border dark:border-gray-200">
+        <h2 className="font-bold text-xl text-secondary dark:text-primary">Contact</h2>
+        <div className="mt-5 flex-col flex gap-3 ">
+            <Link to="" className="flex gap-5 items-center justify-start text-secondary font-semibold dark:text-primary">
                 <PhoneCallIcon size="20" className="text-yellow-900" /> {business?.phone}
             </Link>
-            <Link to="" className="flex gap-5 items-center justify-start text-secondary font-semibold">
+            <Link to="" className="flex gap-5 items-center justify-start text-secondary font-semibold dark:text-primary">
                 <MailIcon size="20" className="text-orange-500" /> {business?.email}
             </Link>
             {business?.facebook && (
-                <Link to="" className="flex gap-5 items-center justify-start font-semibold text-secondary">
+                <Link to="" className="flex gap-5 items-center justify-start font-semibold text-secondary dark:text-primary">
                     <Facebook size="20" className="text-blue-900" /> {business?.facebook}
                 </Link>
             )}
             {business?.whatsapp && (
-                <Link to="" className="flex gap-5 items-center justify-start font-semibold text-secondary">
+                <Link to="" className="flex gap-5 items-center justify-start font-semibold text-secondary dark:text-primary">
                     <PhoneForwarded size="20" className="text-green-900" /> {business?.whatsapp}
                 </Link>
             )}
             {business?.instagram && (
-                <Link to="" className="flex gap-5 items-center justify-start font-semibold text-secondary">
+                <Link to="" className="flex gap-5 items-center justify-start font-semibold text-secondary dark:text-primary">
                     <Instagram size="20" className="text-red-900" /> {business?.instagram}
                 </Link>
             )}
@@ -61,8 +61,8 @@ const initialFormData = {
 
 // MessageForm Component
 const MessageForm = ({ message, setMessage, handleSubmit }) => (
-    <div className="mt-10 shadow-lg w-[400px] rounded-lg p-5">
-        <h2 className="font-bold text-xl text-secondary">Message</h2>
+    <div className="mt-10 shadow-lg w-[400px] rounded-lg p-5 dark:border dark:border-gray-200">
+        <h2 className="font-bold text-xl text-secondary dark:text-primary">Message</h2>
         <div className="mt-5 flex-col flex gap-3">
             <Input 
                 type="text" 
@@ -75,7 +75,7 @@ const MessageForm = ({ message, setMessage, handleSubmit }) => (
                 value={message.message} 
                 onChange={(e) => setMessage({ ...message, message: e.target.value })}
             />
-            <Button className="bg-secondary" onClick={handleSubmit}>Send</Button>
+            <Button className="bg-secondary dark:text-primary" onClick={handleSubmit}>Send</Button>
         </div>
     </div>
 );

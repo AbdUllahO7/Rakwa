@@ -48,7 +48,7 @@ function PricingPlans() {
                                             ))}
                                         </ul>
                                         <div className="flex justify-center">
-                                            <Link to = "/user/JobInfo"  className="py-3 px-6 font-medium border rounded-md border-secondary text-secondary hover:bg-secondary hover:text-white transition-all duration-500">
+                                            <Link to = "/user/JobInfo"  className="dark:text-primary py-3 px-6 font-medium border rounded-md border-secondary text-secondary hover:bg-secondary hover:text-white transition-all duration-500">
                                                 Get {PricingPlan.title}
                                             </Link>
                                         </div>

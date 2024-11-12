@@ -88,7 +88,7 @@ function CommentRatingForm({
                 onChange={(e) => setComment(e.target.value)} />
             <Button
                 onClick={() => handleSubmit(user?.id)}
-                className={`bg-secondary ${(!comment && !overallRating && !customerServiceRating && !priceRating) && "opacity-50 cursor-not-allowed"}`}
+                className={`bg-secondary dark:text-primary ${(!comment && !overallRating && !customerServiceRating && !priceRating) && "opacity-50 cursor-not-allowed"}`}
                 disabled={!comment && !overallRating && !customerServiceRating && !priceRating}
             >
                 Send Comment

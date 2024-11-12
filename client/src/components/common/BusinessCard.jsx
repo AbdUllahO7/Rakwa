@@ -10,7 +10,7 @@ function BusinessCard({ business , isAdmin }) {
 
 
     return (
-        <div className="max-w-full relative sm:max-w-sm md:max-w-md lg:max-w-lg w-[300px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="max-w-full relative sm:max-w-sm md:max-w-md lg:max-w-lg w-[300px] bg-white dark:bg-black   rounded-lg shadow  ">
         <div className=''>
                 <img 
                     className="rounded-t-lg w-20 h-20 sm:w-28 sm:h-28 md:w-35 md:h-30 lg:w-30 lg:h-30 m-auto mt-5" 
@@ -40,22 +40,22 @@ function BusinessCard({ business , isAdmin }) {
                 <Separator />
                 <div className="flex flex-col gap-1 mt-1">
                     <div>
-                        <h2 className="font-bold text-secondary text-md sm:text-lg">Categories </h2>
+                        <h2 className="font-bold text-secondary text-md sm:text-lg dark:text-primary">Categories </h2>
                         <div className="flex  rounded-lg flex-wrap items-center gap-1 p-1">
                             {business?.category?.map((cat, index) => (
                                 <div key={index} className="flex items-center mt-1">
-                                    <span className="font-bold text-sm bg-primary p-1 rounded-md sm:text-base">{cat?.title}</span>
+                                    <span className="font-bold text-sm bg-primary p-1 rounded-md sm:text-base dark:bg-secondary">{cat?.title}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
 
                     <div>
-                        <h2 className="font-bold text-secondary text-md sm:text-lg">Sub Categories</h2>
+                        <h2 className="font-bold text-secondary text-md sm:text-lg dark:text-primary">Sub Categories</h2>
                         <div className="flex  rounded-lg flex-wrap items-center gap-1 p-1">
                             {business?.subCategoryDetails?.map((subCat, index) => (
                                 <div key={index} className="flex items-center">
-                                    <span className="font-bold text-sm bg-primary p-1 rounded-md sm:text-base">{subCat?.title}</span>
+                                    <span className="font-bold text-sm bg-primary p-1 rounded-md sm:text-base dark:bg-secondary">{subCat?.title}</span>
                                 </div>
                             ))}
                         </div>
@@ -63,12 +63,12 @@ function BusinessCard({ business , isAdmin }) {
 
                     {
                         isAdmin ?
-                                <Button onClick = {()=> navigate(`/admin/BusinessInfo/${business?._id}`)} className="bg-secondary mt-3 w-full sm:w-auto mx-auto">
-                                    <Info className="mr-2" /> Show All Details
+                                <Button onClick = {()=> navigate(`/admin/BusinessInfo/${business?._id}`)} className="bg-secondary mt-3 w-full sm:w-auto mx-auto dark:text-primary">
+                                    <Info className="mr-2 dark:text-primary" /> Show All Details
                                 </Button> 
                                 : 
-                                <Button onClick = {()=> navigate(`/user/userProfile/BusinessInfo/${business?._id}`)} className="bg-secondary mt-3 w-full sm:w-auto mx-auto">
-                                    <Info className="mr-2" /> Show All Details
+                                <Button onClick = {()=> navigate(`/user/userProfile/BusinessInfo/${business?._id}`)} className="bg-secondary mt-3 w-full sm:w-auto mx-auto dark:text-primary">
+                                    <Info className="mr-2 dark:text-primary" /> Show All Details
                                 </Button>
                     }
             

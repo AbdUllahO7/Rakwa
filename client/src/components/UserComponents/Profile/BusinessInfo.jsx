@@ -195,7 +195,7 @@ function BusinessInfo({ isAdmin }) {
 
   return (
     <section className="py-6 sm:py-12 w-full">
-      <div className="container mx-auto px-4 bg-white rounded-xl shadow-lg pb-10  sm:h-full">
+      <div className="container mx-auto px-4 bg-white dark:bg-black rounded-xl shadow-lg pb-10  sm:h-full">
         <Tabs defaultValue="BasicInfo" className="w-full ">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-secondary  text-primary">
             {["Basic Info", "Location Info", "Category Info", "Contact Info"].map((tab, idx) => (
