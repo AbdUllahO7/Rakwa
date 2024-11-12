@@ -16,5 +16,7 @@ router.put('/update/:messageId', messageController.updateMessage);
 
 // Delete a message
 router.delete('/delete/:messageId', messageController.deleteMessage);
+router.delete('/deleteAll/:userId', messageController.deleteAllMessagesByUserId);
+router.get('/user/:userId/unreadCount', messageController.getUnreadMessagesCount);
 
 module.exports = router;

@@ -1,8 +1,10 @@
-import {   ChartNoAxesCombined, LayoutDashboard, MessageCircle, Network   } from "lucide-react";
-import { Fragment } from "react";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { MessageCircle, LayoutDashboard, Network, ChartNoAxesCombined } from 'lucide-react';
+import { Fragment, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { getMessagesByUser, getUnreadMessagesCount } from '@/store/userSlice/MessageSlice';
 
 const adminSideBarMenuItems = [
     {
@@ -15,17 +17,18 @@ const adminSideBarMenuItems = [
         id: 'business',
         label: 'Business',
         path: '/user/userProfile/UserBusiness',
-        icon:<Network />
+        icon: <Network />
     },
     {
         id: 'messages',
         label: 'Messages',
         path: '/user/userProfile/Messages',
-        icon:<MessageCircle />
+        icon: <MessageCircle />,
+        notifications: 0, // Default to 0, we'll update this dynamically
     },
 ];
 
-function MenuItems({ setOpen }) {
+function MenuItems({ unreadMessages, setOpen }) {
     const navigate = useNavigate();
 
     return (
@@ -41,19 +44,50 @@ function MenuItems({ setOpen }) {
                 >
                     {menuItem.icon}
                     <span>{menuItem.label}</span>
+                    {menuItem.id === 'messages' && unreadMessages > 0 && (
+                        <span className="ml-2 inline-block w-6 h-6 text-center bg-red-600 text-white rounded-full text-sm">
+                            {unreadMessages}
+                        </span>
+                    )}
                 </div>
             ))}
         </nav>
     );
 }
 
-// Define prop types for MenuItems
 MenuItems.propTypes = {
+    unreadMessages: PropTypes.number.isRequired,
     setOpen: PropTypes.func,
 };
 
 function UserSideBar({ open, setOpen }) {
     const navigate = useNavigate();
+    const [unreadMessages, setUnreadMessages] = useState(0);
+    const dispatch = useDispatch();
+
+    // Get the unread messages count from the store or API
+    const { messages } = useSelector(state => state.messages);
+    const { user } = useSelector(state => state.auth);
+
+    // Fetch the unread messages count when messages or user change
+    useEffect(() => {
+        if (user?.id) {
+            dispatch(getMessagesByUser({ userId: user.id }));
+            dispatch(getUnreadMessagesCount(user.id));
+        }
+    }, [dispatch, user?.id]);
+
+    useEffect(() => {
+        if (messages?.messages?.length) {
+            // Filter unread messages based on 'replayed' field and match with the current user's receiver
+            const unreadCount = messages.messages.filter(
+                message => message.replayed === false && message.userReceiver?._id === user?.id
+            ).length;
+            setUnreadMessages(unreadCount);
+        }
+    }, [messages, user?.id]);
+    
+
 
     return (
         <Fragment>
@@ -66,7 +100,7 @@ function UserSideBar({ open, setOpen }) {
                                 <h1 className="text-2xl font-extrabold">User Panel</h1>
                             </SheetTitle>
                         </SheetHeader>
-                        <MenuItems setOpen={setOpen} />
+                        <MenuItems unreadMessages={unreadMessages} setOpen={setOpen} />
                     </div>
                 </SheetContent>
             </Sheet>
@@ -76,13 +110,12 @@ function UserSideBar({ open, setOpen }) {
                     <ChartNoAxesCombined size={30} />
                     <h1 className="text-2xl font-extrabold">User Panel</h1>
                 </div>
-                <MenuItems />
+                <MenuItems unreadMessages={unreadMessages} />
             </aside>
         </Fragment>
     );
 }
 
-// Define prop types for AdminSideBar
 UserSideBar.propTypes = {
     open: PropTypes.bool,
     setOpen: PropTypes.func,

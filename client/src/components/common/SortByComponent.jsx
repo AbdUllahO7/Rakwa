@@ -16,9 +16,9 @@ function SortByComponent({
         {/* Sort by dropdown menu */}
         <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="flex items-center gap-1">
-                        <ArrowUpDownIcon className="w-4 h-6" />
-                        <span>Sort by</span>
+                    <Button variant="outline" size="sm" className="flex items-center gap-1 bg-secondary">
+                        <ArrowUpDownIcon className="w-4 h-6 " />
+                        <span className="">Sort by</span>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-[200px]">

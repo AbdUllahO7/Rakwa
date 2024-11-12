@@ -26,6 +26,7 @@ import UserBusiness from './components/UserComponents/Profile/UserBusiness';
 import BusinessInfo from './components/UserComponents/Profile/BusinessInfo';
 import BusinessDetails from './pages/UserView/BusinessDetails';
 import UserMessages from './components/UserComponents/Profile/UserMessages';
+import AllMessages from './components/UserComponents/Profile/AllMessages';
 
 function App() {
 
@@ -90,6 +91,8 @@ function App() {
               <Route path="UserBusiness" element={<UserBusiness />} />
               <Route path="BusinessInfo/:businessId" element={<BusinessInfo isAdmin={false}/>} />
               <Route path="Messages" element={<UserMessages />} />
+              <Route path="AllMessages" element={<AllMessages />} />
+
           </Route>
           <Route path="BusinessDetails/:id" element={<BusinessDetails />} />
 

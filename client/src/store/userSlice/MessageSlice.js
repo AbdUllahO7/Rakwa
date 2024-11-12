@@ -8,6 +8,8 @@ const initialState = {
     messages: [],
     isLoading: false,
     error: null,
+    unreadCount: 0,
+
 };
 
 // Async thunk for creating a new message
@@ -35,13 +37,20 @@ export const getMessagesByBusiness = createAsyncThunk(
 // Async thunk for fetching all messages by a specific user
 export const getMessagesByUser = createAsyncThunk(
     'message/getByUser',
-    async (userId) => {
-        const response = await axios.get(`http://localhost:5000/api/MessageRouter/user/${userId}`, {
-            withCredentials: true,
-        });
+    async ({ userId, sort, search, page = 1, limit = 100 }) => {
+        const query = new URLSearchParams({
+            sort: sort || null,
+            search: search || '', // Add the search parameter
+            page: page,
+            limit: limit,
+        }).toString(); // Convert query parameters to a string
+
+        const response = await axios.get(`http://localhost:5000/api/MessageRouter/user/${userId}?${query}`);
         return response.data;
     }
 );
+
+
 
 // Async thunk for updating a message (subject or rating)
 export const updateMessage = createAsyncThunk(
@@ -65,7 +74,24 @@ export const deleteMessage = createAsyncThunk(
         return response.data;
     }
 );
+export const deleteAllMessages = createAsyncThunk(
+    'message/deleteAll',
+    async ({ userId, type }) => {
+        const response = await axios.delete(`http://localhost:5000/api/MessageRouter/deleteAll/${userId}`, {
+            params: { type }, // Add the type as a query parameter (e.g., type="sent" or type="incoming")
+            withCredentials: true,
+        });
+        return response.data;
+    }
+);
 
+export const getUnreadMessagesCount = createAsyncThunk(
+    'messages/getUnreadMessagesCount',
+    async (userId) => {
+        const response = await axios.get(`http://localhost:5000/api/MessageRouter/user/${userId}/unreadCount`);
+        return response.data.unreadCount;
+    }
+);
 const messageSlice = createSlice({
     name: 'message',
     initialState,
@@ -138,8 +164,13 @@ const messageSlice = createSlice({
             .addCase(deleteMessage.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.error.message;
+            }).addCase(getUnreadMessagesCount.fulfilled, (state, action) => {
+                state.unreadCount = action.payload;
             });
     },
 });
+
+
+
 
 export default messageSlice.reducer;

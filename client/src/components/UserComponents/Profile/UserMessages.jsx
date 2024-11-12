@@ -1,13 +1,12 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { createMessage, deleteMessage, getMessagesByUser, updateMessage } from '@/store/userSlice/MessageSlice';
 import { Send, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import MessageReplayDialog from './MessageReplayDialog';
+import { useNavigate } from 'react-router-dom';
 
 function UserMessages() {
     const { user } = useSelector(state => state.auth);
@@ -16,18 +15,19 @@ function UserMessages() {
     const [selectedMessage, setSelectedMessage] = useState(null); // To store the message you are replying to
     const [replyMessage, setReplyMessage] = useState(''); // To store the reply message input
     const [replyMessageSubject, setReplyMessageSubject] = useState(''); // To store the reply message input
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
     const { toast } = useToast();
 
     useEffect(() => {
-        dispatch(getMessagesByUser(user?.id));
+        dispatch(getMessagesByUser({userId : user?.id}));
     }, [dispatch, user?.id]);
 
     function handleDeleteMessage(messageId) {
         dispatch(deleteMessage(messageId)).then(data => {
             if (data?.payload?.success) {
-                dispatch(getMessagesByUser(user?.id));
+                dispatch(getMessagesByUser({userId : user?.id}));
                 toast({
                     title: "Message deleted successfully",
                     variant: 'success',
@@ -75,7 +75,6 @@ function UserMessages() {
                             title: "Message Sent Successfully",
                             variant: "success",
                         });
-    
                         // Now that the message is sent, update the original message to mark as replied
                         dispatch(updateMessage({ messageId: selectedMessage._id, formData: { replayed: true } }))
                             .then((updateResponse) => {
@@ -84,6 +83,9 @@ function UserMessages() {
                                     // Optionally, you can trigger a refresh of messages or any other state update
                                 }
                             });
+                            dispatch(getMessagesByUser({userId : user?.id}));
+
+
                     }
                 })
                 .catch((error) => {
@@ -108,106 +110,62 @@ function UserMessages() {
         }
     }
 
-    console.log(messages)
 
     return (
-        <div className='flex justify-center gap-10 flex-wrap w-full'>
-        {messages.messages && messages.messages.length > 0 ? (
-        messages.messages
-        .filter((message) => message.userReceiver._id === user?.id && message.replayed === false) // Filter only messages for the current user and with replayed === false
-        .map((message, index) => (
-            <div
-            className="shadow-xl h-fit w-[300px] flex flex-col justify-center items-center gap-7 p-10"
-            key={index}
-            >
-            <Avatar className="bg-black">
-                <AvatarFallback className="bg-secondary text-primary cursor-pointer font-extrabold">
-                {message.userSender['userName'][0].toUpperCase()}
-                </AvatarFallback>
-            </Avatar>
-            <span className="text-secondary font-semibold text-lg text-center">
-                You have an unread message awaiting your reply from {message.userSender['userName']}
-            </span>
-            <p className="text-sm text-gray-500">
-                Sent on: {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
-            </p>
-            <div className="flex justify-evenly w-full">
-                {/* Reply Button to open the dialog */}
-                <Button className="bg-secondary" onClick={() => handleReply(message)}>
-                <Send className="mr-2" /> Reply
-                </Button>
-                <Button className="bg-red-800" onClick={() => handleDeleteMessage(message?._id)}>
-                <Trash2 className="mr-2" /> Delete
-                </Button>
+        <div>
+            <div className='flex w-full justify-end'>
+                <Button className="bg-secondary" onClick = {()=> navigate('/user/userProfile/AllMessages')}>Show All Messages</Button>
             </div>
-            </div>
-        ))
-            ) : (
-                <div>No unread messages awaiting your reply.</div> // Optional message when there are no messages
-            )}
+            <div className='flex justify-center gap-10 flex-wrap w-full'>
+            {messages.messages && messages.messages.length > 0 ? (
+            messages.messages
+            .filter((message) => message.userReceiver._id === user?.id && message.replayed === false) // Filter only messages for the current user and with replayed === false
+            .map((message, index) => (
+                <div
+                className="shadow-xl h-fit w-[300px] flex flex-col justify-center items-center gap-7 p-10"
+                key={index}
+                >
+                <Avatar className="bg-black">
+                    <AvatarFallback className="bg-secondary text-primary cursor-pointer font-extrabold">
+                    {message.userSender['userName'][0].toUpperCase()}
+                    </AvatarFallback>
+                </Avatar>
+                <span className="text-secondary font-semibold text-lg text-center">
+                    You have an unread message awaiting your reply from {message.userSender['userName']}
+                </span>
+                <p className="text-sm text-gray-500">
+                    Sent on: {new Date(message.createdAt).toLocaleDateString()} at {new Date(message.createdAt).toLocaleTimeString()}
+                </p>
+                <div className="flex justify-evenly w-full">
+                    {/* Reply Button to open the dialog */}
+                    <Button className="bg-secondary" onClick={() => handleReply(message)}>
+                    <Send className="mr-2" /> Reply
+                    </Button>
+                    <Button className="bg-red-800" onClick={() => handleDeleteMessage(message?._id)}>
+                    <Trash2 className="mr-2" /> Delete
+                    </Button>
+                </div>
+                </div>
+            ))
+                ) : (
+                    <div>No unread messages awaiting your reply.</div> // Optional message when there are no messages
+                )}
 
             {/* Dialog */}
-            <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-                <DialogContent className="max-w-4xl p-0">
-                    <DialogHeader className="mx-auto mt-10">
-                        <DialogTitle className="text-secondary">Reply to Message</DialogTitle>
-                        <DialogDescription>
-                        </DialogDescription>
-                    </DialogHeader>
+            <MessageReplayDialog
+                openDialog={openDialog}
+                setOpenDialog={setOpenDialog}
+                selectedMessage={selectedMessage}
+                replyMessageSubject={replyMessageSubject}
+                setReplyMessageSubject={setReplyMessageSubject}
+                replyMessage={replyMessage}
+                setReplyMessage={setReplyMessage}
+                handleSendReply={handleSendReply}
+            />
 
-                    {/* Chat Window */}
-                    <div className="p-4 space-y-4 max-h-[400px] overflow-y-auto">
-                        {/* Show message history */}
-                        <div className="space-y-2">
-                            <div className="flex items-center">
-                                <Avatar className="bg-black">
-                                    <AvatarFallback className="bg-secondary text-primary cursor-pointer font-extrabold">
-                                        {selectedMessage?.userSender?.userName[0].toUpperCase()}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <div className="ml-3">
-                                    <span className="font-semibold">{selectedMessage?.userSender?.userName}</span>
-                                    <p className="text-sm text-gray-500">
-                                        Sent on: {new Date(selectedMessage?.createdAt).toLocaleDateString()} at {new Date(selectedMessage?.createdAt).toLocaleTimeString()}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="ml-10 p-2 bg-gray-100 rounded-md">
-                                <h2>Subject : {selectedMessage?.subject}</h2>
-                                <h1>Message : {selectedMessage?.message}</h1>
 
-                            </div>
-                            
-                        </div>
-
-                        {/* Reply input */}
-                        <div className="mt-4 ml-10 p-2">
-                            <Input
-                                value={replyMessageSubject}
-                                onChange={(e) => setReplyMessageSubject(e.target.value)}
-                                placeholder="Write your Subject reply here..."
-                                className="w-full p-2 mb-5 border rounded-md"
-                            />
-                            <Textarea
-                                value={replyMessage}
-                                onChange={(e) => setReplyMessage(e.target.value)}
-                                placeholder="Write your Message reply here..."
-                                className="w-full p-2 border rounded-md"
-                                rows="4"
-                            />
-                        </div>
-
-                    </div>
-
-                    <DialogFooter>
-                        <DialogClose asChild>
-                            <Button className="bg-gray-200">Cancel</Button>
-                        </DialogClose>
-                        <Button className="bg-blue-600 text-white" onClick={handleSendReply}>Send Reply</Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
         </div>
+ </div>
     );
 }
 
