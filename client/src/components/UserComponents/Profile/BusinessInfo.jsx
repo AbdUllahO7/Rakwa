@@ -134,18 +134,19 @@ function BusinessInfo({ isAdmin }) {
   }, [businessData, imageFile, businessId, selectedCategories, selectedSubCategories, user?.id, dispatch, toast]);
   
 
-  const handleDeleteBusiness = useCallback(async () => {
-    try {
-      const result = await dispatch(deleteBusiness(businessId)).unwrap();
-      if (result.success) {
-        await dispatch(fetchBusinessByUserId(user?.id));
-        toast({ title: "Business deleted successfully", variant: 'success' });
-        navigate(-1);
-      }
-    } catch {
-      toast({ title: "Failed to delete business", variant: 'error' });
+  const handleDeleteBusiness = useCallback(async () => {    
+  dispatch(deleteBusiness(businessId)).then((data) => {
+    if (data?.payload?.success) {
+        toast({
+            title: "Messages deleted successfully",
+            variant: 'success',
+        });
+        dispatch(fetchBusinessByUserId(user?.id));
+        navigate(-1)
     }
-  }, [dispatch, businessId, user?.id, toast, navigate]);
+});
+  }, [dispatch, businessId, toast, user?.id, navigate]);
+
 
   const imageUploadComponent = useMemo(() => (
     <ImageUpload

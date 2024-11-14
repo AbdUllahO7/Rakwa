@@ -47,7 +47,7 @@ function MenuItems() {
             ))}
             <Button
                 className="bg-secondary w-[200px] flex items-center gap-1 text-bold"
-                onClick={() => navigate('/user/PricingPlans')}
+                onClick={() => navigate('/user/JobInfo')}
             >
                 <Plus className="text-primary" />
                 <span className="text-primary"> Add Your Job </span>

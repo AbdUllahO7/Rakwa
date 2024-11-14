@@ -27,12 +27,14 @@ import BusinessInfo from './components/UserComponents/Profile/BusinessInfo';
 import BusinessDetails from './pages/UserView/BusinessDetails';
 import UserMessages from './components/UserComponents/Profile/UserMessages';
 import AllMessages from './components/UserComponents/Profile/AllMessages';
+import UserPricingPlan from './components/UserComponents/Profile/UserPricingPlan';
 
 function App() {
 
 
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     dispatch(checkAuth());
@@ -92,6 +94,7 @@ function App() {
               <Route path="BusinessInfo/:businessId" element={<BusinessInfo isAdmin={false}/>} />
               <Route path="Messages" element={<UserMessages />} />
               <Route path="AllMessages" element={<AllMessages />} />
+              <Route path="PricingPlan" element={<UserPricingPlan />} />
 
           </Route>
           <Route path="BusinessDetails/:id" element={<BusinessDetails />} />

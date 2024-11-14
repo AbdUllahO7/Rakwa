@@ -9,8 +9,17 @@ const initialState = {
 };
 
 // Async Thunks for BusinessAndService routes
-export const fetchAllBusinesses = createAsyncThunk('/BusinessAndService/fetchAll', async () => {
-    const response = await axios.get('http://localhost:5000/api/BusinessAndService');
+export const fetchAllBusinesses = createAsyncThunk('/BusinessAndService/fetchAll', async ({ sort , search, page = 1, limit = 100 }) => {
+
+    const query = new URLSearchParams({
+        sort: sort || null,
+        search: search ||'', // Add the search parameter
+        page: page,
+        limit: limit,
+    }).toString(); // Convert query parameters to a string
+
+
+    const response = await axios.get(`http://localhost:5000/api/BusinessAndService?${query}`);
     return response.data;
 });
 

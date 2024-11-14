@@ -91,7 +91,6 @@ exports.createBusiness = async (req, res) => {
 };
 
 
-
 // Get a single business by ID with subCategory details
 // exports.getBusinessById = async (req, res) => {
 //     try {
@@ -119,57 +118,93 @@ exports.createBusiness = async (req, res) => {
 
 exports.getBusinessWithDetails = async (req, res) => {
     try {
-        // Step 1: Find all businesses with the selected categories and subCategories IDs
-        const businesses = await BusinessAndService.find()
+        const { sort , search , page = 1, limit = 10 } = req.query; // Get sort, search, page, and limit from query params
+        
+        // Step 1: Construct the search query based on the search parameter
+        const searchQuery = search ? {
+            $or: [
+                { title: { $regex: search, $options: 'i' } }, // Case-insensitive search in title
+                { description: { $regex: search, $options: 'i' } } // Case-insensitive search in description
+            ]
+        } : {};
+
+        // Step 2: Set up sorting options based on the sort parameter
+        let sortOption = {};
+        switch (sort) {
+            case "title-atoz":
+                sortOption = { title: 1 }; // Sort by title A to Z
+                break;
+            case "title-ztoa":
+                sortOption = { title: -1 }; // Sort by title Z to A
+                break;
+            case "time-newest":
+                sortOption = { createdAt: -1 }; // Sort by newest first (desc)
+                break;
+            case "time-oldest":
+                sortOption = { createdAt: 1 }; // Sort by oldest first (asc)
+                break;
+            default:
+                sortOption = {}; // Default to no sorting (or you can set a default sort)
+        }
+
+        // Step 3: Find businesses with search, sort, and pagination applied
+        const businesses = await BusinessAndService.find(searchQuery)
             .populate('owner') // Populate owner details
             .populate({
                 path: 'category', // Populate main category details
                 select: 'title image',
-            });
+            })
+            .sort(sortOption) // Apply sorting
+            .skip((page - 1) * limit) // Apply pagination
+            .limit(parseInt(limit)); // Limit the results
 
-        // Step 2: Populate subCategory details and format categories
+        // Step 4: Populate category and subCategory details for each business
         const businessDataWithCategoriesAndSubCategories = await Promise.all(
             businesses.map(async (business) => {
-                // Find all categories corresponding to the category IDs in the business
                 const categories = await AdminCategories.find({
                     _id: { $in: business.category },
                 });
 
-                // Extract category details and IDs
                 const categoryDetails = categories.map(category => ({
                     _id: category._id,
                     title: category.title,
                     image: category.image,
                 }));
 
-                // Extract subCategory details from the matched categories
-                const subCategoryDetails = categories.flatMap(category => 
-                    category.subCategories.filter(subCat => 
+                const subCategoryDetails = categories.flatMap(category =>
+                    category.subCategories.filter(subCat =>
                         business.subCategory.includes(subCat._id.toString())
                     ).map(subCat => ({
                         _id: subCat._id,
                         title: subCat.title,
-                        // Include other properties you want to include
+                        // Include other properties as needed
                     }))
                 );
 
                 return {
                     ...business.toObject(),
-                    category: business.category, // Include category IDs (array of IDs)
-                    categoryDetails, // Include the category details
-                    subCategory: business.subCategory, // Include subcategory IDs (array of IDs)
-                    subCategoryDetails, // Include the subcategory details
+                    category: business.category, // Include category IDs
+                    categoryDetails, // Include category details
+                    subCategory: business.subCategory, // Include subcategory IDs
+                    subCategoryDetails, // Include subcategory details
                 };
             })
         );
 
-        res.status(200).json({ success: true, data: businessDataWithCategoriesAndSubCategories });
+        // Step 5: Get the total count of businesses for pagination
+        const totalCount = await BusinessAndService.countDocuments(searchQuery);
+
+        res.status(200).json({
+            success: true,
+            data: businessDataWithCategoriesAndSubCategories,
+            totalCount: totalCount, // Include total count for pagination
+            currentPage: page,
+            totalPages: Math.ceil(totalCount / limit),
+        });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
-
-
 
 
 

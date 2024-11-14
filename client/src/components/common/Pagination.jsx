@@ -14,7 +14,7 @@ function Pagination({ currentPage, totalItems, itemsPerPage, onPageChange }) {
     };
 
     return (
-        <div className="flex justify-center items-center mt-5">
+        <div className="flex justify-center items-center mt-5 w-full">
             <Button className="bg-secondary dark:text-primary" onClick={handlePreviousPage} disabled={currentPage === 1}>
                 Previous
             </Button>

@@ -60,7 +60,7 @@ function AllCategory() {
                 <div className="mt-10 ">
                     <SortByComponent sort={sort} handleSort={handleSort} title="Latest works" />
                 </div>
-                    <BusinessComponent/>
+                    <BusinessComponent sort= {sort}/>
                 </div>
                 </div>
             

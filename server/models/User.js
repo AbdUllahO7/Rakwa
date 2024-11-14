@@ -43,6 +43,10 @@ const UserSchema = new mongoose.Schema({
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'CommentAndRating'
+    }],
+    PlanType: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PricingPlan',
     }]
 });
 
