@@ -1,10 +1,17 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { useToast } from '@/hooks/use-toast';
+import { createFavorite, getFavorites } from '@/store/userSlice/FavoritesSlice';
 import { Ban, CheckCheck, Heart } from 'lucide-react'
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 function LatestBusinessAndServices({ product }) {
+    const {user , isAuthenticated} = useSelector((state)=> state.auth);
+    const {toast} = useToast();
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
@@ -25,9 +32,29 @@ function LatestBusinessAndServices({ product }) {
         }
     };
 
+    useEffect(()=> {
+        dispatch(getFavorites(user.id))
+    } ,[dispatch, user.id])
+
+    const handleHeartClick = (event) => {
+        event.stopPropagation(); // This will stop the event from bubbling up to the Card onClick
+        dispatch(createFavorite({ userId : user?.id , businessIds : [product?._id] }))
+        .then((data) => {
+            if (data?.payload?.success) {
+                toast({
+                    title: "favorites updated Successfully",
+                    variant: "success",
+                });
+
+            }
+
+        })
+
+    };
+
 return (
     <Card  onClick={handleNavigation} className={`w-full max-w-sm mx-auto duration-500 hover:bg-gray-100 dark:hover:bg-secondary 
-    shadow-lg hover:-translate-y-3 cursor-pointer mb-2 ${product?.open ? 'cursor-pointer ' : 'cursor-not-allowed ' } `}>
+        shadow-lg hover:-translate-y-3 cursor-pointer mb-2 ${product?.open ? 'cursor-pointer ' : 'cursor-not-allowed ' } `}>
     <div className="">
         <div className="relative">
         <img
@@ -35,8 +62,8 @@ return (
             alt={product?.title}
             className="w-full h-[300px] object-cover rounded-t-lg"
         />
-        <Badge className="absolute bottom-2 left-2 bg-secondary flex gap-3 group">
-            <Heart className="text-primary w-5 h-5 group-hover:text-secondary" />
+        <Badge onClick={handleHeartClick} className="absolute bottom-2 left-2 bg-secondary flex gap-3 group">
+            <Heart  className="text-primary w-5 h-5 group-hover:text-secondary" />
         </Badge>
         </div>
         <CardContent className="p-4">

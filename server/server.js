@@ -11,6 +11,8 @@ const authRouter = require('./routes/auth/authRoutes')
 const BusinessAndServiceRouter = require('./routes/user/BusinessAndService')
 const CommentAndRatingRouter = require('./routes/user/CommentAndRating')
 const MessageRouter = require('./routes/user/Message')
+const FavoritesRouter = require('./routes/user/FavoritesRoutes')
+
 
 // admin 
 const CategoriesRoutes = require('./routes/admin/CategoryRoutes')
@@ -53,6 +55,7 @@ app.use('/api/auth' , authRouter)
 app.use('/api/BusinessAndService' , BusinessAndServiceRouter)
 app.use('/api/CommentAndRatingRouter' , CommentAndRatingRouter)
 app.use('/api/MessageRouter' , MessageRouter)
+app.use('/api/FavoritesRouter' , FavoritesRouter)
 
 
 // admin 

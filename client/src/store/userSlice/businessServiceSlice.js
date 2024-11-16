@@ -10,7 +10,6 @@ const initialState = {
 
 // Async Thunks for BusinessAndService routes
 export const fetchAllBusinesses = createAsyncThunk('/BusinessAndService/fetchAll', async ({ sort , search, page = 1, limit = 100 }) => {
-
     const query = new URLSearchParams({
         sort: sort || null,
         search: search ||'', // Add the search parameter

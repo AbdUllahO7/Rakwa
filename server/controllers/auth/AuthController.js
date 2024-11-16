@@ -82,7 +82,7 @@ const loginUser = async (req, res) => {
         
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Login error occurred" });
+        res.status(400).json({ success : false,  message: "Login error occurred" });
     }
 };
 

@@ -1,4 +1,4 @@
-import { MessageCircle, LayoutDashboard, Network, ChartNoAxesCombined, DollarSign } from 'lucide-react';
+import { MessageCircle, LayoutDashboard, Network, ChartNoAxesCombined, DollarSign, Heart } from 'lucide-react';
 import { Fragment, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -31,6 +31,13 @@ const adminSideBarMenuItems = [
         label: 'Pricing Plan',
         path: '/userProfile/PricingPlan',
         icon: <DollarSign />,
+        notifications: 0, // Default to 0, we'll update this dynamically
+    },
+    {
+        id: 'favorites',
+        label: 'favorites',
+        path: '/userProfile/Favorites',
+        icon: <Heart />,
         notifications: 0, // Default to 0, we'll update this dynamically
     },
 ];

@@ -28,6 +28,8 @@ import BusinessDetails from './pages/UserView/BusinessDetails';
 import UserMessages from './components/UserComponents/Profile/UserMessages';
 import AllMessages from './components/UserComponents/Profile/AllMessages';
 import UserPricingPlan from './components/UserComponents/Profile/UserPricingPlan';
+import Favorites from './components/UserComponents/Profile/UserFavorites';
+import UserFavorites from './components/UserComponents/Profile/UserFavorites';
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
@@ -78,6 +80,8 @@ function App() {
             <Route path="Messages" element={<UserMessages />} />
             <Route path="AllMessages" element={<AllMessages />} />
             <Route path="PricingPlan" element={<UserPricingPlan />} />
+            <Route path="Favorites" element={<UserFavorites />} />
+
           </Route>
           <Route path="BusinessDetails/:id" element={<BusinessDetails />} />
         </Route>
