@@ -24,8 +24,7 @@ exports.handleImageUpload = async (req, res) => {
 // Create a new business
 exports.createBusiness = async (req, res) => {
     // Determine required fields based on BusinessType
-    const { BusinessType, category = [], subCategory = [], features = [] } = req.body;
-    console.log(subCategory);
+    const { BusinessType, category = [] , subCategory = [], features = [] } = req.body;
     
     const commonRequiredFields = ['title', 'description', 'BusinessType', 'category', 'owner', 'email', 'images'];
     const locationRequiredFields = BusinessType === "Location" ? ['country', 'state', 'city', 'fullAddress'] : [];
@@ -90,32 +89,7 @@ exports.createBusiness = async (req, res) => {
     }
 };
 
-
-// Get a single business by ID with subCategory details
-// exports.getBusinessById = async (req, res) => {
-//     try {
-//         const business = await BusinessAndService.findById(req.params.id)
-//             .populate('owner')
-//             .populate({
-//                 path: 'category',
-//                 populate: {
-//                     path: 'subCategories',
-//                     match: { _id: new mongoose.Types.ObjectId(req.body.subCategory) }, // Corrected ObjectId instantiation
-//                     select: 'title image'
-//                 }
-//             });
-
-//         if (!business) return res.status(404).json({ success: false, message: 'Business not found' });
-        
-//         res.status(200).json({ success: true, data: business });
-//     } catch (error) {
-//         res.status(500).json({ success: false, message: error.message });
-//     }
-// };
-
-
 // Get all businesses with user, category, and subCategory details
-
 exports.getBusinessWithDetails = async (req, res) => {
     try {
         const { sort , search , page = 1, limit = 10 } = req.query; // Get sort, search, page, and limit from query params
@@ -207,9 +181,7 @@ exports.getBusinessWithDetails = async (req, res) => {
 };
 
 
-
 // Update a business by ID
-
 exports.updateBusiness = async (req, res) => {
     const requiredFields = ['title', 'description', 'category', 'owner', 'email', 'country', 'state', 'city', 'images', 'subCategory', 'fullAddress'];
     const missingFields = requiredFields.filter(field => req.body[field] === undefined);
@@ -372,3 +344,31 @@ exports.getBusinessById = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
+
+// Update 'open' value
+exports.updateOpenValue = async (req, res) => {
+    try {
+        const { id } = req.params; // ID of the business or service
+        const { open } = req.body; // New open value
+
+        if (typeof open !== "boolean") {
+            return res.status(400).json({ message: "'open' must be a boolean value." });
+        }
+
+        const updatedBusiness = await BusinessAndService.findByIdAndUpdate(
+            id,
+            { open },
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedBusiness) {
+            return res.status(404).json({ success : false ,  message: 'Business or Service not found.' });
+        }
+
+        res.status(200).json({success : true ,  data : updatedBusiness});
+    } catch (error) {
+        res.status(500).json({ success : false , message: 'An error occurred.', error: error.message });
+    }
+};
+

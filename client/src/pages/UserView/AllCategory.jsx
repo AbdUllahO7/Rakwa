@@ -26,7 +26,7 @@ function AllCategory() {
 
     function handleCardClick(Category_id) {
 
-        navigate(`/user/SingleCategory/${Category_id}`);
+        navigate(`/SingleCategory/${Category_id}`);
     }
 
     const applyFilter = (getSectionId, getCurrentOption) => {

@@ -127,7 +127,6 @@ function AdminPricingPlan() {
                 </div>
             </section>
 
-            {/* Category Dialog */}
             <Sheet
                 open={openCreateProductDialog}
                 onOpenChange={resetForm}

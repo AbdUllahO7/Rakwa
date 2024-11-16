@@ -60,7 +60,8 @@ const initialFormData = {
 };
 
 // MessageForm Component
-const MessageForm = ({ message, setMessage, handleSubmit }) => (
+const MessageForm = ({ message, setMessage, handleSubmit , isAuthenticated }) => (
+
     <div className="mt-10 shadow-lg w-[400px] rounded-lg p-5 dark:border dark:border-gray-200">
         <h2 className="font-bold text-xl text-secondary dark:text-primary">Message</h2>
         <div className="mt-5 flex-col flex gap-3">
@@ -75,7 +76,7 @@ const MessageForm = ({ message, setMessage, handleSubmit }) => (
                 value={message.message} 
                 onChange={(e) => setMessage({ ...message, message: e.target.value })}
             />
-            <Button className="bg-secondary dark:text-primary" onClick={handleSubmit}>Send</Button>
+            <Button className="bg-secondary dark:text-primary " disabled = {!isAuthenticated} onClick={handleSubmit}>Send</Button>
         </div>
     </div>
 );
@@ -87,12 +88,13 @@ MessageForm.propTypes = {
     }),
     setMessage: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
 };
 
 // BusinessContact Component
 const BusinessContact = ({ singleBusiness }) => {
     const [message, setMessage] = useState(initialFormData);
-    const {user} = useSelector(state => state.auth);
+    const {user  , isAuthenticated} = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const {toast} = useToast()
     // Handle message submission
@@ -136,7 +138,7 @@ const BusinessContact = ({ singleBusiness }) => {
             <ContactInfo business={singleBusiness} />
 
             {/* Message Form */}
-            <MessageForm message={message} setMessage={setMessage} handleSubmit={handleSubmit} />
+            <MessageForm isAuthenticated = {isAuthenticated} message={message} setMessage={setMessage} handleSubmit={handleSubmit} />
         </div>
     );
 };

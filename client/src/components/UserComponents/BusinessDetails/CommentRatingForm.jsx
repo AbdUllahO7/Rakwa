@@ -15,7 +15,7 @@ function CommentRatingForm({
     setComment,
     handleSubmit 
 }) {
-  const { user } = useSelector(state => state.auth);
+  const { user , isAuthenticated } = useSelector(state => state.auth);
 
   return (
     <div className="w-full mb-10">
@@ -89,7 +89,7 @@ function CommentRatingForm({
             <Button
                 onClick={() => handleSubmit(user?.id)}
                 className={`bg-secondary dark:text-primary ${(!comment && !overallRating && !customerServiceRating && !priceRating) && "opacity-50 cursor-not-allowed"}`}
-                disabled={!comment && !overallRating && !customerServiceRating && !priceRating}
+                disabled={!comment && !overallRating && !customerServiceRating && !priceRating || !isAuthenticated}
             >
                 Send Comment
             </Button>

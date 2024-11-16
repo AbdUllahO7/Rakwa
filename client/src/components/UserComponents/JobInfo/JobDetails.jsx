@@ -83,7 +83,7 @@ export function JobDetails({ selectedCategoryIds, selectedSubCategoryIds }) {
                         title: "Business added successfully",
                         variant: "success",
                     });
-                    navigate('/user/reviewJobPage');
+                    navigate('/reviewJobPage');
                 }
             });
     }

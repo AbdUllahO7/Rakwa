@@ -16,5 +16,6 @@ router.put('/:id', businessController.updateBusiness);
 router.delete('/:id', businessController.deleteBusiness);
 
 router.get('/getBusinessesByUserId/:userId', businessController.getBusinessesByUserId);
+router.put('/:id/open', businessController.updateOpenValue);
 
 module.exports = router;

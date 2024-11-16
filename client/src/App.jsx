@@ -30,11 +30,8 @@ import AllMessages from './components/UserComponents/Profile/AllMessages';
 import UserPricingPlan from './components/UserComponents/Profile/UserPricingPlan';
 
 function App() {
-
-
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     dispatch(checkAuth());
@@ -49,63 +46,45 @@ function App() {
     );
   }
 
-
   return (
     <div className="flex flex-col overflow-hidden">
       <Routes>
-        <Route path="/" element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-          </CheckAuth>
-        } />
-        {/* auth */}
+        {/* Authentication routes */}
         <Route path="/auth" element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <AuthLayout />
           </CheckAuth>
         }>
-          <Route path="login" element={
-            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <AuthLogin />
-            </CheckAuth>
-          } />
-          <Route path="register" element={
-            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <AuthRegister />
-            </CheckAuth>
-          } />
+          <Route path="login" element={<AuthLogin />} />
+          <Route path="register" element={<AuthRegister />} />
         </Route>
 
-
-        {/* user  */}
-        <Route path="/user" element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <HomeLayout />
-          </CheckAuth>
-        }>
-          <Route path="home" element={<Home />} />
+        {/* User-specific routes */}
+        <Route path="/" element={<HomeLayout />}>
+          <Route index element={<Home />} /> {/* Default route */}
           <Route path="AllCategory" element={<AllCategory />} />
           <Route path="SingleCategory/:id" element={<SingleCategory />} />
           <Route path="PricingPlans" element={<PricingPlans />} />
-          <Route path="JobInfo" element={<JobInfoLayout />} />
+          <Route path="JobInfo" element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <JobInfoLayout />
+            </CheckAuth>
+          } />
           <Route path="reviewJobPage" element={<ReviewJobPage />} />
-          <Route path="userProfile" element={<ProfileLayout />} >
-              <Route path="dashboard" element={<UserDashBoard />} />
-              <Route path="UserBusiness" element={<UserBusiness />} />
-              <Route path="BusinessInfo/:businessId" element={<BusinessInfo isAdmin={false}/>} />
-              <Route path="Messages" element={<UserMessages />} />
-              <Route path="AllMessages" element={<AllMessages />} />
-              <Route path="PricingPlan" element={<UserPricingPlan />} />
-
+          <Route path="userProfile" element={<ProfileLayout />}>
+            <Route path="dashboard" element={<UserDashBoard />} />
+            <Route path="UserBusiness" element={<UserBusiness />} />
+            <Route path="BusinessInfo/:businessId" element={<BusinessInfo isAdmin={false} />} />
+            <Route path="Messages" element={<UserMessages />} />
+            <Route path="AllMessages" element={<AllMessages />} />
+            <Route path="PricingPlan" element={<UserPricingPlan />} />
           </Route>
           <Route path="BusinessDetails/:id" element={<BusinessDetails />} />
-
         </Route>
 
-        {/* admin */}
-
-        {/* admin */}
+        {/* Admin-specific routes */}
         <Route path="/admin" element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>  
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <AdminLayout />
           </CheckAuth>
         }>
@@ -113,14 +92,11 @@ function App() {
           <Route path="category" element={<AdminCategory />} />
           <Route path="PricingPlan" element={<AdminPricingPlan />} />
           <Route path="AdminUserBusiness" element={<AdminUserBusiness />} />
-          <Route path="BusinessInfo/:businessId" element={<BusinessInfo  isAdmin={true}/>} />
-
+          <Route path="BusinessInfo/:businessId" element={<BusinessInfo isAdmin={true} />} />
         </Route>
-
-      
       </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

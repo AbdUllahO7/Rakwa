@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchAllCategory } from "@/store/adminSlice/AdminCategory";
 import { useNavigate } from "react-router-dom";
+import { fetchAllBusinesses } from "@/store/userSlice/businessServiceSlice";
 
 const SpecialProducts = [
     {
@@ -49,74 +50,6 @@ const SpecialProducts = [
     },
 ];
 
-const BusinessesAndServicesItems = [
-
-    {
-        id: 2,
-        title: 'Smart Home Solutions',
-        description: 'We offer smart home installation services, including security systems, automation, and more.',
-        category: 'services',
-        images: 'https://a1garage.com/wp-content/uploads/2023/11/The-Evolution-of-Smart-Homes-copy.jpg', // Example image URL
-        open: true, // This business is currently closed
-        phone: '+0987654321',
-        facebook: 'https://facebook.com/smarthomesolutions',
-        instagram: 'https://instagram.com/smarthomesolutions',
-        whatsapp: '+0987654321',
-        Features: 'Smart security, automation, energy-saving solutions',
-    },
-    {
-        id: 3,
-        title: 'Smart Home Solutions',
-        description: 'We offer smart home installation services, including security systems, automation, and more.',
-        category: 'services',
-        images: 'https://a1garage.com/wp-content/uploads/2023/11/The-Evolution-of-Smart-Homes-copy.jpg', // Example image URL
-        open: false, // This business is currently closed
-        phone: '+0987654321',
-        facebook: 'https://facebook.com/smarthomesolutions',
-        instagram: 'https://instagram.com/smarthomesolutions',
-        whatsapp: '+0987654321',
-        Features: 'Smart security, automation, energy-saving solutions',
-    },
-    {
-        id: 4,
-        title: 'Smart Home Solutions',
-        description: 'We offer smart home installation services, including security systems, automation, and more.',
-        category: 'services',
-        images: 'https://a1garage.com/wp-content/uploads/2023/11/The-Evolution-of-Smart-Homes-copy.jpg', // Example image URL
-        open: false, // This business is currently closed
-        phone: '+0987654321',
-        facebook: 'https://facebook.com/smarthomesolutions',
-        instagram: 'https://instagram.com/smarthomesolutions',
-        whatsapp: '+0987654321',
-        Features: 'Smart security, automation, energy-saving solutions',
-    },
-    {
-        id: 5,
-        title: 'Smart Home Solutions',
-        description: 'We offer smart home installation services, including security systems, automation, and more.',
-        category: 'services',
-        images: 'https://a1garage.com/wp-content/uploads/2023/11/The-Evolution-of-Smart-Homes-copy.jpg', // Example image URL
-        open: false, // This business is currently closed
-        phone: '+0987654321',
-        facebook: 'https://facebook.com/smarthomesolutions',
-        instagram: 'https://instagram.com/smarthomesolutions',
-        whatsapp: '+0987654321',
-        Features: 'Smart security, automation, energy-saving solutions',
-    },
-    {
-        id: 6,
-        title: 'Smart Home Solutions',
-        description: 'We offer smart home installation services, including security systems, automation, and more.',
-        category: 'services',
-        images: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DPg-MzH2uZFW7szxHtDOUupSqPPm5ozRlEiqAW2gbi-rFDgCFflBvI-1ROCqwj1s44c&usqp=CAU', // Example image URL
-        open: false, // This business is currently closed
-        phone: '+0987654321',
-        facebook: 'https://facebook.com/smarthomesolutions',
-        instagram: 'https://instagram.com/smarthomesolutions',
-        whatsapp: '+0987654321',
-        Features: 'Smart security, automation, energy-saving solutions',
-    },
-];
 
 const LatestBusinessAndServicesItems = [
   
@@ -241,18 +174,21 @@ function Home() {
     const navigate = useNavigate()
 
     const {CategoriesList} = useSelector(state => state.CategoriesList);
+    const {businessList} = useSelector(state => state.businessList);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchAllCategory())
+        dispatch(fetchAllBusinesses({}))
     } , [dispatch])
-
 
     
     function handleCardCategoryClick  (Category_id){
-        navigate(`/user/SingleCategory/${Category_id}`)
+        navigate(`SingleCategory/${Category_id}`)
     }
 
+    const sortedBusinessList = [...businessList].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -275,7 +211,7 @@ function Home() {
                     </div>
                     <div className='flex justify-center items-center mx-auto w-full mb-8 '>
                         <Button className='mt-10 bg-secondary text-primary font-extrabold text-2xl w-[300px] flex gap-2 pt-6 pb-6' 
-                            onClick = {()=> navigate('/user/AllCategory')}
+                            onClick = {()=> navigate('/AllCategory')}
                         >
                         <Menu className="size-7"/>
                             All Category
@@ -314,10 +250,10 @@ function Home() {
                             <h2 className='text-3xl font-bold text-center'>Businesses And Services</h2>
                         </div>
                         <div className='grid  sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6'>
-                            {BusinessesAndServicesItems && BusinessesAndServicesItems.length > 0 ? (
-                                BusinessesAndServicesItems.map(productItem => (
+                            {businessList && businessList.length > 0 ? (
+                                businessList.slice(0, 5).map(productItem => (
                                     <BusinessesAndServices 
-                                        key={productItem.id} 
+                                        key={productItem._id} 
                                         product={productItem} 
                                     />
                                 ))
@@ -339,16 +275,22 @@ function Home() {
                         <StarIcon className='text-yellow-600 mr-4' />
                         <h2 className='text-3xl font-bold text-center'>Latest Business And Services</h2>
                     </div>
-                    <div className='grid  sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6'>
-                        {LatestBusinessAndServicesItems && LatestBusinessAndServicesItems.length > 0 ? (
-                            LatestBusinessAndServicesItems.map(productItem => (
+                    <div className="grid sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                        {sortedBusinessList && sortedBusinessList.length > 0 ? (
+                            sortedBusinessList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+
+                            .slice(0, 5) // Take only the first 5 items
+                            .map(productItem => (
                                 <LatestBusinessAndServices 
-                                    key={productItem.id} 
-                                    product={productItem} 
+                                key={productItem._id} 
+                                product={productItem} 
                                 />
                             ))
-                        ) : null}
-                    </div>
+                        ) : (
+                            <p>No businesses found</p>
+                        )}
+                        </div>
+
                     <div className='flex justify-center items-center mx-auto w-full mb-8 '>
                     <Button className='mt-10 bg-secondary text-primary font-extrabold text-2xl w-[300px] flex gap-2 pt-6 pb-6'>
                         <Bolt className="size-7"/>

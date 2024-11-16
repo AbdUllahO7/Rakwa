@@ -14,6 +14,7 @@ function MenuItems() {
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
+    const { isAuthenticated } = useSelector((state) => state.auth);
 
     function handleNavigateToListingPage(getCurrentMenuItem) {
         sessionStorage.removeItem('filters');
@@ -26,6 +27,8 @@ function MenuItems() {
             ? setSearchParams(new URLSearchParams(`?category=${getCurrentMenuItem.id}`))
             : navigate(getCurrentMenuItem.path);
     }
+
+
     const [isDarkMode, setIsDarkMode] = useState(() => {
         return localStorage.getItem("theme") === "dark";
     });
@@ -34,6 +37,8 @@ function MenuItems() {
         document.documentElement.classList.toggle("dark", isDarkMode);
         localStorage.setItem("theme", isDarkMode ? "dark" : "light");
     }, [isDarkMode]);
+
+    
     return (
         <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
             {shoppingViewHeaderMenuItems.map((menuItem) => (
@@ -47,7 +52,9 @@ function MenuItems() {
             ))}
             <Button
                 className="bg-secondary w-[200px] flex items-center gap-1 text-bold"
-                onClick={() => navigate('/user/JobInfo')}
+                onClick={() => {
+                    isAuthenticated ? navigate('/JobInfo') : navigate('/auth/login')
+                }}
             >
                 <Plus className="text-primary" />
                 <span className="text-primary"> Add Your Job </span>
@@ -70,7 +77,7 @@ function MenuItems() {
 }
 
 function HeaderRightContent() {
-    const { user } = useSelector((state) => state.auth);
+    const { user , isAuthenticated } = useSelector((state) => state.auth);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -81,7 +88,8 @@ function HeaderRightContent() {
     
     return (
         <div className="sticky flex lg:items-center lg:flex-row flex-col gap-4">
-            <DropdownMenu>
+            {
+                isAuthenticated ? <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Avatar className="bg-black">
                         <AvatarFallback className="bg-secondary text-primary cursor-pointer font-extrabold">
@@ -92,7 +100,7 @@ function HeaderRightContent() {
                 <DropdownMenuContent side="right" className="w-56">
                     <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate('/user/userProfile')}>
+                    <DropdownMenuItem onClick={() => navigate('/userProfile')}>
                         <UserCog className="mr-2 w-4 h-4" />
                         Account
                     </DropdownMenuItem>
@@ -105,18 +113,31 @@ function HeaderRightContent() {
                 
 
                 </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> : (
+                    <div className="flex gap-5">
+                        <Link className="font-medium  bg-secondary text-primary p-2 rounded-lg" to="/auth/register">
+                            Register
+                        </Link>
+                        <Link className="font-medium  bg-secondary text-primary p-2 rounded-lg" to="/auth/login">
+                            Login
+                        </Link>
+                    </div>
+                )
+            }
+            
         </div>
     );
 }
 
 function Header() {
+
     return (
         <header className="sticky top-0 w-full text-primary bg-[#05080e]">
             <div className="flex h-16 items-center justify-between px-4 md:px-6">
-                <Link to="/user/home" className="flex items-center gap-2">
+                <Link to="/" className="flex items-center gap-2">
                     <span className="font-bold">D-ALil</span>
                 </Link>
+
                 <Sheet>
                     <SheetTrigger asChild>
                         <Button variant="outline" size="icon" className="lg:hidden bg-secondary border-none">
@@ -132,9 +153,11 @@ function Header() {
                 <div className="hidden lg:block">
                     <MenuItems />
                 </div>
-                <div className="hidden lg:block">
+                    <div className="hidden lg:block">
                     <HeaderRightContent />
                 </div>
+                
+            
             </div>
         </header>
     );

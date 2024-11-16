@@ -114,7 +114,7 @@ function UserMessages() {
     return (
         <div>
             <div className='flex w-full justify-end'>
-                <Button className="bg-secondary dark:text-primary" onClick = {()=> navigate('/user/userProfile/AllMessages')}>Show All Messages</Button>
+                <Button className="bg-secondary dark:text-primary" onClick = {()=> navigate('/userProfile/AllMessages')}>Show All Messages</Button>
             </div>
             <div className='flex justify-center gap-10 flex-wrap w-full'>
             {messages.messages && messages.messages.length > 0 ? (

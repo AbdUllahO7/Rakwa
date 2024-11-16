@@ -10,26 +10,26 @@ const adminSideBarMenuItems = [
     {
         id: 'dashboard',
         label: 'Dashboard',
-        path: '/user/userProfile/dashboard',
+        path: '/userProfile/dashboard',
         icon: <LayoutDashboard />
     },
     {
         id: 'business',
         label: 'Business',
-        path: '/user/userProfile/UserBusiness',
+        path: '/userProfile/UserBusiness',
         icon: <Network />
     },
     {
         id: 'messages',
         label: 'Messages',
-        path: '/user/userProfile/Messages',
+        path: '/userProfile/Messages',
         icon: <MessageCircle />,
         notifications: 0, // Default to 0, we'll update this dynamically
     },
     {
         id: 'plan',
         label: 'Pricing Plan',
-        path: '/user/userProfile/PricingPlan',
+        path: '/userProfile/PricingPlan',
         icon: <DollarSign />,
         notifications: 0, // Default to 0, we'll update this dynamically
     },

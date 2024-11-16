@@ -9,20 +9,20 @@ function BusinessAllUserCard({ business  }) {
 
 
     return (
-        <div className="max-w-full relative sm:max-w-sm md:max-w-md lg:max-w-lg w-[300px] bg-white dark:bg-black  h-[390px]  rounded-xl 
-            shadow-xl dark:border-gray-200 dark:border p-2  hover:bg-gray-100 dark:hover:bg-secondary hover:-translate-y-1 duration-200 cursor-pointer" onClick={()=> navigate(`/user/BusinessDetails/${business?._id}`)}>
+        <div className="max-w-full relative sm:max-w-sm md:max-w-md lg:max-w-lg w-[300px] bg-white dark:bg-black  h-[420px]  rounded-xl 
+            shadow-xl dark:border-gray-200 dark:border p-2  hover:bg-gray-100 dark:hover:bg-secondary hover:-translate-y-1 duration-200 cursor-pointer" onClick={()=> navigate(`/BusinessDetails/${business?._id}`)}>
         <div className=''>
                 <img 
-                    className="rounded-t-lg w-full h-full" 
+                    className="rounded-t-lg w-full h-[220px] " 
                     src={business?.images} 
                     alt="Business" 
                 />
             </div>
             <div className="p-3">
-                    <h5 className="mb-1 text-lg sm:text-xl font-bold  text-start  overflow-clip dark:text-primary">
+                    <h5 className="mb-1 text-lg sm:text-xl font-bold  text-start  overflow-clip dark:text-primary line-clamp-1">
                             {business?.title}
                         </h5>
-                        <p className="mb-1 font-normal w-full text-sm sm:text-base text-start  overflow-clip line-clamp-2 dark:text-primary">
+                        <p className="mb-1 font-normal w-full text-sm sm:text-base text-start  overflow-clip line-clamp-2 dark:text-primary ">
                             {business?.description}
                         </p>
                 <div className="flex flex-col gap-1 mt-1">

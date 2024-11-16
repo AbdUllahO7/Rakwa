@@ -4,13 +4,12 @@ import SortByComponent from "@/components/common/SortByComponent";
 import { fetchAllSubCategory } from "@/store/adminSlice/AdminCategory";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { handleFilter  } from "@/utils/filterUtils";
 import BusinessComponent from "@/components/UserComponents/BusinessComponent";
 
 function SingleCategory() {
     const { id } = useParams();
-    const navigate = useNavigate();
     const [filters, setFilters] = useState({}); 
     const { SubCategoriesList } = useSelector(state => state.SubCategoriesList);
     const dispatch = useDispatch();
@@ -32,10 +31,6 @@ function SingleCategory() {
     const handleSort = (value) => {
         setSort(value); // Update sort state
     };
-
-
-    console.log(SubCategoriesList)
-
 
 
     return (

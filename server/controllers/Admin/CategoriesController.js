@@ -144,9 +144,6 @@ const getAllSubCategories = async (req, res) => {
 };
 
 
-
-
-
 const deleteSubCategory = async (req, res) => {
     try {
         const { categoryId, subCategoryId } = req.params; // Get the IDs from the request params

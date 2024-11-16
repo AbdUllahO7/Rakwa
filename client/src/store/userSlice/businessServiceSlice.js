@@ -65,6 +65,19 @@ export const fetchBusinessByUserId = createAsyncThunk('/BusinessAndService/fetch
     return response.data;
 });
 
+// Async thunk to update 'open' value
+export const updateOpenValue = createAsyncThunk(
+    'business/updateOpenValue',
+    async ({ id, open }, { rejectWithValue }) => {
+        try {
+            const response = await axios.put(`http://localhost:5000/api/BusinessAndService/${id}/open`, { open });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
 const businessServiceSlice = createSlice({
     name: 'businessService',
     initialState,
@@ -162,6 +175,7 @@ const businessServiceSlice = createSlice({
             
     },
 });
+
 
 
 export const { setDetails } = businessServiceSlice.actions;

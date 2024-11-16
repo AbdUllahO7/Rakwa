@@ -27,7 +27,7 @@ const calculateAverageRating = (ratings) => {
 function BusinessDetails() {
     const { id } = useParams();
     const { singleBusiness, isLoading } = useSelector(state => state.singleBusiness);
-    const {comments} = useSelector(state=> state.comments); // this will return a data {userId, businessID, comment, overallRating, customerService, prices }
+    const {comments} = useSelector(state=> state.comments); 
     const dispatch = useDispatch();
    // Define states for rating, comment, and additional fields as needed
     const [comment, setComment] = useState("");
@@ -45,7 +45,6 @@ function BusinessDetails() {
     const averageOverallRating = calculateAverageRating(overallRatings);
     const averageCustomerServiceRating = calculateAverageRating(customerServiceRatings);
     const averagePriceRating = calculateAverageRating(priceRatings);
-
     useEffect(() => {
         window.scrollTo(0, 0); // Scroll to the top of the page on mount
         dispatch(fetchBusinessById(id));
@@ -94,6 +93,8 @@ function BusinessDetails() {
     const showMoreReviews = () => {
         setReviewsToShow(prev => prev + 4); // Increase the number of reviews displayed by 6
     };
+
+
     return (
         <div className="relative">
             
