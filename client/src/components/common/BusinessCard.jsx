@@ -45,7 +45,7 @@ function BusinessCard({ business, isAdmin }) {
     };
 
     return (
-        <div className="max-w-full relative sm:max-w-sm md:max-w-md lg:max-w-lg w-[300px] bg-white dark:bg-black rounded-lg shadow">
+        <div className="max-w-full relative sm:max-w-sm md:max-w-md lg:max-w-lg w-[300px] bg-secondary  rounded-lg shadow">
             <div>
                 <img
                     className="rounded-t-lg w-20 h-20 sm:w-28 sm:h-28 md:w-35 md:h-30 lg:w-30 lg:h-30 m-auto mt-5"
@@ -53,34 +53,34 @@ function BusinessCard({ business, isAdmin }) {
                     alt="Business"
                 />
                 <span
-                    className={`${business?.Accept ? 'bg-green-700' : 'bg-red-900'} absolute top-0 text-primary rounded-lg flex items-center gap-1 
+                    className={`${business?.Accept ? 'bg-hover' : 'bg-red-900'} absolute top-0 text-primary rounded-lg flex items-center gap-1 
                         text-xs w-fit p-1 text-center`}
                 >
                     {business?.Accept ? <CircleCheckBig className="size-1" /> : <BadgeAlert className="size-3" />}
                     {business?.Accept ? 'Accept' : 'Not Accept'}
                 </span>
                 <span
-                    className={`${business?.Accept ? 'bg-green-700' : 'bg-red-900'} absolute top-0 right-0 text-primary rounded-lg flex items-center gap-1 
+                    className={`${business?.Accept ? 'bg-hover' : 'bg-red-900'} absolute top-0 right-0 text-primary rounded-lg flex items-center gap-1 
                         text-xs w-fit p-1 text-center`}
                 >
                     {business.BusinessType}
                 </span>
             </div>
             <div className="p-3">
-                <h5 className="mb-1 text-lg sm:text-xl font-bold text-center overflow-clip">
+                <h5 className="mb-1 text-lg sm:text-xl font-bold text-center overflow-clip text-title">
                     {business?.title}
                 </h5>
-                <p className="mb-1 font-normal w-full text-sm sm:text-base text-center overflow-clip line-clamp-2">
+                <p className="mb-1 font-normal w-full text-sm sm:text-base text-center overflow-clip line-clamp-2 text-description">
                     {business?.description}
                 </p>
                 <Separator />
                 <div className="flex flex-col gap-1 mt-1">
                     <div>
-                        <h2 className="font-bold text-secondary text-md sm:text-lg dark:text-primary">Categories </h2>
+                        <h2 className="font-bold text-title text-md sm:text-lg ">Categories </h2>
                         <div className="flex rounded-lg flex-wrap items-center gap-1 p-1">
                             {business?.category?.map((cat, index) => (
                                 <div key={index} className="flex items-center mt-1">
-                                    <span className="font-bold text-sm bg-primary p-1 rounded-md sm:text-base dark:bg-secondary">
+                                    <span className="font-bold text-sm bg-hover p-1 rounded-md sm:text-base ">
                                         {cat?.title}
                                     </span>
                                 </div>
@@ -89,11 +89,11 @@ function BusinessCard({ business, isAdmin }) {
                     </div>
 
                     <div>
-                        <h2 className="font-bold text-secondary text-md sm:text-lg dark:text-primary">Sub Categories</h2>
+                        <h2 className="font-bold text-title text-md sm:text-lg ">Sub Categories</h2>
                         <div className="flex rounded-lg flex-wrap items-center gap-1 p-1">
                             {business?.subCategoryDetails?.map((subCat, index) => (
                                 <div key={index} className="flex items-center">
-                                    <span className="font-bold text-sm bg-primary p-1 rounded-md sm:text-base dark:bg-secondary">
+                                    <span className="font-bold text-sm bg-hover p-1 rounded-md sm:text-base">
                                         {subCat?.title}
                                     </span>
                                 </div>
@@ -103,16 +103,16 @@ function BusinessCard({ business, isAdmin }) {
                     {isAdmin ? (
                         <Button
                             onClick={() => navigate(`/admin/BusinessInfo/${business?._id}`)}
-                            className="bg-secondary mt-3 w-full sm:w-auto mx-auto dark:text-primary"
+                            className="bg-hover mt-3 w-full sm:w-auto mx-auto "
                         >
                             <Info className="mr-2 dark:text-primary" /> Show All Details
                         </Button>
                     ) : (
                         <Button
                             onClick={() => navigate(`/userProfile/BusinessInfo/${business?._id}`)}
-                            className="bg-secondary mt-3 w-full sm:w-auto mx-auto dark:text-primary"
+                            className="bg-hover mt-3 w-full sm:w-auto mx-auto dark:text-primary"
                         >
-                            <Info className="mr-2 dark:text-primary" /> Show All Details
+                            <Info className="mr-2 title-description" /> Show All Details
                         </Button>
                     )}
                 </div>
@@ -123,7 +123,7 @@ function BusinessCard({ business, isAdmin }) {
                             <div
                                 onClick={handleToggle}
                                 className={`w-14 h-8 flex items-center rounded-full cursor-pointer p-1 
-                                        ${isClose ? 'bg-secondary' : 'bg-red-900'}`}
+                                        ${isClose ? 'bg-hover' : 'bg-red-900'}`}
                             >
                                 <div
                                     className={`w-6 h-6 rounded-full bg-white shadow-md transform transition-transform duration-300 
@@ -132,7 +132,7 @@ function BusinessCard({ business, isAdmin }) {
                                     {isClose ? (
                                         <Check className="w-5 h-5 text-gray-700 mx-auto mt-0.5" />
                                     ) : (
-                                        <LockClosedIcon className="w-5 h-5 text-yellow-400 mx-auto mt-0.5" />
+                                        <LockClosedIcon className="w-5 h-5 text-title mx-auto mt-0.5" />
                                     )}
                                 </div>
                             </div>
@@ -140,7 +140,7 @@ function BusinessCard({ business, isAdmin }) {
                             </div>
                         ) 
                     }
-                   
+                
             </div>
         </div>
     );

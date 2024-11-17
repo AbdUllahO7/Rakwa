@@ -65,7 +65,7 @@ theme: {
 				},
 				foreground: {
 					DEFAULT: 'hsl(var(--foreground))',
-					dark: '#e0e0e0', // Dark mode foreground color
+					dark: '#150016', // Dark mode foreground color
 				},
 			card: {
 				DEFAULT: 'hsl(var(--card))',
@@ -80,8 +80,18 @@ theme: {
 				foreground: 'hsl(var(--primary-foreground))',
 			},
 			secondary: {
-				DEFAULT: '#01301e',
+				DEFAULT: '#150016',
 				foreground: 'hsl(var(--secondary-foreground))'
+			},
+			hover: {
+				DEFAULT: '#522c5d',
+				foreground: 'hsl(var(--secondary-foreground))'
+			},
+			title: {
+				DEFAULT: '#e3b6b1',
+			},
+			description: {
+				DEFAULT: '#ffe3d8',
 			},
 			muted: {
 				DEFAULT: 'hsl(var(--muted))',

@@ -4,7 +4,7 @@ import {   Calendar, Heart, Rss, User } from 'lucide-react'
 import PropTypes from 'prop-types';
 function Blog({product}) {
   return (
-    <Card className="w-full max-w-sm mx-auto  duration-500 hover:bg-gray-100  dark:hover:bg-secondary  shadow-lg hover:-translate-y-3 cursor-pointer mb-2">
+    <Card className="w-full max-w-sm mx-auto  duration-500 hover:bg-hover bg-secondary  shadow-lg hover:-translate-y-3 cursor-pointer mb-2">
 
     <div className="" >
         <div className="relative">
@@ -18,17 +18,17 @@ function Blog({product}) {
                 </Badge>
         </div>
         <CardContent className="p-4 ">
-            <h2 className="text-xl text-secondary  dark:text-primary  font-bold mb-2">{product?.title}</h2>
-            <p className='line-clamp-2'>{product?.content}</p>
+            <h2 className="text-xl text-title    font-bold mb-2">{product?.title}</h2>
+            <p className='line-clamp-2 text-description'>{product?.content}</p>
         </CardContent>
         <CardFooter className="flex justify-between border-t mt-1 pt-3">
             <div className="flex justify-between items-center mb-2 gap-2">
-                <User className='size-5'/>
-                <span className="text-md text-secondary  dark:text-primary  font-bold ">{product?.author}</span>
+                <User className='size-5 text-description'/>
+                <span className="text-md text-description   font-bold ">{product?.author}</span>
             </div>
             <div className="flex justify-between items-center mb-2 gap-2">
-                <Calendar className='size-5'/>
-                <span className="text-md text-secondary  dark:text-primary  font-bold ">{product?.date}</span>
+                <Calendar className='size-5 text-description'/>
+                <span className="text-md text-description   font-bold ">{product?.date}</span>
             </div>
         </CardFooter>
     </div>

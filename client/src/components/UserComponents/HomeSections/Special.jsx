@@ -4,7 +4,7 @@ import {   Heart, Link, Zap } from 'lucide-react'
 import PropTypes from 'prop-types';
 function Special({product}) {
     return (
-            <Card className="w-full max-w-sm mx-auto  duration-500 hover:bg-gray-100 dark:hover:bg-secondary  shadow-lg hover:-translate-y-3 cursor-pointer mb-2">
+            <Card className="w-full max-w-sm mx-auto bg-secondary  duration-500 hover:bg-hover   shadow-lg hover:-translate-y-3 cursor-pointer mb-2">
 
                 <div className="" >
                     <div className="relative">
@@ -21,9 +21,9 @@ function Special({product}) {
                             </Badge>
                     </div>
                     <CardContent className="p-4">
-                        <h2 className="text-xl text-secondary dark:text-primary font-bold mb-2">{product?.title}</h2>
+                        <h2 className="text-xl text-title  font-bold mb-2">{product?.title}</h2>
                         <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm text-secondary  dark:text-primary ">{product?.category}</span>
+                            <span className="text-sm text-description  dark:text-primary ">{product?.category}</span>
                         </div>
                     </CardContent>
                 </div>

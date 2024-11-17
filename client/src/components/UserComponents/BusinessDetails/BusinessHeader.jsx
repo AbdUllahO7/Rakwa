@@ -37,11 +37,11 @@ function BusinessHeader({
             <div className="flex justify-center items-end gap-6 w-[600px] flex-wrap ">
                 <img src={images} alt="" className="rounded-lg w-[200px]" />
                 <div className="flex gap-2">
-                    <Button className="bg-secondary rounded-lg hover:bg-green-900 duration-300 dark:text-primary"><Star /></Button>
-                    <Button className="bg-secondary rounded-lg hover:bg-green-900 duration-300 dark:text-primary"><Share /></Button>
-                    <Button className="bg-secondary rounded-lg hover:bg-green-900 duration-300 dark:text-primary"><Save /></Button>
-                    <Button className="bg-secondary rounded-lg hover:bg-green-900 duration-300 dark:text-primary"><PhoneCall /></Button>
-                    <Button className="bg-secondary rounded-lg hover:bg-green-900 duration-300 dark:text-primary"><QrCode /></Button>
+                    <Button className="bg-secondary rounded-lg hover:bg-hover duration-300 dark:text-primary"><Star /></Button>
+                    <Button className="bg-secondary rounded-lg hover:bg-hover duration-300 dark:text-primary"><Share /></Button>
+                    <Button className="bg-secondary rounded-lg hover:bg-hover duration-300 dark:text-primary"><Save /></Button>
+                    <Button className="bg-secondary rounded-lg hover:bg-hover duration-300 dark:text-primary"><PhoneCall /></Button>
+                    <Button className="bg-secondary rounded-lg hover:bg-hover duration-300 dark:text-primary"><QrCode /></Button>
                 </div>
                 <div className="flex gap-4 mt-6">
                     <div className="flex flex-col items-center">
