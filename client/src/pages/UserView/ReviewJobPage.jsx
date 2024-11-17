@@ -19,13 +19,13 @@ function ReviewJobPage() {
             </div>
             <div className='flex gap-5'>
                 <Button className="bg-secondary mt-10 dark:text-primary"
-                    onClick={()=> navigate('/user/home') }
+                    onClick={()=> navigate('/') }
                 >
                     <Home className='mr-2 dark:text-primary'/>
                     Go To Home 
                 </Button>
                 <Button className="bg-secondary mt-10 dark:text-primary" 
-                    onClick={()=> navigate('/user/userProfile') }
+                    onClick={()=> navigate('/userProfile') }
                 >
                     <User className='mr-2 dark:text-primary'/>
                     Go To Profile 

@@ -24,9 +24,9 @@ exports.handleImageUpload = async (req, res) => {
 // Create a new business
 exports.createBusiness = async (req, res) => {
     // Determine required fields based on BusinessType
-    const { BusinessType, category = [] , subCategory = [], features = [] } = req.body;
+    const { BusinessType, category = [] , subCategory = [], features = []  } = req.body;
     
-    const commonRequiredFields = ['title', 'description', 'BusinessType', 'category', 'owner', 'email', 'images'];
+    const commonRequiredFields = ['title', 'description', 'BusinessType', 'category', 'owner', 'email', 'images' , 'BusinessOrAd'];
     const locationRequiredFields = BusinessType === "Location" ? ['country', 'state', 'city', 'fullAddress'] : [];
     const requiredFields = [...commonRequiredFields, ...locationRequiredFields];
     
@@ -246,7 +246,6 @@ exports.updateBusiness = async (req, res) => {
         res.status(400).json({ success: false, message: error.message });
     }
 };
-
 
 
 // Delete a business by ID

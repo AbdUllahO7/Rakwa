@@ -1,7 +1,7 @@
 - create blog section in backend , create in the admin dashboard 
 - user create blog ???! (why no ? why yes ? ) 
-- update the business and make user add ads (maybe add a column in db and make user chose ad or business  )! 
-- create save business buttons work ! (done)
+- (done) update the business and make user add ads (maybe add a column in db and make user chose ad or business  )! 
+- (done) create save business buttons work ! 
 - create follow users buttons ! 
 - !!! fix the imageList in the business !!! dose not work 
 - business share buttons not work ! 

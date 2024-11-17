@@ -65,6 +65,12 @@ function BusinessCard({ business, isAdmin }) {
                 >
                     {business.BusinessType}
                 </span>
+                <span
+                    className={` bg-hover absolute top-40 text-primary rounded-lg flex items-center gap-1 
+                        text-xs w-fit p-1 text-center`}
+                >
+                    {business?.BusinessOrAd}
+                </span>
             </div>
             <div className="p-3">
                 <h5 className="mb-1 text-lg sm:text-xl font-bold text-center overflow-clip text-title">

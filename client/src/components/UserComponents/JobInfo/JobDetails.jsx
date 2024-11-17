@@ -25,7 +25,7 @@ const initialFormData = {
     images: null,
 };
 
-export function JobDetails({ selectedCategoryIds, selectedSubCategoryIds }) {
+export function JobDetails({ selectedCategoryIds, selectedSubCategoryIds , selectedBusinessOrAd }) {
 
     const [formData, setFormData] = useState(initialFormData);
     const [imageFile, setImageFile] = useState(null);
@@ -52,6 +52,7 @@ export function JobDetails({ selectedCategoryIds, selectedSubCategoryIds }) {
             ...formData,
             images: uploadedImageUrl,
             owner: user?.id,
+            BusinessOrAd : selectedBusinessOrAd
         };
     
         // Remove or set default values for location-specific fields for Online Business
@@ -167,4 +168,5 @@ export function JobDetails({ selectedCategoryIds, selectedSubCategoryIds }) {
 JobDetails.propTypes = {
     selectedCategoryIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     selectedSubCategoryIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    selectedBusinessOrAd : PropTypes.string.isRequired,
 };
