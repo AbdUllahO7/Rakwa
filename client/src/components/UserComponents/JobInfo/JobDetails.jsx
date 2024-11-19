@@ -51,7 +51,7 @@ export function JobDetails({ selectedCategoryIds, selectedSubCategoryIds , selec
         const formSubmissionData = {
             ...formData,
             images: uploadedImageUrl,
-            owner: user?.id,
+            owner: user?._id,
             BusinessOrAd : selectedBusinessOrAd
         };
     

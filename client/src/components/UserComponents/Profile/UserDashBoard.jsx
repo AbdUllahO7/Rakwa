@@ -9,8 +9,8 @@ function UserDashBoard() {
     const dispatch = useDispatch();
     
     useEffect(()=> {
-        dispatch(fetchBusinessByUserId(user?.id))
-    } , [dispatch, user?.id])
+        dispatch(fetchBusinessByUserId(user?._id))
+    } , [dispatch, user?._id])
 
 
     return (

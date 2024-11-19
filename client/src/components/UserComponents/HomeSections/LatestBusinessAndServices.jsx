@@ -34,14 +34,14 @@ function LatestBusinessAndServices({ product }) {
 
     useEffect(()=> {
         if(isAuthenticated){
-            dispatch(getFavorites(user?.id))
+            dispatch(getFavorites(user?._id))
         }
-    } ,[dispatch, isAuthenticated, user?.id])
+    } ,[dispatch, isAuthenticated, user?._id])
 
     const handleHeartClick = (event) => {
         event.stopPropagation(); // This will stop the event from bubbling up to the Card onClick
         if(isAuthenticated){
-            dispatch(createFavorite({ userId : user?.id , businessIds : [product?._id] }))
+            dispatch(createFavorite({ userId : user?._id , businessIds : [product?._id] }))
             .then((data) => {
                 if (data?.payload?.success) {
                     toast({

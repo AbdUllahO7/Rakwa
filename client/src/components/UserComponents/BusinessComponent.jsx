@@ -6,7 +6,6 @@ import Pagination from "../common/Pagination";
 
 import PropTypes from 'prop-types';
 
-
 function BusinessComponent({sort}) {
     const { businessList } = useSelector(state => state.businessList);
     const dispatch = useDispatch();

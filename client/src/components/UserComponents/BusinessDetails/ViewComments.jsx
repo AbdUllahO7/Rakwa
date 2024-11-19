@@ -11,7 +11,7 @@ function ViewComments({
   return (
     <>
         <div className="mb-10 w-full">
-            <h1 className="font-bold text-2xl text-secondary">Customer Reviews</h1>
+            <h1 className="font-bold text-2xl ">Customer Reviews</h1>
             <div className="flex flex-wrap w-full gap-7">
             {comments && comments.length > 0 ? (
                 comments.slice(0, reviewsToShow).map((commentItem, index) => (

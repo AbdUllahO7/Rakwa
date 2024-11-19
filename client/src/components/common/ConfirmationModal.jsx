@@ -6,7 +6,7 @@ function ConfirmationModal({ isOpen, onClose, onConfirm, message }) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+            <div className="dark:bg-hover p-6 rounded-lg shadow-lg w-80">
                 <h3 className="text-lg font-semibold">Confirmation</h3>
                 <p className="my-4">{message}</p>
                 <div className="flex justify-between">

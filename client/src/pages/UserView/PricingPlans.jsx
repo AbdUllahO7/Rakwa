@@ -1,15 +1,23 @@
+import { Button } from "@/components/ui/button";
 import { fetchAllPricingPlan } from "@/store/adminSlice/AdminPricingPlan";
+import { makePayment } from "@/utils/Payment";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 function PricingPlans() {
     const dispatch = useDispatch();
     const { PricingPlanList } = useSelector((state) => state.PricingPlanList);
-
+    const { user } = useSelector((state) => state.auth);
     useEffect(() => {
         dispatch(fetchAllPricingPlan());
     }, [dispatch]);
+
+
+    // Call makePayment with selected plan and user
+    const handlePayment = (SelectedPlan) => {
+        makePayment(SelectedPlan, user);
+    };
+    
 
     return (
         <section className="py-12">
@@ -48,9 +56,11 @@ function PricingPlans() {
                                             ))}
                                         </ul>
                                         <div className="flex justify-center">
-                                            <Link to = "/user/JobInfo"  className="dark:text-primary py-3 px-6 font-medium border rounded-md border-secondary text-secondary hover:bg-secondary hover:text-white transition-all duration-500">
+                                        <Button 
+                                                onClick={()=> handlePayment(PricingPlan)}
+                                                className="bg-secondary py-3 px-6 font-medium border rounded-md border-secondary text-description hover:bg-hover  transition-all duration-500">
                                                 Get {PricingPlan.title}
-                                            </Link>
+                                            </Button>
                                         </div>
                                     </div>
                                 </div>

@@ -15,10 +15,10 @@ function UserBusiness() {
 
     // Effects
     useEffect(() => {
-        if (user?.id) {
-            dispatch(fetchBusinessByUserId(user.id));
+        if (user?._id) {
+            dispatch(fetchBusinessByUserId(user?._id));
         }
-    }, [dispatch, user?.id]);
+    }, [dispatch, user?._id]);
 
     // Handle page change
     const handlePageChange = (newPage) => {

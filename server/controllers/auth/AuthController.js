@@ -94,24 +94,42 @@ const logoutUser = (req, res) => {
 }
 
 // Authentication middleware: Verifies if the user is authenticated by checking the JWT token in cookies
+
 const authMiddleware = async (req, res, next) => {
     const token = req.cookies.token; // Retrieve token from cookies
-    if(!token) return res.status(401).json({
-        success: false,
-        message: "User not authenticated"
-    });
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: "User not authenticated"
+        });
+    }
 
     try {
         // Verify the JWT token
         const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY');
-        req.user = decoded; // Attach the decoded token data (user info) to the request object
+        
+        // Fetch user data from the database using the decoded user ID
+        const user = await User.findById(decoded.id).populate('PlanType'); // Populate PlanType with plan details
+        
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        // Attach user object to the request
+        req.user = user;
+
         next(); // Continue to the next middleware or route handler
     } catch (error) {
+        console.error('Authentication error:', error);
         res.status(401).json({
             success: false,
             message: "User not authenticated"
         });
     }
 }
+
 
 module.exports = { registerUser, loginUser, logoutUser, authMiddleware };

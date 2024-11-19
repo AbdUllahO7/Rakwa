@@ -19,7 +19,7 @@ function BusinessAllUserCard({ business  }) {
                 />
             </div>
             <div className="p-3">
-                    <h5 className="mb-1 text-lg sm:text-xl font-bold  text-start  overflow-clip text-title line-clamp-1">
+                    <h5 className="mb-1 text-lg sm:text-xl font-bold  text-start  overflow-clip text-title  line-clamp-1">
                             {business?.title}
                         </h5>
                         <p className="mb-1 font-normal w-full text-sm sm:text-base text-start  overflow-clip line-clamp-2 text-description ">

@@ -19,6 +19,11 @@ const CategoriesRoutes = require('./routes/admin/CategoryRoutes')
 const PricingPlanRoutes = require('./routes/admin/PricingRoutes')
 
 
+// stripe 
+const stripeRoutes = require('./routes/stripe.js');
+
+
+
 mongoose
     .connect('mongodb+srv://abdallahalhasan2:8XExYjkzG8VOyrZ3@cluster0.wam8n.mongodb.net/myDatabase?retryWrites=true&w=majority')
     .then(() => console.log("MongoDB connected"))
@@ -61,6 +66,11 @@ app.use('/api/FavoritesRouter' , FavoritesRouter)
 // admin 
 app.use('/api/AdminCategories', CategoriesRoutes)
 app.use('/api/AdminPricingPlan', PricingPlanRoutes)
+
+
+// stripe 
+app.use('/api/stripe', stripeRoutes)
+
 
 
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));

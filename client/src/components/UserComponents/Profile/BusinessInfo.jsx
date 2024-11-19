@@ -113,7 +113,7 @@ function BusinessInfo({ isAdmin }) {
           ...businessData,
           features: featuresArray, // Save as an array
           images: imageUrl,
-          owner: user?.id,
+          owner: user?._id,
         },
         selectedCategoryIds: selectedCategories,
         selectedSubCategoryIds: selectedSubCategories,
@@ -131,7 +131,7 @@ function BusinessInfo({ isAdmin }) {
         variant: 'error',
       });
     }
-  }, [businessData, imageFile, businessId, selectedCategories, selectedSubCategories, user?.id, dispatch, toast]);
+  }, [businessData, imageFile, businessId, selectedCategories, selectedSubCategories, user?._id, dispatch, toast]);
   
 
   const handleDeleteBusiness = useCallback(async () => {    
@@ -141,11 +141,11 @@ function BusinessInfo({ isAdmin }) {
             title: "Messages deleted successfully",
             variant: 'success',
         });
-        dispatch(fetchBusinessByUserId(user?.id));
+        dispatch(fetchBusinessByUserId(user?._id));
         navigate(-1)
     }
 });
-  }, [dispatch, businessId, toast, user?.id, navigate]);
+  }, [dispatch, businessId, toast, user?._id, navigate]);
 
 
   const imageUploadComponent = useMemo(() => (

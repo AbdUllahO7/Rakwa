@@ -28,8 +28,9 @@ import BusinessDetails from './pages/UserView/BusinessDetails';
 import UserMessages from './components/UserComponents/Profile/UserMessages';
 import AllMessages from './components/UserComponents/Profile/AllMessages';
 import UserPricingPlan from './components/UserComponents/Profile/UserPricingPlan';
-import Favorites from './components/UserComponents/Profile/UserFavorites';
 import UserFavorites from './components/UserComponents/Profile/UserFavorites';
+import PaymentSuccess from './pages/UserView/payment/PaymentSuccess';
+import PaymentCancel from './pages/UserView/payment/PaymentCancel';
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
@@ -38,6 +39,9 @@ function App() {
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
+
+
+
 
   // Global Loading Animation for all pages
   if (isLoading) {
@@ -69,11 +73,13 @@ function App() {
           <Route path="PricingPlans" element={<PricingPlans />} />
           <Route path="JobInfo" element={
             <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <JobInfoLayout />
+                <JobInfoLayout />
             </CheckAuth>
           } />
           <Route path="reviewJobPage" element={<ReviewJobPage />} />
-          <Route path="userProfile" element={<ProfileLayout />}>
+          <Route path="userProfile" element={  <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+            <ProfileLayout />
+          </CheckAuth>}>
             <Route path="dashboard" element={<UserDashBoard />} />
             <Route path="UserBusiness" element={<UserBusiness />} />
             <Route path="BusinessInfo/:businessId" element={<BusinessInfo isAdmin={false} />} />
@@ -84,6 +90,9 @@ function App() {
 
           </Route>
           <Route path="BusinessDetails/:id" element={<BusinessDetails />} />
+          <Route path="PaymentSuccess" element={<PaymentSuccess />} />
+          <Route path="PaymentCancel" element={<PaymentCancel />} />
+
         </Route>
 
         {/* Admin-specific routes */}

@@ -85,21 +85,21 @@ function UserSideBar({ open, setOpen }) {
 
     // Fetch the unread messages count when messages or user change
     useEffect(() => {
-        if (user?.id) {
+        if (user?._id) {
             dispatch(getMessagesByUser({ userId: user.id }));
             dispatch(getUnreadMessagesCount(user.id));
         }
-    }, [dispatch, user?.id]);
+    }, [dispatch, user?._id]);
 
     useEffect(() => {
         if (messages?.messages?.length) {
             // Filter unread messages based on 'replayed' field and match with the current user's receiver
             const unreadCount = messages.messages.filter(
-                message => message.replayed === false && message.userReceiver?._id === user?.id
+                message => message.replayed === false && message.userReceiver?._id === user?._id
             ).length;
             setUnreadMessages(unreadCount);
         }
-    }, [messages, user?.id]);
+    }, [messages, user?._id]);
     
 
 
@@ -120,7 +120,7 @@ function UserSideBar({ open, setOpen }) {
             </Sheet>
 
             <aside className="hidden w-64 flex-col border-r bg-background p-6 lg:flex">
-                <div onClick={() => navigate('/user/userProfile')} className="flex cursor-pointer items-center gap-2">
+                <div onClick={() => navigate('/userProfile')} className="flex cursor-pointer items-center gap-2">
                     <ChartNoAxesCombined size={30} />
                     <h1 className="text-2xl font-extrabold">User Panel</h1>
                 </div>

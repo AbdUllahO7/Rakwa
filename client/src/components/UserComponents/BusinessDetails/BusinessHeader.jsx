@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { renderAverageStars } from "@/utils/Star";
 import { MapPin, PhoneCall, QrCode, Save, Share, Star } from "lucide-react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 function BusinessHeader({
     averageOverallRating,
@@ -19,12 +20,13 @@ function BusinessHeader({
             <div className="flex-col gap-1 flex-wrap items-center justify-center w-[500px] text-start">
                 <h2 className="text-4xl font-bold text-secondary mb-1  ">{title}</h2>
                 {category?.map((item, index) => (
-                    <span
+                    <Link
+                        to=""
                         key={index}
                         className="bg-secondary text-primary font-bold mr-2 text-lg p-1 rounded-lg"
                     >
                         {item?.title}
-                    </span>
+                    </Link>
                 ))}
                 <p className="text-black font-bold gap-2 text-lg dark:text-primary">
                     {country} <span> {state} </span>

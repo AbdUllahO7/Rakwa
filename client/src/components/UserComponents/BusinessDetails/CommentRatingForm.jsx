@@ -15,11 +15,11 @@ function CommentRatingForm({
     setComment,
     handleSubmit 
 }) {
-  const { user , isAuthenticated } = useSelector(state => state.auth);
+    const { user , isAuthenticated } = useSelector(state => state.auth);
 
   return (
     <div className="w-full mb-10">
-        <h1 className="font-bold text-2xl text-secondary">Rating</h1>
+        <h1 className="font-bold text-2xl">Rating</h1>
         <div className="flex flex-wrap w-full justify-center items-center gap-7 mb-5">
             
             {/* Overall Rating */}
@@ -87,7 +87,7 @@ function CommentRatingForm({
                 value={comment}
                 onChange={(e) => setComment(e.target.value)} />
             <Button
-                onClick={() => handleSubmit(user?.id)}
+                onClick={() => handleSubmit(user?._id)}
                 className={`bg-secondary dark:text-primary ${(!comment && !overallRating && !customerServiceRating && !priceRating) && "opacity-50 cursor-not-allowed"}`}
                 disabled={!comment && !overallRating && !customerServiceRating && !priceRating || !isAuthenticated}
             >

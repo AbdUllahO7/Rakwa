@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Button } from '../ui/button';
 
-function AdminViewPricingPlan({ PricingPlan, setCurrentEditId, setOpenCreateProductDialog, setFormData, handleDeleteCategory }) {
+function AdminViewPricingPlan({ PricingPlan, setCurrentEditId, setOpenCreateProductDialog, setFormData, handleDeleteCategory , isAdmin , handlePayment }) {
     const featuresArray = PricingPlan.features; // Already an array if stored correctly
 
     return (
@@ -19,10 +21,13 @@ function AdminViewPricingPlan({ PricingPlan, setCurrentEditId, setOpenCreateProd
                         <li key={index} className="my-4 font-medium dark:text-gray-300">{feature}</li>
                     ))}
                 </ul>
-
+                
                 <div className="flex justify-center">
-                    <a
-                        href="#"
+                {
+                        isAdmin ? (
+                            <>
+                        <Link
+                        to="#"
                         className="py-3 px-6 font-medium border rounded-md dark:text-primary border-secondary text-secondary hover:bg-secondary hover:text-white transition-all duration-500"
                         onClick={() => {
                             setCurrentEditId(PricingPlan._id);
@@ -31,13 +36,23 @@ function AdminViewPricingPlan({ PricingPlan, setCurrentEditId, setOpenCreateProd
                         }}
                     >
                         Edit Plan
-                    </a>
-                    <button
+                    </Link>
+                    <Button
                         className="py-3 px-6 ml-4 font-medium border rounded-md border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-500"
                         onClick={() => handleDeleteCategory(PricingPlan._id)}
                     >
                         Delete Plan
-                    </button>
+                    </Button>
+                            </>
+                        ) : (
+                        <Button 
+                            onClick={()=> handlePayment(PricingPlan)}
+                            className="bg-secondary py-3 px-6 font-medium border rounded-md border-secondary text-description hover:bg-hover  transition-all duration-500">
+                            Get {PricingPlan.title}
+                        </Button>
+                        )
+                    }
+                
                 </div>
             </div>
         </div>
@@ -56,6 +71,8 @@ AdminViewPricingPlan.propTypes = {
     setOpenCreateProductDialog: PropTypes.func.isRequired,
     setFormData: PropTypes.func.isRequired,
     handleDeleteCategory: PropTypes.func.isRequired,
+    isAdmin : PropTypes.bool,
+    handlePayment : PropTypes.func,
 };
 
 export default AdminViewPricingPlan;

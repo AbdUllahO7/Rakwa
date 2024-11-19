@@ -2,13 +2,14 @@
 - user create blog ???! (why no ? why yes ? ) 
 - (done) update the business and make user add ads (maybe add a column in db and make user chose ad or business  )! 
 - (done) create save business buttons work ! 
-- create follow users buttons ! 
 - !!! fix the imageList in the business !!! dose not work 
-- business share buttons not work ! 
+- (done) business share buttons not work ! 
 -
 
 --------------------------------------------------------------------------------------------------------- 
 
-- !! add a strapi pay method !! 
-- make user change the plan !! 
-- 
+- (done) !! add a strapi pay method  !! 
+-(done) make user change the plan !! 
+- create the smiler business in backend !!  
+- add filter with category ! 
+- make the businessList get the accept !!! 

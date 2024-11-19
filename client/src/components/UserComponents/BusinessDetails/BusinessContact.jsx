@@ -102,7 +102,7 @@ const BusinessContact = ({ singleBusiness }) => {
             // You would need to adjust the form data to match the API endpoint requirements
             const formData = {
                 ...message,
-                userSender: user?.id,  // Add dynamic user ID if available
+                userSender: user?._id,  // Add dynamic user ID if available
                 userReceiver: singleBusiness?.owner?._id,  // Add dynamic receiver ID if available
                 business: singleBusiness?._id,  // Pass business ID
             };

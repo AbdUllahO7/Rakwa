@@ -18,7 +18,7 @@ function UserFavorites() {
 
 
     useEffect(() => {
-        if (user?.id) {
+        if (user?._id) {
             dispatch(getFavorites(user.id)).then((data) => {
                 if (data?.payload?.success) {
                     toast({

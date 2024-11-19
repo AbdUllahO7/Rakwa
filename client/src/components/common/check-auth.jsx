@@ -4,6 +4,7 @@ import { Navigate, useLocation } from "react-router-dom";
 function CheckAuth({ isAuthenticated, user, children }) {
     const location = useLocation();
 
+
     // Allow access to the home page ("/") without authentication
     if (location.pathname === '/') {
         return <>{children}</>;

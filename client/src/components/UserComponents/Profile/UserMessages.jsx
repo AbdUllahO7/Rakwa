@@ -21,13 +21,13 @@ function UserMessages() {
     const { toast } = useToast();
 
     useEffect(() => {
-        dispatch(getMessagesByUser({userId : user?.id}));
-    }, [dispatch, user?.id]);
+        dispatch(getMessagesByUser({userId : user?._id}));
+    }, [dispatch, user?._id]);
 
     function handleDeleteMessage(messageId) {
         dispatch(deleteMessage(messageId)).then(data => {
             if (data?.payload?.success) {
-                dispatch(getMessagesByUser({userId : user?.id}));
+                dispatch(getMessagesByUser({userId : user?._id}));
                 toast({
                     title: "Message deleted successfully",
                     variant: 'success',
@@ -62,7 +62,7 @@ function UserMessages() {
             const formData = {
                 message: replyMessage,
                 subject: replyMessageSubject,
-                userSender: user?.id,  // Sender ID
+                userSender: user?._id,  // Sender ID
                 userReceiver: selectedMessage?.userSender?._id, // Receiver ID
                 business: selectedMessage?.business?._id,  // Business ID
             };
@@ -83,7 +83,7 @@ function UserMessages() {
                                     // Optionally, you can trigger a refresh of messages or any other state update
                                 }
                             });
-                            dispatch(getMessagesByUser({userId : user?.id}));
+                            dispatch(getMessagesByUser({userId : user?._id}));
 
 
                     }
@@ -101,7 +101,7 @@ function UserMessages() {
             setReplyMessage('');
             setReplyMessageSubject('');
             setOpenDialog(false); // Close the dialog after sending the reply
-            dispatch(getMessagesByUser(user?.id)); // Refresh messages
+            dispatch(getMessagesByUser(user?._id)); // Refresh messages
         } else {
             toast({
                 title: "Please write a message",
@@ -119,7 +119,7 @@ function UserMessages() {
             <div className='flex justify-center gap-10 flex-wrap w-full'>
             {messages.messages && messages.messages.length > 0 ? (
             messages.messages
-            .filter((message) => message.userReceiver._id === user?.id && message.replayed === false) // Filter only messages for the current user and with replayed === false
+            .filter((message) => message.userReceiver._id === user?._id && message.replayed === false) // Filter only messages for the current user and with replayed === false
             .map((message, index) => (
                 <div
                 className="shadow-xl h-fit w-[300px] flex flex-col justify-center items-center gap-7 p-10 dark:bg-secondary"

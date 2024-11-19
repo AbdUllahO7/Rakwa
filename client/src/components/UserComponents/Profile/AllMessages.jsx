@@ -31,16 +31,16 @@ function AllMessages() {
     }
 
     useEffect(() => {
-        if (user?.id) {
+        if (user?._id) {
             dispatch(
                 getMessagesByUser({
-                    userId: user?.id,
+                    userId: user?._id,
                     sort: sort,
                     search: search, // Pass the search term here
                 })
             );
         }
-    }, [dispatch, sort, user?.id, currentPage, search]); // Add searchTerm to the dependency array
+    }, [dispatch, sort, user?._id, currentPage, search]); // Add searchTerm to the dependency array
     
     function handleSearch(e) {
         setSearch(e.target.value);
@@ -57,13 +57,13 @@ function AllMessages() {
 
 
     function handleConfirmDelete() {
-        dispatch(deleteAllMessages({ userId: user?.id, type: MessageType })).then((data) => {
+        dispatch(deleteAllMessages({ userId: user?._id, type: MessageType })).then((data) => {
             if (data?.payload?.success) {
                 toast({
                     title: "Messages deleted successfully",
                     variant: 'success',
                 });
-                dispatch(getMessagesByUser(user?.id));
+                dispatch(getMessagesByUser(user?._id));
             }
         });
         setIsModalOpen(false);
@@ -77,8 +77,8 @@ function AllMessages() {
     // Calculate paginated messages
     const filteredMessages = messages?.messages?.filter(message =>
         MessageType === "SentMessages"
-            ? message.userSender._id === user?.id
-            : message.userReceiver._id === user?.id
+            ? message.userSender._id === user?._id
+            : message.userReceiver._id === user?._id
     ) || [];
 
     const paginatedMessages = filteredMessages.slice(

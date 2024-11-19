@@ -51,6 +51,14 @@ function BusinessDetails() {
         dispatch(getCommentsByBusiness(id))
     }, [dispatch, id]);
 
+    const [currentUrl, setCurrentUrl] = useState("");
+
+    useEffect(() => {
+        setCurrentUrl(window.location.href);
+    }, []);
+
+
+
     // Predefined list of image URLs
     const imageList = [
         "https://picsum.photos/500/300?image=1", 
@@ -128,85 +136,117 @@ function BusinessDetails() {
                 </div>
             </div>
 
-            {/* Information Section */}
-            <div className="flex justify-center items-start gap-10 flex-wrap w-full">
+                {/* Information Section */}
+                <div className="flex justify-center items-start gap-10 flex-wrap w-full">
 
-                <div className="flex flex-col mt-10 justify-center items-center w-full lg:max-w-[700px] ">
-                    {/* Description */}
-                    <div className="w-full">
-                        <h1 className="font-bold text-2xl text-secondary">Description</h1>
-                        <h2>{singleBusiness?.description}</h2>
-                    </div>
-
-                    {/* Features */}
-                    <div className="w-full mt-10">
-                        <h1 className="font-bold text-2xl text-secondary">Features</h1>
-                        <ul className="list-disc ml-10">
-                            {singleBusiness?.features?.map((feature, index) => (
-                                <li key={index}>{feature}</li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* Carousel with List of Images */}
-                    <div className="w-full rounded-lg">
-                        <Carousel className="w-full ">
-                            <CarouselContent className="">
-                                {imageList.map((image, index) => (
-                                    <CarouselItem key={index} className="">
-                                        <div className="">
-                                            <Card className="h-fit  border-none">
-                                                <CardContent className="flex aspect-square items-center justify-center p-0 rounded-lg dark:bg-black">
-                                                    <img src={image} alt={`Carousel image ${index + 1}`} className="w-full rounded-lg" />
-                                                </CardContent>
-                                            </Card>
-                                        </div>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                            <CarouselPrevious />
-                            <CarouselNext />
-                        </Carousel>
-                    </div>
-
-
-                   {/* Show Comments and Ratings */}
-                    <ViewComments 
-                        comments = {comments}
-                        reviewsToShow = {reviewsToShow}
-                        showMoreReviews = {showMoreReviews}
-                    />
-
-                    {/* Rating */}{/* Comments */}
-                    <CommentRatingForm
-                        overallRating = {overallRating}
-                        setOverallRating= {setOverallRating}
-                        customerServiceRating= {customerServiceRating}
-                        setCustomerServiceRating= {setCustomerServiceRating}
-                        priceRating= {priceRating}
-                        setPriceRating = {setPriceRating}
-                        comment = {comment}
-                        setComment={setComment}
-                        handleSubmit = {handleSubmit}
-                    />
-                    {/* Share */}
-                    <div className="mb-10 w-full">
-                        <h1 className="font-bold text-2xl text-secondary">Share On : </h1>
-                        <div className="flex gap-2 flex-wrap">
-                            <Button className="bg-blue-500">Facebook</Button>
-                            <Button className="bg-red-300">Instagram</Button>
-                            <Button className="bg-green-500">WhatsApp</Button>
-                            <Button className="bg-yellow-500">SnapChat</Button>
+                    <div className="flex flex-col mt-10 justify-center items-center w-full lg:max-w-[700px] ">
+                        {/* Description */}
+                        <div className="w-full">
+                            <h1 className="font-bold text-2xl ">Description</h1>
+                            <h2>{singleBusiness?.description}</h2>
                         </div>
-                    
+
+                        {/* Features */}
+                        <div className="w-full mt-10">
+                            <h1 className="font-bold text-2xl ">Features</h1>
+                            <ul className="list-disc ml-10">
+                                {singleBusiness?.features?.map((feature, index) => (
+                                    <li key={index}>{feature}</li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Carousel with List of Images */}
+                        <div className="w-full rounded-lg">
+                            <Carousel className="w-full ">
+                                <CarouselContent className="">
+                                    {imageList.map((image, index) => (
+                                        <CarouselItem key={index} className="">
+                                            <div className="">
+                                                <Card className="h-fit  border-none">
+                                                    <CardContent className="flex aspect-square items-center justify-center p-0 rounded-lg dark:bg-black">
+                                                        <img src={image} alt={`Carousel image ${index + 1}`} className="w-full rounded-lg" />
+                                                    </CardContent>
+                                                </Card>
+                                            </div>
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious />
+                                <CarouselNext />
+                            </Carousel>
+                        </div>
+
+
+                    {/* Show Comments and Ratings */}
+                        <ViewComments 
+                            comments = {comments}
+                            reviewsToShow = {reviewsToShow}
+                            showMoreReviews = {showMoreReviews}
+                        />
+
+                        {/* Rating */}{/* Comments */}
+                        <CommentRatingForm
+                            overallRating = {overallRating}
+                            setOverallRating= {setOverallRating}
+                            customerServiceRating= {customerServiceRating}
+                            setCustomerServiceRating= {setCustomerServiceRating}
+                            priceRating= {priceRating}
+                            setPriceRating = {setPriceRating}
+                            comment = {comment}
+                            setComment={setComment}
+                            handleSubmit = {handleSubmit}
+                        />
+                        {/* Share */}
+                        <div className="mb-10 w-full">
+                            <h1 className="font-bold text-2xl ">Share On:</h1>
+                            <div className="flex gap-2 flex-wrap">
+                                {/* Facebook Share */}
+                                <a 
+                                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                >
+                                    <Button className="bg-blue-500">Facebook</Button>
+                                </a>
+
+                                {/* Instagram (Placeholder - Sharing via Instagram is app-based) */}
+                                <a 
+                                    href={`https://www.instagram.com`} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                >
+                                    <Button className="bg-red-300">Instagram</Button>
+                                </a>
+
+                                {/* WhatsApp Share */}
+                                <a 
+                                    href={`https://wa.me/?text=${encodeURIComponent(`Check out this business: ${singleBusiness?.title} - ${window.location.href}`)}`} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                >
+                                    <Button className="bg-green-500">WhatsApp</Button>
+                                </a>
+
+                                {/* Snapchat (Redirect to the app link page) */}
+                                <a 
+                                    href={`https://www.snapchat.com/add`} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                >
+                                    <Button className="bg-yellow-500">SnapChat</Button>
+                                </a>
+                            </div>
+                        </div>
+
+
                     </div>
+                    {/* Map Section */}
+                    <BusinessContact singleBusiness = {singleBusiness}/>
                 </div>
-                {/* Map Section */}
-                <BusinessContact singleBusiness = {singleBusiness}/>
-            </div>
 
             <div className="mx-auto w-full mb-10 mt-10">
-                <h2 className="text-center text-2xl font-bold text-secondary">Similar Business</h2>
+                <h2 className="text-center text-2xl font-bold">Similar Business</h2>
                 <BusinessComponent/>
             </div>
 
