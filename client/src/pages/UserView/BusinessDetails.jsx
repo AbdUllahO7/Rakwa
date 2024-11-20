@@ -102,6 +102,8 @@ function BusinessDetails() {
         setReviewsToShow(prev => prev + 4); // Increase the number of reviews displayed by 6
     };
 
+    console.log(singleBusiness)
+
 
     return (
         <div className="relative">
@@ -131,6 +133,7 @@ function BusinessDetails() {
                                 images = {singleBusiness?.images}
                                 country = {singleBusiness?.country}
                                 fullAddress = {singleBusiness?.fullAddress}
+                                subCategory = {singleBusiness?.subCategoryDetails}
                             />
                     )}
                 </div>

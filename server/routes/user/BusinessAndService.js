@@ -11,6 +11,8 @@ router.post('/upload-image', upload.single('my_file'), businessController.handle
 // Business CRUD routes
 router.post('/', businessController.createBusiness);
 router.get('/', businessController.getBusinessWithDetails);
+router.get('/Accept', businessController.getAcceptBusinessWithDetails);
+
 router.get('/:id', businessController.getBusinessById);
 router.put('/:id', businessController.updateBusiness);
 router.delete('/:id', businessController.deleteBusiness);

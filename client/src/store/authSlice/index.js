@@ -38,7 +38,6 @@ export const checkAuth = createAsyncThunk('auth/checkAuth/' ,
                 'Cache-Control' : 'no-store , no-cache , must-revalidate : proxy-revalidate',
             }
         })
-        console.log(res.data)
         return res.data;
     }
 )

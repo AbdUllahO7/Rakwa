@@ -1,21 +1,22 @@
 // src/utils/filterUtils.js
-
 export function handleFilter(filters, getSectionId, getCurrentOption, setFilters) {
     let cpyFilters = { ...filters };
-    const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
-
-    // Add or remove filter options based on user selection
-    if (indexOfCurrentSection === -1) {
-        cpyFilters = {
-            ...cpyFilters,
-            [getSectionId]: [getCurrentOption],
-        };
-    } else {
-        const indexOfCurrentOption = cpyFilters[getSectionId].indexOf(getCurrentOption);
-        if (indexOfCurrentOption === -1) cpyFilters[getSectionId].push(getCurrentOption);
-        else cpyFilters[getSectionId].splice(indexOfCurrentOption, 1);
-    }
+    cpyFilters[getSectionId] = getCurrentOption;
 
     setFilters(cpyFilters); // Update filters state
-    sessionStorage.setItem('filters', JSON.stringify(cpyFilters)); // Save filters in sessionStorage
+    sessionStorage.setItem("filters", JSON.stringify(cpyFilters)); // Save filters in sessionStorage
+}
+
+
+// Helper function to create a query string from filter parameters
+export function createSearchParamsHelper(filtersParams) {
+    const queryParams = [];
+    // Iterate over filter parameters and build query string
+    for(const [key , value]  of Object.entries(filtersParams)){
+        if(Array.isArray(value) && value.length > 0){
+            const paramValue = value.join(",");
+            queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
+        }
+    }
+    return queryParams.join('&');
 }

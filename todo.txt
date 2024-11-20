@@ -7,9 +7,16 @@
 -
 
 --------------------------------------------------------------------------------------------------------- 
-
+created_at : 16/11/2024
 - (done) !! add a strapi pay method  !! 
 -(done) make user change the plan !! 
-- create the smiler business in backend !!  
-- add filter with category ! 
-- make the businessList get the accept !!! 
+- create the smiler business in backend (BusinessDetails) !!  
+- (done) add filter with category and subCategories ! 
+- (done) make the businessList get the accept !!! 
+
+
+----------------------------------------------------------------------------------------------------
+created_at : 20/11/2024 
+- remove the filter from AllCategory just make the filter after user select the category and subCategories ! -
+- create pages all business and make the sideBarFilter is there ! 
+

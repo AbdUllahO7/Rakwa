@@ -22,6 +22,21 @@ export const fetchAllBusinesses = createAsyncThunk('/BusinessAndService/fetchAll
     return response.data;
 });
 
+export const fetchAllAcceptBusinesses = createAsyncThunk('/BusinessAndService/fetchAllAcceptBusinesses', async ({filterParams = null , sort , search, page = 1, limit = 100 }) => {
+    const query = new URLSearchParams({
+        ...filterParams,
+        sort: sort || null,
+        search: search ||'', // Add the search parameter
+        page: page,
+        limit: limit,
+    }).toString(); // Convert query parameters to a string
+
+
+    const response = await axios.get(`http://localhost:5000/api/BusinessAndService/Accept?${query}`);
+    return response.data;
+});
+
+
 export const fetchBusinessById = createAsyncThunk('/BusinessAndService/fetchById', async (id) => {
     const response = await axios.get(`http://localhost:5000/api/BusinessAndService/${id}`);
     return response.data;
@@ -97,6 +112,18 @@ const businessServiceSlice = createSlice({
                 state.businessList = action.payload.data;
             })
             .addCase(fetchAllBusinesses.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.error.message;
+            })
+            .addCase(fetchAllAcceptBusinesses.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchAllAcceptBusinesses.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.businessList = action.payload.data;
+            })
+            .addCase(fetchAllAcceptBusinesses.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.error.message;
             })

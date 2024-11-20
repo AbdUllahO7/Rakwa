@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchAllCategory } from "@/store/adminSlice/AdminCategory";
 import { useNavigate } from "react-router-dom";
-import { fetchAllBusinesses } from "@/store/userSlice/businessServiceSlice";
+import { fetchAllAcceptBusinesses } from "@/store/userSlice/businessServiceSlice";
 
 const SpecialProducts = [
     {
@@ -111,7 +111,7 @@ function Home() {
 
     useEffect(() => {
         dispatch(fetchAllCategory())
-        dispatch(fetchAllBusinesses({}))
+        dispatch(fetchAllAcceptBusinesses({}))
     } , [dispatch])
 
     

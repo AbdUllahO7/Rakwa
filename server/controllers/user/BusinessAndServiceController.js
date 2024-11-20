@@ -1,138 +1,172 @@
+
 // controllers/user/BusinessAndServiceController.js
 const { imageUploadUtil } = require('../../helpers/cloudinary');
 const BusinessAndService = require('../../models/BusinessAndService');
 const AdminCategories = require('../../models/Categories');
 const mongoose = require('mongoose');
 
-// Handle image upload
 exports.handleImageUpload = async (req, res) => {
     try {
         const b64 = Buffer.from(req.file.buffer).toString('base64');
         const url = `data:${req.file.mimetype};base64,${b64}`;
         const result = await imageUploadUtil(url);
 
-        res.json({
-            success: true,
-            result,
-        });
+        return res.status(200).json({ success: true, result });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: 'Error during image upload' });
+        return res.status(500).json({ success: false, message: 'Error during image upload' });
     }
 };
+
 
 // Create a new business
 exports.createBusiness = async (req, res) => {
-    // Determine required fields based on BusinessType
-    const { BusinessType, category = [] , subCategory = [], features = []  } = req.body;
-    
-    const commonRequiredFields = ['title', 'description', 'BusinessType', 'category', 'owner', 'email', 'images' , 'BusinessOrAd'];
+    const { BusinessType, category = [], subCategory = [], features = [] } = req.body;
+
+    const commonRequiredFields = ['title', 'description', 'BusinessType', 'category', 'owner', 'email', 'images', 'BusinessOrAd'];
     const locationRequiredFields = BusinessType === "Location" ? ['country', 'state', 'city', 'fullAddress'] : [];
     const requiredFields = [...commonRequiredFields, ...locationRequiredFields];
-    
-    // Check for missing fields
+
     const missingFields = requiredFields.filter(field => !req.body[field]);
     if (missingFields.length > 0) {
-        return res.status(400).json({ success: false, message: `Missing required fields: ${missingFields.join(', ')}` });
+        return this.createErrorResponse(res, 400, `Missing required fields: ${missingFields.join(', ')}`);
     }
 
     try {
-        // Validate each category
-        const invalidCategories = await Promise.all(
-            category.map(async (catId) => {
-                const categoryData = await AdminCategories.findById(catId);
-                return categoryData ? null : catId;
-            })
-        );
-        
-        if (invalidCategories.filter(Boolean).length > 0) {
-            return res.status(400).json({ success: false, message: `Invalid category IDs: ${invalidCategories.filter(Boolean).join(', ')}` });
+        const invalidCategories = await this.validateCategories(category);
+        if (invalidCategories.length > 0) {
+            return this.createErrorResponse(res, 400, `Invalid category IDs: ${invalidCategories.join(', ')}`);
         }
 
-        // Validate each subCategory
-        const invalidSubCategories = await Promise.all(
-            subCategory.map(async (subCatId) => {
-                const validSubCategory = await AdminCategories.findOne({ "subCategories._id": subCatId });
-                return validSubCategory ? null : subCatId;
-            })
-        );
-
-        if (invalidSubCategories.filter(Boolean).length > 0) {
-            return res.status(400).json({ success: false, message: `Invalid subCategory IDs: ${invalidSubCategories.filter(Boolean).join(', ')}` });
+        const invalidSubCategories = await this.validateSubCategories(subCategory);
+        if (invalidSubCategories.length > 0) {
+            return this.createErrorResponse(res, 400, `Invalid subCategory IDs: ${invalidSubCategories.join(', ')}`);
         }
 
-        // Ensure features is an array and handle empty case
         if (!Array.isArray(features)) {
-            return res.status(400).json({ success: false, message: 'Features must be an array.' });
+            return this.createErrorResponse(res, 400, 'Features must be an array.');
         }
 
-        // Prepare the data for saving
-        const newBusinessData = {
-            ...req.body,
-            features, // Ensure features is passed correctly as an array
-        };
-        
-        // If it's an Online Business, set location fields to empty strings if they don't exist
+        const newBusinessData = { ...req.body, features };
         if (BusinessType === "Online") {
-            newBusinessData.country = newBusinessData.country || "";
-            newBusinessData.state = newBusinessData.state || "";
-            newBusinessData.city = newBusinessData.city || "";
+            ['country', 'state', 'city'].forEach(field => {
+                newBusinessData[field] = newBusinessData[field] || "";
+            });
         }
 
-        // Create and save the new business
         const newBusiness = new BusinessAndService(newBusinessData);
         const savedBusiness = await newBusiness.save();
-
-        res.status(201).json({ success: true, data: savedBusiness });
+        return this.createSuccessResponse(res, 201, savedBusiness);
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        return this.createErrorResponse(res, 400, error.message);
     }
 };
 
+
 // Get all businesses with user, category, and subCategory details
 exports.getBusinessWithDetails = async (req, res) => {
-    try {
-        const { sort , search , page = 1, limit = 10 } = req.query; // Get sort, search, page, and limit from query params
-        
-        // Step 1: Construct the search query based on the search parameter
-        const searchQuery = search ? {
-            $or: [
-                { title: { $regex: search, $options: 'i' } }, // Case-insensitive search in title
-                { description: { $regex: search, $options: 'i' } } // Case-insensitive search in description
-            ]
-        } : {};
+    const { sort, search, page = 1, limit = 10 } = req.query;
 
-        // Step 2: Set up sorting options based on the sort parameter
-        let sortOption = {};
-        switch (sort) {
-            case "title-atoz":
-                sortOption = { title: 1 }; // Sort by title A to Z
-                break;
-            case "title-ztoa":
-                sortOption = { title: -1 }; // Sort by title Z to A
-                break;
-            case "time-newest":
-                sortOption = { createdAt: -1 }; // Sort by newest first (desc)
-                break;
-            case "time-oldest":
-                sortOption = { createdAt: 1 }; // Sort by oldest first (asc)
-                break;
-            default:
-                sortOption = {}; // Default to no sorting (or you can set a default sort)
+    try {
+        const searchQuery = this.buildSearchQuery(search);
+        const sortOption = this.getSortOption(sort);
+
+        const businesses = await BusinessAndService.find(searchQuery)
+            .populate('owner')
+            .populate({ path: 'category', select: 'title image' })
+            .sort(sortOption)
+            .skip((page - 1) * limit)
+            .limit(parseInt(limit));
+
+        const businessDetails = await Promise.all(
+            businesses.map(async (business) => {
+                const categories = await AdminCategories.find({ _id: { $in: business.category } });
+                const categoryDetails = categories.map(cat => ({ _id: cat._id, title: cat.title, image: cat.image }));
+                const subCategoryDetails = categories.flatMap(cat =>
+                    cat.subCategories.filter(sub => business.subCategory.includes(sub._id.toString()))
+                        .map(sub => ({ _id: sub._id, title: sub.title }))
+                );
+
+                return { ...business.toObject(), categoryDetails, subCategoryDetails };
+            })
+        );
+
+        const totalCount = await BusinessAndService.countDocuments(searchQuery);
+        return res.status(200).json({
+            success: true,
+            data: businessDetails,
+            totalCount,
+            currentPage: page,
+            totalPages: Math.ceil(totalCount / limit),
+        });
+    } catch (error) {
+        return this.createErrorResponse(res, 500, error.message);
+    }
+};
+
+
+exports.getAcceptBusinessWithDetails = async (req, res) => {
+    try {
+        const { category = '', subCategory = '', sort, search, page = 1, limit = 10 } = req.query;
+
+        // Fetch category IDs based on title
+        let categoryIds = [];
+        if (category) {
+            const categories = await AdminCategories.find({
+                title: { $regex: category, $options: 'i' }, // Match category title (case-insensitive)
+            }).select('_id');
+            categoryIds = categories.map(cat => cat._id); // Extract category IDs
         }
 
-        // Step 3: Find businesses with search, sort, and pagination applied
-        const businesses = await BusinessAndService.find(searchQuery)
+        let subCategoryIds = [];
+        if (subCategory) {
+            const categories = await AdminCategories.find({
+                'subCategories.title': { $regex: subCategory, $options: 'i' }
+            }).select('subCategories._id subCategories.title');
+        
+            subCategoryIds = categories.flatMap(cat =>
+                cat.subCategories
+                    .filter(sub => sub.title.match(new RegExp(subCategory, 'i')))
+                    .map(sub => sub._id.toString())
+            );
+        }
+        
+
+        // Construct filters
+        const filters = {
+            Accept: true,
+            ...(categoryIds.length ? { category: { $in: categoryIds } } : {}), // Match category IDs
+            ...(subCategoryIds.length ? { subCategory: { $in: subCategoryIds } } : {}), // Match subCategory IDs
+            ...(search
+                ? {
+                    $or: [
+                        { title: { $regex: search, $options: 'i' } },
+                        { description: { $regex: search, $options: 'i' } },
+                    ],
+                }
+                : {}),
+        };
+
+        // Sorting logic
+        const sortOption = {
+            "title-atoz": { title: 1 },
+            "title-ztoa": { title: -1 },
+            "time-newest": { createdAt: -1 },
+            "time-oldest": { createdAt: 1 },
+        }[sort] || {}; // Default to no sorting
+
+        // Fetch businesses with filters and pagination
+        const businesses = await BusinessAndService.find(filters)
             .populate('owner') // Populate owner details
             .populate({
-                path: 'category', // Populate main category details
+                path: 'category',
                 select: 'title image',
             })
-            .sort(sortOption) // Apply sorting
-            .skip((page - 1) * limit) // Apply pagination
-            .limit(parseInt(limit)); // Limit the results
+            .sort(sortOption)
+            .skip((page - 1) * limit)
+            .limit(parseInt(limit));
 
-        // Step 4: Populate category and subCategory details for each business
+        // Map business data with category and subCategory details
         const businessDataWithCategoriesAndSubCategories = await Promise.all(
             businesses.map(async (business) => {
                 const categories = await AdminCategories.find({
@@ -151,31 +185,29 @@ exports.getBusinessWithDetails = async (req, res) => {
                     ).map(subCat => ({
                         _id: subCat._id,
                         title: subCat.title,
-                        // Include other properties as needed
                     }))
                 );
 
                 return {
                     ...business.toObject(),
-                    category: business.category, // Include category IDs
-                    categoryDetails, // Include category details
-                    subCategory: business.subCategory, // Include subcategory IDs
-                    subCategoryDetails, // Include subcategory details
+                    categoryDetails,
+                    subCategoryDetails,
                 };
             })
         );
 
-        // Step 5: Get the total count of businesses for pagination
-        const totalCount = await BusinessAndService.countDocuments(searchQuery);
+        // Total count for pagination
+        const totalCount = await BusinessAndService.countDocuments(filters);
 
         res.status(200).json({
             success: true,
             data: businessDataWithCategoriesAndSubCategories,
-            totalCount: totalCount, // Include total count for pagination
+            totalCount,
             currentPage: page,
             totalPages: Math.ceil(totalCount / limit),
         });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ success: false, message: error.message });
     }
 };

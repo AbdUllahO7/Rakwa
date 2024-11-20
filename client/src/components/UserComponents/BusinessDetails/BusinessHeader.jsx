@@ -13,13 +13,23 @@ function BusinessHeader({
     country,
     state,
     images,
-    fullAddress
+    fullAddress,
+    subCategory,
 }) {
     return (
         <>
             <div className="flex-col gap-1 flex-wrap items-center justify-center w-[500px] text-start">
                 <h2 className="text-4xl font-bold text-secondary mb-1  ">{title}</h2>
                 {category?.map((item, index) => (
+                    <Link
+                        to=""
+                        key={index}
+                        className="bg-secondary text-primary font-bold mr-2 text-lg p-1 rounded-lg"
+                    >
+                        {item?.title}
+                    </Link>
+                ))}
+                     {subCategory?.map((item, index) => (
                     <Link
                         to=""
                         key={index}
