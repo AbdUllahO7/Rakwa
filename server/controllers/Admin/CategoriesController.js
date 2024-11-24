@@ -27,7 +27,7 @@ const createCategory = async (req, res) => {
     try {
         const { title, image } = req.body;
         const newCategory = await AdminCategories.create({ title, image });
-        res.status(201).json({ success : true, message : 'category created successfully ' , newCategory});
+        res.status(201).json({ success : true, message : 'category created successfully ' ,data : newCategory});
     } catch (error) {
         res.status(500).json({ success : false ,  error: error.message });
     }

@@ -31,6 +31,10 @@ import UserPricingPlan from './components/UserComponents/Profile/UserPricingPlan
 import UserFavorites from './components/UserComponents/Profile/UserFavorites';
 import PaymentSuccess from './pages/UserView/payment/PaymentSuccess';
 import PaymentCancel from './pages/UserView/payment/PaymentCancel';
+import AllBlogs from './pages/UserView/Blogs/AllBlogs';
+import BlogDetails from './components/UserComponents/Blogs/BlogDetails';
+import AdminBlogs from './pages/AdminView/AdminBlogs';
+import AdminEditBlog from './components/AdminComponents/AdminEditBlog';
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
@@ -90,6 +94,9 @@ function App() {
 
           </Route>
           <Route path="BusinessDetails/:id" element={<BusinessDetails />} />
+          <Route path="AllBlogs" element={<AllBlogs />} />
+          <Route path="BlogDetails/:slug" element={<BlogDetails />} />
+
           <Route path="PaymentSuccess" element={<PaymentSuccess />} />
           <Route path="PaymentCancel" element={<PaymentCancel />} />
 
@@ -106,6 +113,9 @@ function App() {
           <Route path="PricingPlan" element={<AdminPricingPlan />} />
           <Route path="AdminUserBusiness" element={<AdminUserBusiness />} />
           <Route path="BusinessInfo/:businessId" element={<BusinessInfo isAdmin={true} />} />
+          <Route path="adminBlogs" element={<AdminBlogs />} />
+          <Route path="editBlog/:slug" element={<AdminEditBlog />} />
+
         </Route>
       </Routes>
     </div>

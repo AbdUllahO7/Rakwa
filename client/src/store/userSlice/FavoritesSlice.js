@@ -1,3 +1,4 @@
+import stables from '@/constants/stables';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -12,7 +13,7 @@ export const createFavorite = createAsyncThunk(
     'favorites/createFavorite',
     async ({ userId, businessIds }, { rejectWithValue }) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/FavoritesRouter/favorites', { userId, businessIds });
+            const response = await axios.post(`${stables.API_BASE_URL}FavoritesRouter/favorites`, { userId, businessIds });
             return response.data.data; // Extract the updated favorite data
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -25,7 +26,7 @@ export const getFavorites = createAsyncThunk(
     'favorites/getFavorites',
     async (userId, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/FavoritesRouter/favorites/${userId}`);
+            const response = await axios.get(`${stables.API_BASE_URL}FavoritesRouter/favorites/${userId}`);
             return response.data; // Extract the list of businesses
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -38,7 +39,7 @@ export const deleteFavorite = createAsyncThunk(
     'favorites/deleteFavorite',
     async ({ userId, businessId }, { rejectWithValue }) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/api/FavoritesRouter/favorites/${userId}/${businessId}`);
+            const response = await axios.delete(`${stables.API_BASE_URL}FavoritesRouter/favorites/${userId}/${businessId}`);
             return response.data.data; // Extract updated favorite data
         } catch (error) {
             return rejectWithValue(error.response.data);

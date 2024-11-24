@@ -4,6 +4,7 @@ const { imageUploadUtil } = require('../../helpers/cloudinary');
 const BusinessAndService = require('../../models/BusinessAndService');
 const AdminCategories = require('../../models/Categories');
 const mongoose = require('mongoose');
+const { createErrorResponse, getSortOption, buildSearchQuery } = require('../../utils/utils');
 
 exports.handleImageUpload = async (req, res) => {
     try {
@@ -29,22 +30,22 @@ exports.createBusiness = async (req, res) => {
 
     const missingFields = requiredFields.filter(field => !req.body[field]);
     if (missingFields.length > 0) {
-        return this.createErrorResponse(res, 400, `Missing required fields: ${missingFields.join(', ')}`);
+        return createErrorResponse(res, 400, `Missing required fields: ${missingFields.join(', ')}`);
     }
 
     try {
         const invalidCategories = await this.validateCategories(category);
         if (invalidCategories.length > 0) {
-            return this.createErrorResponse(res, 400, `Invalid category IDs: ${invalidCategories.join(', ')}`);
+            return createErrorResponse(res, 400, `Invalid category IDs: ${invalidCategories.join(', ')}`);
         }
 
         const invalidSubCategories = await this.validateSubCategories(subCategory);
         if (invalidSubCategories.length > 0) {
-            return this.createErrorResponse(res, 400, `Invalid subCategory IDs: ${invalidSubCategories.join(', ')}`);
+            return createErrorResponse(res, 400, `Invalid subCategory IDs: ${invalidSubCategories.join(', ')}`);
         }
 
         if (!Array.isArray(features)) {
-            return this.createErrorResponse(res, 400, 'Features must be an array.');
+            return createErrorResponse(res, 400, 'Features must be an array.');
         }
 
         const newBusinessData = { ...req.body, features };
@@ -58,7 +59,7 @@ exports.createBusiness = async (req, res) => {
         const savedBusiness = await newBusiness.save();
         return this.createSuccessResponse(res, 201, savedBusiness);
     } catch (error) {
-        return this.createErrorResponse(res, 400, error.message);
+        return createErrorResponse(res, 400, error.message);
     }
 };
 
@@ -68,8 +69,8 @@ exports.getBusinessWithDetails = async (req, res) => {
     const { sort, search, page = 1, limit = 10 } = req.query;
 
     try {
-        const searchQuery = this.buildSearchQuery(search);
-        const sortOption = this.getSortOption(sort);
+        const searchQuery = buildSearchQuery(search);
+        const sortOption = getSortOption(sort);
 
         const businesses = await BusinessAndService.find(searchQuery)
             .populate('owner')
@@ -100,7 +101,7 @@ exports.getBusinessWithDetails = async (req, res) => {
             totalPages: Math.ceil(totalCount / limit),
         });
     } catch (error) {
-        return this.createErrorResponse(res, 500, error.message);
+        return createErrorResponse(res, 500, error.message);
     }
 };
 

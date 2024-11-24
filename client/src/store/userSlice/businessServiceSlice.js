@@ -1,3 +1,4 @@
+import stables from "@/constants/stables";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -18,7 +19,7 @@ export const fetchAllBusinesses = createAsyncThunk('/BusinessAndService/fetchAll
     }).toString(); // Convert query parameters to a string
 
 
-    const response = await axios.get(`http://localhost:5000/api/BusinessAndService?${query}`);
+    const response = await axios.get(`${stables.API_BASE_URL}BusinessAndService?${query}`);
     return response.data;
 });
 
@@ -32,18 +33,18 @@ export const fetchAllAcceptBusinesses = createAsyncThunk('/BusinessAndService/fe
     }).toString(); // Convert query parameters to a string
 
 
-    const response = await axios.get(`http://localhost:5000/api/BusinessAndService/Accept?${query}`);
+    const response = await axios.get(`${stables.API_BASE_URL}BusinessAndService/Accept?${query}`);
     return response.data;
 });
 
 
 export const fetchBusinessById = createAsyncThunk('/BusinessAndService/fetchById', async (id) => {
-    const response = await axios.get(`http://localhost:5000/api/BusinessAndService/${id}`);
+    const response = await axios.get(`${stables.API_BASE_URL}BusinessAndService/${id}`);
     return response.data;
 });
 
 export const createBusiness = createAsyncThunk('/BusinessAndService/create', async ({ formData, selectedCategoryIds  , selectedSubCategoryIds}) => {
-    const response = await axios.post('http://localhost:5000/api/BusinessAndService', { 
+    const response = await axios.post(`${stables.API_BASE_URL}BusinessAndService`, { 
         ...formData, 
         category: selectedCategoryIds,
         subCategory : selectedSubCategoryIds // Adding selected categories here
@@ -55,7 +56,7 @@ export const createBusiness = createAsyncThunk('/BusinessAndService/create', asy
 
 export const updateBusiness = createAsyncThunk('/BusinessAndService/update', async ({ id, formData, selectedCategoryIds  , selectedSubCategoryIds}) => {
     console.log(formData)
-    const response = await axios.put(`http://localhost:5000/api/BusinessAndService/${id}`, {
+    const response = await axios.put(`${stables.API_BASE_URL}BusinessAndService/${id}`, {
         ...formData, 
         category: selectedCategoryIds,  // Adding selected categories for the update
         subCategory : selectedSubCategoryIds // Adding selected categories here
@@ -68,14 +69,14 @@ export const updateBusiness = createAsyncThunk('/BusinessAndService/update', asy
 
 
 export const deleteBusiness = createAsyncThunk('/BusinessAndService/delete', async (id) => {
-    const response = await axios.delete(`http://localhost:5000/api/BusinessAndService/${id}`, {
+    const response = await axios.delete(`${stables.API_BASE_URL}BusinessAndService/${id}`, {
         withCredentials: true,
     });
     return response.data;
 });
 
 export const fetchBusinessByUserId = createAsyncThunk('/BusinessAndService/fetchBusinessByUserId', async (userId) => {
-    const response = await axios.get(`http://localhost:5000/api/BusinessAndService/getBusinessesByUserId/${userId}`);
+    const response = await axios.get(`${stables.API_BASE_URL}BusinessAndService/getBusinessesByUserId/${userId}`);
     return response.data;
 });
 
@@ -84,7 +85,7 @@ export const updateOpenValue = createAsyncThunk(
     'business/updateOpenValue',
     async ({ id, open }, { rejectWithValue }) => {
         try {
-            const response = await axios.put(`http://localhost:5000/api/BusinessAndService/${id}/open`, { open });
+            const response = await axios.put(`${stables.API_BASE_URL}BusinessAndService/${id}/open`, { open });
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);

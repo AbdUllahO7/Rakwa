@@ -10,6 +10,7 @@ import ViewComments from "@/components/UserComponents/BusinessDetails/ViewCommen
 import { useToast } from "@/hooks/use-toast";
 import { fetchBusinessById } from "@/store/userSlice/businessServiceSlice";
 import { createCommentAndRating, getCommentsByBusiness } from "@/store/userSlice/commentAndRating";
+import { calculateAverageRating } from "@/utils/Star";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {  useParams } from "react-router-dom";
@@ -17,11 +18,7 @@ import {  useParams } from "react-router-dom";
 
 
 
-const calculateAverageRating = (ratings) => {
-    if (ratings.length === 0) return 0; // Avoid division by zero
-    const total = ratings.reduce((acc, rating) => acc + rating, 0);
-    return total / ratings.length;
-    };
+
 
 
 function BusinessDetails() {
@@ -35,14 +32,17 @@ function BusinessDetails() {
     const [customerServiceRating, setCustomerServiceRating] = useState("");
     const [priceRating, setPriceRating] = useState("");
     const { toast } = useToast();
+    const [reviewsToShow, setReviewsToShow] = useState(6);
+
+
   // Extract ratings for calculating averages
     const overallRatings = Array.isArray(comments) ? comments.map((commentItem) => commentItem?.overallRating) : [];
     const customerServiceRatings = Array.isArray(comments) ? comments.map((commentItem) => commentItem?.customerService) : [];
     const priceRatings = Array.isArray(comments) ? comments.map((commentItem) => commentItem?.prices) : [];
-    const [reviewsToShow, setReviewsToShow] = useState(6);
 
     // Calculate average ratings
     const averageOverallRating = calculateAverageRating(overallRatings);
+    
     const averageCustomerServiceRating = calculateAverageRating(customerServiceRatings);
     const averagePriceRating = calculateAverageRating(priceRatings);
     useEffect(() => {
@@ -98,11 +98,7 @@ function BusinessDetails() {
         // Add logic here to send data to the backend if needed
     };
 
-    const showMoreReviews = () => {
-        setReviewsToShow(prev => prev + 4); // Increase the number of reviews displayed by 6
-    };
 
-    console.log(singleBusiness)
 
 
     return (
@@ -185,7 +181,7 @@ function BusinessDetails() {
                         <ViewComments 
                             comments = {comments}
                             reviewsToShow = {reviewsToShow}
-                            showMoreReviews = {showMoreReviews}
+                            setReviewsToShow = {setReviewsToShow}
                         />
 
                         {/* Rating */}{/* Comments */}

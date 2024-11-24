@@ -11,6 +11,7 @@ const CommentAndRatingSchema = new mongoose.Schema({
         ref: 'BusinessAndService',
         required: true
     },
+    
     comment: {
         type: String,
         default : ''
@@ -40,6 +41,7 @@ const CommentAndRatingSchema = new mongoose.Schema({
         default: Date.now
     }
 });
+
 
 // Create the model
 const CommentAndRating = mongoose.model('CommentAndRating', CommentAndRatingSchema);

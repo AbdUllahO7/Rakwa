@@ -17,6 +17,6 @@ created_at : 16/11/2024
 
 ----------------------------------------------------------------------------------------------------
 created_at : 20/11/2024 
-- remove the filter from AllCategory just make the filter after user select the category and subCategories ! -
+- remove the filter from AllCategory just make the filter after user select the category and subCategories ! 
 - create pages all business and make the sideBarFilter is there ! 
 

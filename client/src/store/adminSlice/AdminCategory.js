@@ -1,3 +1,4 @@
+import stables from "@/constants/stables";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
 
@@ -11,7 +12,7 @@ const initialState = {
 };
 
 export const fetchAllCategory = createAsyncThunk('/Admin/fetchAllCategory' ,async () => {
-    const result = await axios.get('http://localhost:5000/api/AdminCategories/getAllCategories');
+    const result = await axios.get(`${stables.API_BASE_URL}AdminCategories/getAllCategories`);
     return result?.data;
 })
 
@@ -29,7 +30,7 @@ export const createCategory = createAsyncThunk('/admin/createCategory/' ,
 
 export const updateCategory = createAsyncThunk('/admin/updateCategory/' , 
     async({id,formData}) => {
-        const response = await axios.put(`http://localhost:5000/api/AdminCategories/updateCategory/${id}` , formData ,
+        const response = await axios.put(`${stables.API_BASE_URL}AdminCategories/updateCategory/${id}` , formData ,
             {
                 withCredentials : true,
             }
@@ -39,7 +40,7 @@ export const updateCategory = createAsyncThunk('/admin/updateCategory/' ,
 )
 
 export const deleteCategory = createAsyncThunk('/admin/deleteCategory' ,async (id) => {
-    const result = await axios.delete(`http://localhost:5000/api/AdminCategories/deleteCategory/${id}`);
+    const result = await axios.delete(`${stables.API_BASE_URL}AdminCategories/deleteCategory/${id}`);
     return result?.data;
 });
 
@@ -47,7 +48,7 @@ export const deleteCategory = createAsyncThunk('/admin/deleteCategory' ,async (i
 // Sub Categories 
 
 export const fetchAllSubCategory = createAsyncThunk('/Admin/fetchAllSubCategory', async ({ ids }) => {
-    const result = await axios.get(`http://localhost:5000/api/AdminCategories/subcategories`, {
+    const result = await axios.get(`${stables.API_BASE_URL}AdminCategories/subcategories`, {
         params: { categoryIds: ids.join(',') } // Convert array to a comma-separated string
     });
     return result?.data;
@@ -58,7 +59,7 @@ export const fetchAllSubCategory = createAsyncThunk('/Admin/fetchAllSubCategory'
 export const createSubCategory = createAsyncThunk('/admin/createSubCategory/', 
     async ({ formData, id }) => {
         const response = await axios.post(
-            `http://localhost:5000/api/AdminCategories/categories/${id}/subcategories`, 
+            `${stables.API_BASE_URL}AdminCategories/categories/${id}/subcategories`, 
             formData, 
             {
                 withCredentials: true,
@@ -73,7 +74,7 @@ export const deleteSubCategory = createAsyncThunk(
     '/admin/deleteSubCategory/',
     async ({ categoryId, subCategoryId }) => {
         const response = await axios.delete(
-            `http://localhost:5000/api/AdminCategories/categories/${categoryId}/subcategories/${subCategoryId}`,
+            `${stables.API_BASE_URL}AdminCategories/categories/${categoryId}/subcategories/${subCategoryId}`,
             {
                 withCredentials: true,
             }

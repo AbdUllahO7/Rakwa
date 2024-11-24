@@ -20,7 +20,6 @@ const BusinessAndServiceSchema = new mongoose.Schema({
     facebook: { type: String, default: "" },
     instagram: { type: String, default: "" },
     whatsapp: { type: String, default: "" },
-    features: { type: String, default: "" },
     Accept: { type: Boolean, default: false },
     features: { type: [String], default: [] }, 
     listImages: { type: [String], default: [] },  

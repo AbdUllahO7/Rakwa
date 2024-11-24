@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const path = require("path");
 
 // routes 
 
@@ -17,7 +18,7 @@ const FavoritesRouter = require('./routes/user/FavoritesRoutes')
 // admin 
 const CategoriesRoutes = require('./routes/admin/CategoryRoutes')
 const PricingPlanRoutes = require('./routes/admin/PricingRoutes')
-
+const BlogsRoutes = require('./routes/admin/BlogsRoutes')
 
 // stripe 
 const stripeRoutes = require('./routes/stripe.js');
@@ -66,6 +67,8 @@ app.use('/api/FavoritesRouter' , FavoritesRouter)
 // admin 
 app.use('/api/AdminCategories', CategoriesRoutes)
 app.use('/api/AdminPricingPlan', PricingPlanRoutes)
+app.use('/api/Blogs', BlogsRoutes)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 // stripe 

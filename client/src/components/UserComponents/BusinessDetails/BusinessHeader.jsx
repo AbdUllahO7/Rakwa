@@ -29,7 +29,7 @@ function BusinessHeader({
                         {item?.title}
                     </Link>
                 ))}
-                     {subCategory?.map((item, index) => (
+                    {subCategory?.map((item, index) => (
                     <Link
                         to=""
                         key={index}
@@ -43,8 +43,8 @@ function BusinessHeader({
                 </p>
                 <MapPin className="text-black dark:text-primary" />
                 <p className="flex text-black font-bold gap-2 text-lg dark:text-primary">{fullAddress}</p>
-                {/* Average Ratings Section */}
             </div>
+                {/* Average Ratings Section */}
 
             <div className="flex justify-center items-end gap-6 w-[600px] flex-wrap ">
                 <img src={images} alt="" className="rounded-lg w-[200px]" />

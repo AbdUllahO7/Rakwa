@@ -1,15 +1,19 @@
 const mongoose = require('mongoose');
 
+const BlogSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    caption: { type: String, required: true },
+    slug: { type: String, required: true , unique : true },
+    body: { type: Object, required: true },
+    photo: { type: String, required: false },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    tags: { type: [String]},
+    categories: [{ type: mongoose.Schema.ObjectId , ref : 'BlogsCategories'}],
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CommentAndRating'
+    }]
+}, {timestamps : true});
 
-const BlogsSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    image: String,
-    subCategories: [SubCategorySchema], // Embed subCategories directly
-});
 
-// Create the model for the Categories collection
-const Blogs = mongoose.model('Blogs', BlogsSchema);
-module.exports = Blogs;
+module.exports = mongoose.model('Blog', BlogSchema);

@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { renderStars } from '@/utils/Star';
+import { renderStars, showMoreReviews } from '@/utils/Star';
 
 function ViewComments({
     comments,
     reviewsToShow,
-    showMoreReviews
+    setReviewsToShow
 }) {
   return (
     <>
@@ -23,18 +23,30 @@ function ViewComments({
                         </AvatarFallback>
                     </Avatar>
                     <div className="flex gap-1 flex-col">
-                        <div className="flex gap-2">
-                        <span>Over All</span>
-                        {renderStars(commentItem?.overallRating)}
-                        </div>
-                        <div className="flex gap-2">
-                        customerService{renderStars(commentItem?.customerService)}
-                        </div>
-                        <div className="flex gap-2">
-                        prices{renderStars(commentItem?.prices)}
-                        </div>
+                      {
+                        commentItem?.overallRating  ? (
+                          <div className="flex gap-2">
+                          <span>Over All</span>
+                          {renderStars(commentItem?.overallRating)}
+                          </div>
+                        ):null
+                      }
+                        {
+                          commentItem?.customerService  ? (
+                            <div className="flex gap-2">
+                              customerService{renderStars(commentItem?.customerService)}
+                            </div>
+                          ) : null
+                        }
+                      {
+                        commentItem?.prices ? (
+                          <div className="flex gap-2">
+                            prices{renderStars(commentItem?.prices)}
+                          </div>
+                        ): null
+                      }
                         <div className="flex flex-col gap-2">
-                        <p className="text-black font-bold">{commentItem?.comment}</p>
+                        <p className="text-title font-bold">{commentItem?.comment}</p>
                         </div>
                     </div>
                     </div>
@@ -45,7 +57,7 @@ function ViewComments({
             )}
             {comments && comments.length > reviewsToShow && (
                 <div className="mx-auto">
-                <Button className="bg-secondary dark:text-primary" onClick={showMoreReviews}>
+                <Button className="bg-secondary dark:text-primary" onClick={()=> showMoreReviews(setReviewsToShow)}>
                     Show More Reviews
                 </Button>
                 </div>
@@ -69,7 +81,7 @@ ViewComments.propTypes = {
     })
   ),
   reviewsToShow: PropTypes.number,
-  showMoreReviews: PropTypes.func.isRequired
+  setReviewsToShow: PropTypes.any
 };
 
 export default ViewComments;

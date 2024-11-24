@@ -67,3 +67,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+
+@layer components {
+  .editor-btn {
+    @apply flex justify-center items-center text-title rounded-lg w-8 aspect-square text-2xl ml-3;
+  }
+  .active-editor-btn {
+    @apply  bg-hover
+  }
+}

@@ -8,6 +8,8 @@ import userBusinessServiceSlice from './userSlice/businessServiceSlice'
 import commentAndRatingReducer  from './userSlice/commentAndRating'
 import MessageReducer  from './userSlice/MessageSlice'
 import favoritesReducer from './userSlice/FavoritesSlice'
+import adminBlogsSlice from './adminSlice/BlogsSlice'
+
 const store = configureStore({
     reducer : {
         auth : authReducer,
@@ -18,7 +20,10 @@ const store = configureStore({
         singleBusiness : userBusinessServiceSlice,
         comments: commentAndRatingReducer,
         messages : MessageReducer,
-        favorites  :favoritesReducer
+        favorites  :favoritesReducer,
+        blogs : adminBlogsSlice,
+        blog : adminBlogsSlice,
+
     }
 });
 

@@ -24,62 +24,83 @@ function CommentRatingForm({
             
             {/* Overall Rating */}
             <div>
-                <h2 className="font-bold mb-1 text-center">Overall Rating</h2>
-                <Select onValueChange={setOverallRating} value={overallRating || ""}>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Rate" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>Overall Rating</SelectLabel>
-                            <SelectItem value="1">1 Star</SelectItem>
-                            <SelectItem value="2">2 Stars</SelectItem>
-                            <SelectItem value="3">3 Stars</SelectItem>
-                            <SelectItem value="4">4 Stars</SelectItem>
-                            <SelectItem value="5">5 Stars</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
+            {
+                    overallRating !==null ? (
+                        <>
+                            <h2 className="font-bold mb-1 text-center">Overall Rating</h2>
+                            <Select onValueChange={setOverallRating} value={overallRating || ""}>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Rate" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Overall Rating</SelectLabel>
+                                        <SelectItem value="1">1 Star</SelectItem>
+                                        <SelectItem value="2">2 Stars</SelectItem>
+                                        <SelectItem value="3">3 Stars</SelectItem>
+                                        <SelectItem value="4">4 Stars</SelectItem>
+                                        <SelectItem value="5">5 Stars</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </>
+                    ) : null  
+                }
+        
             </div>
             
             {/* Customer Service Rating */}
             <div>
-                <h2 className="font-bold mb-1 text-center">Customer Service</h2>
-                <Select onValueChange={setCustomerServiceRating} value={customerServiceRating || ""}>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Rate" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>Customer Service</SelectLabel>
-                            <SelectItem value="1">1 Star</SelectItem>
-                            <SelectItem value="2">2 Stars</SelectItem>
-                            <SelectItem value="3">3 Stars</SelectItem>
-                            <SelectItem value="4">4 Stars</SelectItem>
-                            <SelectItem value="5">5 Stars</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
+            {
+                    customerServiceRating !== null ? (
+                        <>
+                        <h2 className="font-bold mb-1 text-center">Customer Service</h2>
+                            <Select onValueChange={setCustomerServiceRating} value={customerServiceRating || ""}>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Rate" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Customer Service</SelectLabel>
+                                    <SelectItem value="1">1 Star</SelectItem>
+                                    <SelectItem value="2">2 Stars</SelectItem>
+                                    <SelectItem value="3">3 Stars</SelectItem>
+                                    <SelectItem value="4">4 Stars</SelectItem>
+                                    <SelectItem value="5">5 Stars</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        </>
+                    ) : null 
+                }
+            
             </div>
             
             {/* Price Rating */}
             <div>
-                <h2 className="font-bold mb-1 text-center">Prices</h2>
-                <Select onValueChange={setPriceRating} value={priceRating || ""}>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Rate" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>Prices</SelectLabel>
-                            <SelectItem value="1">1 Star</SelectItem>
-                            <SelectItem value="2">2 Stars</SelectItem>
-                            <SelectItem value="3">3 Stars</SelectItem>
-                            <SelectItem value="4">4 Stars</SelectItem>
-                            <SelectItem value="5">5 Stars</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
+                {
+                    priceRating !==null ? (
+                        <>
+                            <h2 className="font-bold mb-1 text-center">Prices</h2>
+                            <Select onValueChange={setPriceRating} value={priceRating || ""}>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Rate" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Prices</SelectLabel>
+                                        <SelectItem value="1">1 Star</SelectItem>
+                                        <SelectItem value="2">2 Stars</SelectItem>
+                                        <SelectItem value="3">3 Stars</SelectItem>
+                                        <SelectItem value="4">4 Stars</SelectItem>
+                                        <SelectItem value="5">5 Stars</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </>
+                    ) : null 
+                }
+
             </div>
         </div>
         <div className="mb-10 grid w-full gap-2">
@@ -88,8 +109,8 @@ function CommentRatingForm({
                 onChange={(e) => setComment(e.target.value)} />
             <Button
                 onClick={() => handleSubmit(user?._id)}
-                className={`bg-secondary dark:text-primary ${(!comment && !overallRating && !customerServiceRating && !priceRating) && "opacity-50 cursor-not-allowed"}`}
-                disabled={!comment && !overallRating && !customerServiceRating && !priceRating || !isAuthenticated}
+                className={`bg-secondary dark:text-primary ${(!comment ) && "opacity-50 cursor-not-allowed"}`}
+                disabled={!isAuthenticated}
             >
                 Send Comment
             </Button>
@@ -100,14 +121,14 @@ function CommentRatingForm({
 
 CommentRatingForm.propTypes = {
     overallRating: PropTypes.string, 
-    setOverallRating: PropTypes.func.isRequired, 
+    setOverallRating: PropTypes.func, 
     customerServiceRating: PropTypes.string, 
-    setCustomerServiceRating: PropTypes.func.isRequired, 
+    setCustomerServiceRating: PropTypes.func, 
     priceRating: PropTypes.string, 
-    setPriceRating: PropTypes.func.isRequired, 
+    setPriceRating: PropTypes.func, 
     comment: PropTypes.string, 
-    setComment: PropTypes.func.isRequired, 
-    handleSubmit: PropTypes.func.isRequired 
+    setComment: PropTypes.func, 
+    handleSubmit: PropTypes.func 
 };
 
 export default CommentRatingForm;

@@ -1,5 +1,6 @@
 // commentAndRatingSlice.js
 
+import stables from "@/constants/stables";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -14,7 +15,7 @@ const initialState = {
 export const createCommentAndRating = createAsyncThunk(
     'commentAndRating/create',
     async ({formData}) => {
-        const response = await axios.post('http://localhost:5000/api/CommentAndRatingRouter/', formData, {
+        const response = await axios.post(`${stables.API_BASE_URL}CommentAndRatingRouter/`, formData, {
             withCredentials: true,
         });
         return response.data;
@@ -25,7 +26,7 @@ export const createCommentAndRating = createAsyncThunk(
 export const getCommentsByBusiness = createAsyncThunk(
     'commentAndRating/getByBusiness',
     async (businessId) => {
-        const response = await axios.get(`http://localhost:5000/api/CommentAndRatingRouter/business/${businessId}`, {
+        const response = await axios.get(`${stables.API_BASE_URL}CommentAndRatingRouter/business/${businessId}`, {
             withCredentials: true,
         });
         return response.data;
@@ -36,7 +37,7 @@ export const getCommentsByBusiness = createAsyncThunk(
 export const getCommentsByUser = createAsyncThunk(
     'commentAndRating/getByUser',
     async (userId) => {
-        const response = await axios.get(`http://localhost:5000/api/CommentAndRatingRouter/user/${userId}`, {
+        const response = await axios.get(`${stables.API_BASE_URL}CommentAndRatingRouter/user/${userId}`, {
             withCredentials: true,
         });
         return response.data;
@@ -47,7 +48,7 @@ export const getCommentsByUser = createAsyncThunk(
 export const updateCommentAndRating = createAsyncThunk(
     'commentAndRating/update',
     async ({ id, formData }) => {
-        const response = await axios.put(`http://localhost:5000/api/CommentAndRatingRouter/${id}`, formData, {
+        const response = await axios.put(`${stables.API_BASE_URL}CommentAndRatingRouter/${id}`, formData, {
             withCredentials: true,
         });
         return response.data;
@@ -58,7 +59,7 @@ export const updateCommentAndRating = createAsyncThunk(
 export const deleteCommentAndRating = createAsyncThunk(
     'commentAndRating/delete',
     async (id) => {
-        const response = await axios.delete(`http://localhost:5000/api/CommentAndRatingRouter/${id}`, {
+        const response = await axios.delete(`${stables.API_BASE_URL}CommentAndRatingRouter/${id}`, {
             withCredentials: true,
         });
         return response.data;

@@ -20,3 +20,14 @@ export const renderStars = (rating) => {
         });
     });
 };
+
+
+export const calculateAverageRating = (ratings) => {
+    if (ratings.length === 0) return 0; // Avoid division by zero
+    const total = ratings.reduce((acc, rating) => acc + rating, 0);
+    return total / ratings.length;
+    };
+
+export  const showMoreReviews = (setReviewsToShow) => {
+    setReviewsToShow(prev => prev + 4); // Increase the number of reviews displayed by 6
+};

@@ -1,3 +1,4 @@
+import stables from "@/constants/stables";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
 
@@ -9,14 +10,14 @@ const initialState = {
 };
 
 export const fetchAllPricingPlan = createAsyncThunk('/Admin/fetchAllPricingPlan' ,async () => {
-    const result = await axios.get('http://localhost:5000/api/AdminPricingPlan/plans');
+    const result = await axios.get(`${stables.API_BASE_URL}AdminPricingPlan/plans`);
     return result?.data;
 })
 
 export const createPricingPlan = createAsyncThunk('/admin/createPricingPlan/' , 
     async(formData) => {
         console.log(formData)
-        const response = await axios.post('http://localhost:5000/api/AdminPricingPlan/plans' , formData ,
+        const response = await axios.post(`${stables.API_BASE_URL}AdminPricingPlan/plans` , formData ,
             {
                 withCredentials : true,
             }
@@ -28,7 +29,7 @@ export const createPricingPlan = createAsyncThunk('/admin/createPricingPlan/' ,
 
 export const updatePricingPlan  = createAsyncThunk('/admin/updatePricingPlan/' , 
     async({id,formData}) => {
-        const response = await axios.put(`http://localhost:5000/api/AdminPricingPlan/plans/${id}` , formData ,
+        const response = await axios.put(`${stables.API_BASE_URL}AdminPricingPlan/plans/${id}` , formData ,
             {
                 withCredentials : true,
             }
@@ -39,7 +40,7 @@ export const updatePricingPlan  = createAsyncThunk('/admin/updatePricingPlan/' ,
 
 export const deletePricingPlan = createAsyncThunk('/admin/deleteCategory' ,async (id) => {
     console.log(id)
-    const result = await axios.delete(`http://localhost:5000/api/AdminPricingPlan/plans/${id}`);
+    const result = await axios.delete(`${stables.API_BASE_URL}AdminPricingPlan/plans/${id}`);
     return result?.data;
 });
 

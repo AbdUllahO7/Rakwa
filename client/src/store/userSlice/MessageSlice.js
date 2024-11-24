@@ -1,5 +1,6 @@
 // messageSlice.js
 
+import stables from "@/constants/stables";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -16,7 +17,7 @@ const initialState = {
 export const createMessage = createAsyncThunk(
     'message/create',
     async ({ formData }) => {
-        const response = await axios.post('http://localhost:5000/api/MessageRouter/create', formData, {
+        const response = await axios.post(`${stables.API_BASE_URL}MessageRouter/create`, formData, {
             withCredentials: true,
         });
         return response.data;
@@ -27,7 +28,7 @@ export const createMessage = createAsyncThunk(
 export const getMessagesByBusiness = createAsyncThunk(
     'message/getByBusiness',
     async (businessId) => {
-        const response = await axios.get(`http://localhost:5000/api/MessageRouter/business/${businessId}`, {
+        const response = await axios.get(`${stables.API_BASE_URL}MessageRouter/business/${businessId}`, {
             withCredentials: true,
         });
         return response.data;
@@ -45,7 +46,7 @@ export const getMessagesByUser = createAsyncThunk(
             limit: limit,
         }).toString(); // Convert query parameters to a string
 
-        const response = await axios.get(`http://localhost:5000/api/MessageRouter/user/${userId}?${query}`);
+        const response = await axios.get(`${stables.API_BASE_URL}MessageRouter/user/${userId}?${query}`);
         return response.data;
     }
 );
@@ -56,7 +57,7 @@ export const getMessagesByUser = createAsyncThunk(
 export const updateMessage = createAsyncThunk(
     'message/update',
     async ({ messageId, formData }) => {
-        const response = await axios.put(`http://localhost:5000/api/MessageRouter/update/${messageId}`, formData, {
+        const response = await axios.put(`${stables.API_BASE_URL}MessageRouter/update/${messageId}`, formData, {
             withCredentials: true,
         });
         return response.data;
@@ -68,7 +69,7 @@ export const updateMessage = createAsyncThunk(
 export const deleteMessage = createAsyncThunk(
     'message/delete',
     async (messageId) => {
-        const response = await axios.delete(`http://localhost:5000/api/MessageRouter/delete/${messageId}`, {
+        const response = await axios.delete(`${stables.API_BASE_URL}MessageRouter/delete/${messageId}`, {
             withCredentials: true,
         });
         return response.data;
@@ -77,7 +78,7 @@ export const deleteMessage = createAsyncThunk(
 export const deleteAllMessages = createAsyncThunk(
     'message/deleteAll',
     async ({ userId, type }) => {
-        const response = await axios.delete(`http://localhost:5000/api/MessageRouter/deleteAll/${userId}`, {
+        const response = await axios.delete(`${stables.API_BASE_URL}MessageRouter/deleteAll/${userId}`, {
             params: { type }, // Add the type as a query parameter (e.g., type="sent" or type="incoming")
             withCredentials: true,
         });
@@ -88,10 +89,12 @@ export const deleteAllMessages = createAsyncThunk(
 export const getUnreadMessagesCount = createAsyncThunk(
     'messages/getUnreadMessagesCount',
     async (userId) => {
-        const response = await axios.get(`http://localhost:5000/api/MessageRouter/user/${userId}/unreadCount`);
+        const response = await axios.get(`${stables.API_BASE_URL}MessageRouter/user/${userId}/unreadCount`);
         return response.data.unreadCount;
     }
 );
+
+
 const messageSlice = createSlice({
     name: 'message',
     initialState,
