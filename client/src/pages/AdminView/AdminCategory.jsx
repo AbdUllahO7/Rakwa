@@ -199,7 +199,7 @@ function AdminCategory() {
                 </div>
             </section>
             
-            {/* Category Dialog */}
+            {/* Category Sheet */}
             <Sheet
                 open={openCreateProductDialog}
                 onOpenChange={() => {

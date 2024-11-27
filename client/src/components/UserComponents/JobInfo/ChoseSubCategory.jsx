@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import Category from "@/components/common/Category";
 import { CircleArrowRight } from "lucide-react";
+import BackButton from '@/components/common/BackButton';
 
 function ChoseSubCategory({ SubCategoriesList, handleCardClick , selectedSubCategoryIds }) {
 
@@ -13,7 +14,8 @@ function ChoseSubCategory({ SubCategoriesList, handleCardClick , selectedSubCate
                 <h2>Choose your business type or category</h2>
             </div>
             <div className="container mx-auto px-4">
-                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                <BackButton/>
+                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-2">
                     {SubCategoriesList && SubCategoriesList.length > 0 ? (
                         SubCategoriesList.map((productItem) => (
                             <Category

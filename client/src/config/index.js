@@ -23,7 +23,6 @@ export const registerFormControls = [
 ]
 
 
-
 export const loginFormControls = [
     
     {
@@ -52,7 +51,7 @@ export const shoppingViewHeaderMenuItems = [
     {
         id: "business",
         label: "Business",
-        path: "/user/business",
+        path: "/AllBusiness",
     },
     {
         id: "q&a",
@@ -67,7 +66,7 @@ export const shoppingViewHeaderMenuItems = [
     {
         id: "blog",
         label: "Blog",
-        path: "/user/blog",
+        path: "/AllBlogs",
     },
     {
         id: "dalilNews",
@@ -131,8 +130,7 @@ export const filterOptions = {
         { id: "furniture", label: "Furniture" },
         { id: "groceries", label: "Groceries" },
     ],
-
-    };
+};
 
 
 export const pricingPlanFormElements = [
@@ -167,8 +165,6 @@ export const pricingPlanFormElements = [
             placeholder: 'Enter features',
         },
 ];
-    
-
 
 export const addBusinessFormElements = [
     {
@@ -238,6 +234,7 @@ export const addBusinessFormElements = [
         validation: (value) => /^\+?[\d\s-]{10,}$/.test(value), // Phone number validation regex
     },
 ];
+
 export const addOnlineBusinessFormElements = [
     {
         label: "Email",

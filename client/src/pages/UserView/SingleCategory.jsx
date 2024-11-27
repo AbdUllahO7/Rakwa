@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useSearchParams } from "react-router-dom";
 import BusinessComponent from "@/components/UserComponents/BusinessComponent";
 import { fetchAllAcceptBusinesses } from "@/store/userSlice/businessServiceSlice";
+import BackButton from "@/components/common/BackButton";
 
 function SingleCategory() {
     const { id } = useParams(); // Get the category id from the URL
@@ -38,7 +39,8 @@ function SingleCategory() {
     return (
         <section className="py-12">
             <div className="container mx-auto px-4">
-                <div className="flex flex-wrap-reverse lg:flex-row gap-8">
+                <BackButton/>
+                <div className="flex flex-wrap-reverse lg:flex-row gap-8 mt-2">
                     {/* Main Content */}
                     <div className="flex-col w-full">
                         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">

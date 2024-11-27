@@ -1,13 +1,14 @@
-// components/UserComponents/AllCategory.js
-import SortByComponent from "@/components/common/SortByComponent";
-import Category from "@/components/common/Category";
-import { fetchAllCategory } from "@/store/adminSlice/AdminCategory";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import FilterComponent from "@/components/common/FilterComponent"; // Import the new FilterComponent
+import SortByComponent from "@/components/common/SortByComponent";
+import Category from "@/components/common/Category";
+import { fetchAllCategory } from "@/store/adminSlice/AdminCategory";
+import FilterComponent from "@/components/common/FilterComponent";
 import BusinessComponent from "@/components/UserComponents/BusinessComponent";
 import { fetchAllAcceptBusinesses } from "@/store/userSlice/businessServiceSlice";
+import BackButton from "@/components/common/BackButton";
+import { RotateCcw } from "lucide-react";
 
 function AllCategory() {
     const navigate = useNavigate();
@@ -17,32 +18,21 @@ function AllCategory() {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    // Initialize filters and sort state
+    // Initialize filters and sort state from URL
     const [filters, setFilters] = useState(() => {
-        const savedFilters = sessionStorage.getItem("filters");
         const urlFilters = Object.fromEntries(searchParams.entries());
-        return Object.keys(urlFilters).length > 0
-            ? JSON.parse(JSON.stringify(urlFilters))
-            : savedFilters
-            ? JSON.parse(savedFilters)
-            : {};
+        return urlFilters;
     });
 
-    const [sort, setSort] = useState(() => {
-        const savedSort = sessionStorage.getItem("sort");
-        return searchParams.get("sort") || savedSort || null;
-    });
+    const [sort, setSort] = useState(() => searchParams.get("sort") || null);
 
-    // Sync filters and sort with URL and sessionStorage
+    // Sync component state with URL parameters
     useEffect(() => {
-        sessionStorage.setItem("filters", JSON.stringify(filters));
-        sessionStorage.setItem("sort", sort);
-
-        setSearchParams({
-            ...filters,
-            sort,
-        });
-    }, [filters, sort, setSearchParams]);
+        const urlFilters = Object.fromEntries(searchParams.entries());
+        const urlSort = searchParams.get("sort");
+        setFilters(urlFilters);
+        setSort(urlSort);
+    }, [searchParams]);
 
     // Fetch data when filters or sort change
     useEffect(() => {
@@ -58,19 +48,19 @@ function AllCategory() {
     const applyFilter = (getSectionId, getCurrentOption) => {
         const updatedFilters = { ...filters, [getSectionId]: getCurrentOption };
         setFilters(updatedFilters); // Update state
+        setSearchParams({ ...updatedFilters, sort });
     };
 
     // Apply sort
     const handleSort = (value) => {
         setSort(value);
+        setSearchParams({ ...filters, sort: value });
     };
 
     // Reset filters
     const resetFilters = () => {
         setFilters({});
         setSort(null);
-        sessionStorage.removeItem("filters");
-        sessionStorage.removeItem("sort");
         setSearchParams({});
     };
 
@@ -82,14 +72,16 @@ function AllCategory() {
     return (
         <section className="py-12">
             <div className="container mx-auto px-4">
-                <div className="flex flex-wrap-reverse lg:flex-row gap-8">
+                <BackButton link={'/'}/>
+                <div className="flex flex-wrap-reverse lg:flex-row gap-8 mt-2">
                     {/* Sidebar Filter */}
                     <aside className="w-full lg:w-1/4 space-y-6">
                         <FilterComponent filters={filters} handleFilter={applyFilter} />
                         <button
                             onClick={resetFilters}
-                            className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg"
+                            className="mt-4 bg-secondary  px-4 py-2 rounded-lg text-title hover:bg-hover duration-300 flex gap-2"
                         >
+                            <RotateCcw />
                             Reset Filters
                         </button>
                     </aside>

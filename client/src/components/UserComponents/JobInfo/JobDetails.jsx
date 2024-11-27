@@ -105,7 +105,7 @@ export function JobDetails({ selectedCategoryIds, selectedSubCategoryIds , selec
                 <Tabs
                     defaultValue="LocationBusiness"
                     onValueChange={handleTabChange}
-                    className="w-full shadow-xl bg-cover bg-center relative"
+                    className="w-full shadow-xl bg-cover bg-center relative mt-2"
                 >
                     <div className="absolute inset-0 bg-secondary bg-opacity-20 backdrop-blur-sm"></div> {/* Blur overlay */}
                     <TabsList className="grid w-full grid-cols-2 bg-secondary text-primary relative z-10">

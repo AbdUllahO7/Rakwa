@@ -1,3 +1,4 @@
+import BackButton from "@/components/common/BackButton";
 import { Card, CardHeader } from "@/components/ui/card";
 import { CircleArrowRight } from "lucide-react";
 import PropTypes from 'prop-types';
@@ -9,6 +10,7 @@ function ChoseBusinessOrAd({
     return (
         <section className="w-full py-12">
             <div className='container mx-auto'>
+                <BackButton/>
                 <div className="mb-10 text-center text-2xl font-bold text-secondary flex justify-center items-center">
                     <CircleArrowRight className="mt-1 mr-2 dark:text-primary" />
                     <h2 className='dark:text-primary'>Choose What Type of your Business</h2>

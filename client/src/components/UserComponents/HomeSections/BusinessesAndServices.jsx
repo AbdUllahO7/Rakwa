@@ -13,7 +13,7 @@ function BusinessesAndServices({ product }) {
 
 
     return (
-        <div onClick={handleNavigation}  className={`relative w-full flex flex-wrap ${product?.open ? 'cursor-pointer' : 'cursor-not-allowed '}`}>
+        <div onClick={handleNavigation}  className={`relative w-[300px] h-[300px] gap-10 flex flex-wrap   ${product?.open ? 'cursor-pointer' : 'cursor-not-allowed '}`}>
             <div className="w-full">
                 <img
                     alt={product?.title} // Use the product title as alt text for better accessibility

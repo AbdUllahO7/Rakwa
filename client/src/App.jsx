@@ -24,7 +24,6 @@ import ProfileLayout from './pages/UserView/Porfile/ProfileLayout';
 import UserDashBoard from './components/UserComponents/Profile/UserDashBoard';
 import UserBusiness from './components/UserComponents/Profile/UserBusiness';
 import BusinessInfo from './components/UserComponents/Profile/BusinessInfo';
-import BusinessDetails from './pages/UserView/BusinessDetails';
 import UserMessages from './components/UserComponents/Profile/UserMessages';
 import AllMessages from './components/UserComponents/Profile/AllMessages';
 import UserPricingPlan from './components/UserComponents/Profile/UserPricingPlan';
@@ -35,6 +34,8 @@ import AllBlogs from './pages/UserView/Blogs/AllBlogs';
 import BlogDetails from './components/UserComponents/Blogs/BlogDetails';
 import AdminBlogs from './pages/AdminView/AdminBlogs';
 import AdminEditBlog from './components/AdminComponents/AdminEditBlog';
+import BusinessDetails from './pages/UserView/Business/BusinessDetails';
+import AllBusiness from './pages/UserView/Business/AllBusiness';
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
@@ -94,6 +95,8 @@ function App() {
 
           </Route>
           <Route path="BusinessDetails/:id" element={<BusinessDetails />} />
+          <Route path="AllBusiness" element={<AllBusiness />} />
+
           <Route path="AllBlogs" element={<AllBlogs />} />
           <Route path="BlogDetails/:slug" element={<BlogDetails />} />
 

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import Category from "@/components/common/Category";
 import { CircleArrowRight, MessageCircleWarningIcon } from "lucide-react";
 import { useSelector } from 'react-redux';
+import BackButton from '@/components/common/BackButton';
 
 function ChoseCategory({ CategoriesList, handleCardClick, selectedCategoryIds }) {
 
@@ -27,7 +28,8 @@ function ChoseCategory({ CategoriesList, handleCardClick, selectedCategoryIds })
                 ) : null
             }
             <div className="container mx-auto px-4">
-                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                <BackButton/>
+                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-2">
                     {CategoriesList && CategoriesList.length > 0 ? (
                         CategoriesList.map((productItem) => (
                             <Category

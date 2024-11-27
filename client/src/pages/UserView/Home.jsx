@@ -1,7 +1,7 @@
 import Special from "@/components/UserComponents/HomeSections/Special"
 import Category from "@/components/common/Category"
 import Hero from "@/components/UserComponents/HomeSections/Hero"
-import { Bolt, Menu, Rss, StarIcon } from "lucide-react"
+import { Bolt, Menu, Rss } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import BusinessesAndServices from "@/components/UserComponents/HomeSections/BusinessesAndServices";
 import LatestBusinessAndServices from "@/components/UserComponents/HomeSections/LatestBusinessAndServices";
@@ -12,6 +12,7 @@ import { fetchAllCategory } from "@/store/adminSlice/AdminCategory";
 import { useNavigate } from "react-router-dom";
 import { fetchAllAcceptBusinesses } from "@/store/userSlice/businessServiceSlice";
 import { getAllBlogs } from "@/store/adminSlice/BlogsSlice";
+import HeaderSectionTitle from "@/components/common/HeaderSectionTitle";
 
 const SpecialProducts = [
     {
@@ -114,10 +115,7 @@ function Home() {
             {/* activities */}
             <section className='py-12'>
                 <div className='container mx-auto px-4'>
-                    <div className='flex justify-center items-center mx-auto w-full mb-8'>
-                        <StarIcon className='text-yellow-600 mr-4' />
-                        <h2 className='text-3xl font-bold text-center'>Special</h2>
-                    </div>
+                    <HeaderSectionTitle title={"Special"}/>
                     <div className='grid  sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6'>
                         {SpecialProducts && SpecialProducts.length > 0 ? (
                             SpecialProducts.map(productItem => (
@@ -135,10 +133,9 @@ function Home() {
               {/* Businesses And Services */}
                 <section className='py-12'>
                     <div className="container mx-auto px-5 ">
-                        <div className='flex justify-center items-center mx-auto w-full mb-8'>
-                            <StarIcon className='text-yellow-600 mr-4' />
-                            <h2 className='text-3xl font-bold text-center'>Businesses And Services</h2>
-                        </div>
+                        <HeaderSectionTitle title={"Businesses And Services"}/>
+
+
                         <div className='grid  sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6'>
                             {businessList && businessList.length > 0 ? (
                                 businessList.slice(0, 5).map(productItem => (
@@ -150,7 +147,9 @@ function Home() {
                             ) : null}
                         </div>
                         <div className='flex justify-center items-center mx-auto w-full mb-8 '>
-                        <Button className='mt-10 bg-secondary text-primary font-extrabold text-2xl w-[300px] flex gap-2 pt-6 pb-6'>
+                        <Button className='mt-10 bg-secondary text-primary font-extrabold text-2xl w-[300px] flex gap-2 pt-6 pb-6'
+                            onClick = {()=> navigate('/AllBusiness')}
+                        >
                         <Bolt className="size-7"/>
                             All Services
                         </Button>
@@ -161,10 +160,7 @@ function Home() {
             {/* Latest Business And Services */}
             <section className='py-12'>
                 <div className='container mx-auto px-4'>
-                    <div className='flex justify-center items-center mx-auto w-full mb-8'>
-                        <StarIcon className='text-yellow-600 mr-4' />
-                        <h2 className='text-3xl font-bold text-center'>Latest Business And Services</h2>
-                    </div>
+                    <HeaderSectionTitle title={"Latest Business And Services"}/>
                     <div className="grid sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6">
                         {sortedBusinessList && sortedBusinessList.length > 0 ? (
                             sortedBusinessList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -182,7 +178,9 @@ function Home() {
                         </div>
 
                     <div className='flex justify-center items-center mx-auto w-full mb-8 '>
-                    <Button className='mt-10 bg-secondary text-primary font-extrabold text-2xl w-[300px] flex gap-2 pt-6 pb-6'>
+                    <Button className='mt-10 bg-secondary text-primary font-extrabold text-2xl w-[300px] flex gap-2 pt-6 pb-6'
+                        onClick = {()=> navigate('/AllBusiness')}
+                    >
                         <Bolt className="size-7"/>
                             All Services
                         </Button>
@@ -194,10 +192,8 @@ function Home() {
              {/* Blog */}
                 <section className='py-12'>
                 <div className='container mx-auto px-4'>
-                    <div className='flex justify-center items-center mx-auto w-full mb-8'>
-                        <StarIcon className='text-yellow-600 mr-4' />
-                        <h2 className='text-3xl font-bold text-center'>Blogs</h2>
-                    </div>
+                    <HeaderSectionTitle title={"Blogs"}/>
+
                     <div className='grid  sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6'>
                         {blogs && blogs.length > 0 ? (
                             blogs.map(blog => (

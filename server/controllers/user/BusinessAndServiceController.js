@@ -108,7 +108,7 @@ exports.getBusinessWithDetails = async (req, res) => {
 
 exports.getAcceptBusinessWithDetails = async (req, res) => {
     try {
-        const { category = '', subCategory = '', sort, search, page = 1, limit = 10 } = req.query;
+        const { category = '', subCategory = '', sort, search, country, state, city, page = 1, limit = 10 } = req.query;
 
         // Fetch category IDs based on title
         let categoryIds = [];
@@ -132,7 +132,6 @@ exports.getAcceptBusinessWithDetails = async (req, res) => {
             );
         }
         
-
         // Construct filters
         const filters = {
             Accept: true,
@@ -146,6 +145,9 @@ exports.getAcceptBusinessWithDetails = async (req, res) => {
                     ],
                 }
                 : {}),
+            ...(country ? { country: { $regex: country, $options: 'i' } } : {}),
+            ...(state ? { state: { $regex: state, $options: 'i' } } : {}),
+            ...(city ? { city: { $regex: city, $options: 'i' } } : {}),
         };
 
         // Sorting logic
@@ -212,6 +214,7 @@ exports.getAcceptBusinessWithDetails = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
 
 
 // Update a business by ID
