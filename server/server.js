@@ -37,7 +37,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
     cors({
-        origin: "https://rakwa-theta.vercel.app/",
+        origin: "https://dalil-frontend.vercel.app/",
         methods: ["GET", "POST", "DELETE", "PUT"],
         allowedHeaders: [
             "Content-Type",
