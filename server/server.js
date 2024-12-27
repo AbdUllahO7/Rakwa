@@ -42,7 +42,7 @@ app.get("/" , (req, res)=> {
 
 app.use(
     cors({
-        origin: process.env.FRONTEND_URL,
+        origin: "https://rakwa-dw44.vercel.app",
         methods: ["GET", "POST", "DELETE", "PUT"],
         allowedHeaders: [
             "Content-Type",
