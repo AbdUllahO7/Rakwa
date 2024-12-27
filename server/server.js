@@ -24,7 +24,7 @@ const BlogsRoutes = require('./routes/admin/BlogsRoutes')
 const stripeRoutes = require('./routes/stripe.js');
 require("dotenv").config();
 
-
+console.log(process.env.mongoURI)
 
 mongoose
     .connect(process.env.mongoURI)
