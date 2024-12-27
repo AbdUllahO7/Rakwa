@@ -1,5 +1,6 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { StripePublishableKey } from "@/config/keys"; // Adjust if needed
+import stables from "@/constants/stables";
 
 
 export const makePayment = async (SelectedPlan, user) => {
@@ -21,7 +22,7 @@ export const makePayment = async (SelectedPlan, user) => {
             "Content-Type": "application/json",
         };
 
-        const res = await fetch("http://localhost:5000/api/stripe/create-checkout-session", {
+        const res = await fetch(`${stables.API_BASE_URL}stripe/create-checkout-session`, {
             method: "POST",
             headers: headers,
             body: JSON.stringify(body),
