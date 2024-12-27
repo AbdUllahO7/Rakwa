@@ -35,6 +35,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 
+app.get("/" , (req, res)=> {
+    res.json("Hello")
+})
+
 app.use(
     cors({
         origin: ["https://dalil-frontend.vercel.app"],
