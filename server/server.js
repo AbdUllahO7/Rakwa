@@ -22,11 +22,12 @@ const BlogsRoutes = require('./routes/admin/BlogsRoutes')
 
 // stripe 
 const stripeRoutes = require('./routes/stripe.js');
+require("dotenv").config();
 
 
 
 mongoose
-    .connect('mongodb+srv://abdallahalhasan2:8XExYjkzG8VOyrZ3@cluster0.wam8n.mongodb.net/myDatabase?retryWrites=true&w=majority')
+    .connect(process.env.mongoURI)
     .then(() => console.log("MongoDB connected"))
     .catch((error) => console.log(error));
 
@@ -41,7 +42,7 @@ app.get("/" , (req, res)=> {
 
 app.use(
     cors({
-        origin: ["https://dalil-frontend.vercel.app"],
+        origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST", "DELETE", "PUT"],
         allowedHeaders: [
             "Content-Type",
