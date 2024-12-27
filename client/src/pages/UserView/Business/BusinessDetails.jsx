@@ -2,11 +2,11 @@ import BusinessDetailsSkeleton from "@/components/common/BusinessDetailsSkeleton
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import BusinessComponent from "@/components/UserComponents/BusinessComponent";
-import BusinessContact from "@/components/UserComponents/BusinessDetails/BusinessContact";
-import BusinessHeader from "@/components/UserComponents/BusinessDetails/BusinessHeader";
-import CommentRatingForm from "@/components/UserComponents/BusinessDetails/CommentRatingForm";
-import ViewComments from "@/components/UserComponents/BusinessDetails/ViewComments";
+import BusinessComponent from "@/components/UserComponents/business/BusinessComponent";
+import BusinessContact from "@/components/UserComponents/business/BusinessDetails/BusinessContact";
+import BusinessHeader from "@/components/UserComponents/business/BusinessDetails/BusinessHeader";
+import CommentRatingForm from "@/components/UserComponents/business/BusinessDetails/CommentRatingForm";
+import ViewComments from "@/components/UserComponents/business/BusinessDetails/ViewComments";
 import { useToast } from "@/hooks/use-toast";
 import { fetchBusinessById } from "@/store/userSlice/businessServiceSlice";
 import { createCommentAndRating, getCommentsByBusiness } from "@/store/userSlice/commentAndRating";
@@ -24,6 +24,8 @@ import {  useParams } from "react-router-dom";
 function BusinessDetails() {
     const { id } = useParams();
     const { singleBusiness, isLoading } = useSelector(state => state.singleBusiness);
+    const { businessList } = useSelector(state => state.businessList);
+
     const {comments} = useSelector(state=> state.comments); 
     const dispatch = useDispatch();
    // Define states for rating, comment, and additional fields as needed
@@ -246,7 +248,7 @@ function BusinessDetails() {
 
             <div className="mx-auto w-full mb-10 mt-10">
                 <h2 className="text-center text-2xl font-bold">Similar Business</h2>
-                <BusinessComponent/>
+                <BusinessComponent businessList= {businessList}/>
             </div>
 
             </div>

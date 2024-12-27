@@ -1,5 +1,5 @@
 import {  useMemo, useState } from "react";
-import Pagination from "../common/Pagination";
+import Pagination from "../../common/Pagination";
 
 import PropTypes from 'prop-types';
 import BusinessAllUserCard from "./BusinessAllUserCard";
@@ -43,7 +43,7 @@ function BusinessComponent({ businessList = [] }) {
 }
 
 BusinessComponent.propTypes = {
-    businessList: PropTypes.array.isRequired,
+    businessList: PropTypes.array,
 };
 
 export default BusinessComponent;

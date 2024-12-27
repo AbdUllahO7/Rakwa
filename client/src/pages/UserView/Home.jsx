@@ -1,5 +1,5 @@
 import Special from "@/components/UserComponents/HomeSections/Special"
-import Category from "@/components/common/Category"
+import Category from "@/components/common/Category/Category"
 import Hero from "@/components/UserComponents/HomeSections/Hero"
 import { Bolt, Menu, Rss } from "lucide-react"
 import { Button } from "@/components/ui/button";
@@ -68,7 +68,6 @@ function Home() {
         dispatch(getAllBlogs({}))
     } , [dispatch])
 
-    console.log(blogs)
     
     function handleCardCategoryClick  (Category_id){
         navigate(`SingleCategory/${Category_id}`)
@@ -130,13 +129,15 @@ function Home() {
                 </div>
             </section>
 
+
+            {/* i have a problem in the responsive  */}
               {/* Businesses And Services */}
                 <section className='py-12'>
                     <div className="container mx-auto px-5 ">
                         <HeaderSectionTitle title={"Businesses And Services"}/>
 
 
-                        <div className='grid  sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6'>
+                        <div className='grid justify-center  sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6'>
                             {businessList && businessList.length > 0 ? (
                                 businessList.slice(0, 5).map(productItem => (
                                     <BusinessesAndServices 
@@ -176,7 +177,7 @@ function Home() {
                             <p>No businesses found</p>
                         )}
                         </div>
-
+                        
                     <div className='flex justify-center items-center mx-auto w-full mb-8 '>
                     <Button className='mt-10 bg-secondary text-primary font-extrabold text-2xl w-[300px] flex gap-2 pt-6 pb-6'
                         onClick = {()=> navigate('/AllBusiness')}

@@ -1,10 +1,10 @@
-import Category from "@/components/common/Category";
+import Category from "@/components/common/Category/Category";
 import SortByComponent from "@/components/common/SortByComponent";
 import { fetchAllSubCategory } from "@/store/adminSlice/AdminCategory";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useSearchParams } from "react-router-dom";
-import BusinessComponent from "@/components/UserComponents/BusinessComponent";
+import BusinessComponent from "@/components/UserComponents/business/BusinessComponent";
 import { fetchAllAcceptBusinesses } from "@/store/userSlice/businessServiceSlice";
 import BackButton from "@/components/common/BackButton";
 

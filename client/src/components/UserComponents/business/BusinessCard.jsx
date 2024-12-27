@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import { Separator } from '../ui/separator';
+import { Separator } from '../../ui/separator';
 import { BadgeAlert, Check, CircleCheckBig, Info } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { LockClosedIcon } from '@radix-ui/react-icons';
@@ -86,7 +86,7 @@ function BusinessCard({ business, isAdmin }) {
                         <div className="flex rounded-lg flex-wrap items-center gap-1 p-1">
                             {business?.category?.map((cat, index) => (
                                 <div key={index} className="flex items-center mt-1">
-                                    <span className="font-bold text-sm bg-hover p-1 rounded-md sm:text-base ">
+                                    <span className="font-bold text-sm text-description  p-1 rounded-md sm:text-base ">
                                         {cat?.title}
                                     </span>
                                 </div>
@@ -99,7 +99,7 @@ function BusinessCard({ business, isAdmin }) {
                         <div className="flex rounded-lg flex-wrap items-center gap-1 p-1">
                             {business?.subCategoryDetails?.map((subCat, index) => (
                                 <div key={index} className="flex items-center">
-                                    <span className="font-bold text-sm bg-hover p-1 rounded-md sm:text-base">
+                                    <span className="font-bold text-sm text-description p-1 rounded-md sm:text-base">
                                         {subCat?.title}
                                     </span>
                                 </div>
@@ -118,7 +118,7 @@ function BusinessCard({ business, isAdmin }) {
                             onClick={() => navigate(`/userProfile/BusinessInfo/${business?._id}`)}
                             className="bg-hover mt-3 w-full sm:w-auto mx-auto dark:text-primary"
                         >
-                            <Info className="mr-2 title-description" /> Show All Details
+                            <Info className="mr-2 title-description " /> Show All Details
                         </Button>
                     )}
                 </div>
@@ -142,7 +142,7 @@ function BusinessCard({ business, isAdmin }) {
                                     )}
                                 </div>
                             </div>
-                            <h2>{isClose ? 'OPEN' : 'CLOSED'}</h2>
+                            <h2 className='text-description'>{isClose ? 'OPEN' : 'CLOSED'}</h2>
                             </div>
                         ) 
                     }

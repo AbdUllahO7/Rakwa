@@ -1,7 +1,7 @@
 // components/common/FilterComponent.js
 import { Fragment, useEffect, useState } from "react";
-import { Checkbox } from "../ui/checkbox";
-import { Separator } from "../ui/separator";
+import { Checkbox } from "../../ui/checkbox";
+import { Separator } from "../../ui/separator";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategory, fetchAllSubCategory } from "@/store/adminSlice/AdminCategory";
 import PropTypes from "prop-types";

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Separator } from '../ui/separator';
+import { Separator } from '../../ui/separator';
 import { useNavigate } from 'react-router-dom';
 
 function BusinessAllUserCard({ business  }) {

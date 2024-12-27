@@ -8,8 +8,8 @@ import { createCommentAndRating, getCommentsByBusiness } from "@/store/userSlice
 import { calculateAverageRating } from "@/utils/Star";
 import BusinessDetailsSkeleton from "@/components/common/BusinessDetailsSkeleton";
 import Editor from "@/components/tiptap/Editor";
-import ViewComments from "../BusinessDetails/ViewComments";
-import CommentRatingForm from "../BusinessDetails/CommentRatingForm";
+import ViewComments from "../business/BusinessDetails/ViewComments";
+import CommentRatingForm from "../business/BusinessDetails/CommentRatingForm";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 

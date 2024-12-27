@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import SortByComponent from "@/components/common/SortByComponent";
-import Category from "@/components/common/Category";
+import Category from "@/components/common/Category/Category";
 import { fetchAllCategory } from "@/store/adminSlice/AdminCategory";
-import FilterComponent from "@/components/common/FilterComponent";
-import BusinessComponent from "@/components/UserComponents/BusinessComponent";
+import FilterComponent from "@/components/common/Category/FilterComponent";
+import BusinessComponent from "@/components/UserComponents/business/BusinessComponent";
 import { fetchAllAcceptBusinesses } from "@/store/userSlice/businessServiceSlice";
 import BackButton from "@/components/common/BackButton";
 import { RotateCcw } from "lucide-react";
@@ -73,7 +73,7 @@ function AllCategory() {
         <section className="py-12">
             <div className="container mx-auto px-4">
                 <BackButton link={'/'}/>
-                <div className="flex flex-wrap-reverse lg:flex-row gap-8 mt-2">
+                <div className="flex flex-wrap-reverse lg:flex-row gap-8">
                     {/* Sidebar Filter */}
                     <aside className="w-full lg:w-1/4 space-y-6">
                         <FilterComponent filters={filters} handleFilter={applyFilter} />
@@ -87,8 +87,8 @@ function AllCategory() {
                     </aside>
 
                     {/* Categories and Business Components */}
-                    <div className="flex-col w-[1000px]">
-                        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                    <div className="flex-1">
+                        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3">
                             {CategoriesList && CategoriesList.length > 0 ? (
                                 CategoriesList.map((productItem) => (
                                     <Category
@@ -114,7 +114,7 @@ function AllCategory() {
                         </div>
 
                         {/* Business Component */}
-                        <BusinessComponent sort={sort} businessList={businessList} />
+                        <BusinessComponent  businessList={businessList} />
                     </div>
                 </div>
             </div>

@@ -14,7 +14,6 @@ const initialState = {
 // Thunks for async actions (API calls)
 export const getAllBlogs = createAsyncThunk('blogs/getAllBlogs', async ({ page = 1, limit = 10, sort = 'createdAt' }) => {
     const response = await axios.get(`${stables.API_BASE_URL}Blogs`, { params: { page, limit, sort } });
-    console.log(response.data)
     return response.data;
 });
 

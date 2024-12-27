@@ -32,7 +32,6 @@ export const fetchAllAcceptBusinesses = createAsyncThunk('/BusinessAndService/fe
         limit: limit,
     }).toString(); // Convert query parameters to a string
 
-    console.log(filterParams)
     const response = await axios.get(`${stables.API_BASE_URL}BusinessAndService/Accept?${query}`);
     return response.data;
 });

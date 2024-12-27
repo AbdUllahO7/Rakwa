@@ -42,7 +42,7 @@ function UserFavorites() {
                     <StarIcon className="text-yellow-600 mr-4" />
                     <h2 className="text-3xl font-bold text-center">Saved Business And Services</h2>
                 </div>
-                <div className="grid sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div className="grid sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {favorites.length > 0 ? (
                         favorites.map((productItem) => (
                             <LatestBusinessAndServices key={productItem?._id} product={productItem} />
