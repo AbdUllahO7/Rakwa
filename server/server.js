@@ -1,9 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const path = require("path");
-
 // routes 
 
 const authRouter = require('./routes/auth/authRoutes')
@@ -24,12 +24,10 @@ const BlogsRoutes = require('./routes/admin/BlogsRoutes')
 const stripeRoutes = require('./routes/stripe.js');
 require("dotenv").config();
 
-
 mongoose
-    .connect(process.env.mongoURI)
+    .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("MongoDB connected"))
-    .catch((error) => console.log(error));
-
+    .catch((error) => console.log("MongoDB connection error:", error));
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -37,7 +35,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
     cors({
-        origin: "https://rakwa-dw44.vercel.app",
+        origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST", "DELETE", "PUT"],
         allowedHeaders: [
             "Content-Type",
