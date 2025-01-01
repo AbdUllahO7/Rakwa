@@ -52,7 +52,7 @@ function UserPricingPlan() {
                         <div className="flex justify-center">
                             <Link
                                 to="/PricingPlans"
-                                className=" bg-hover text-title py-3 px-6 font-medium border rounded-md border-secondary  transition-all duration-500"
+                                className="dark:text-primary py-3 px-6 font-medium border rounded-md border-secondary text-secondary hover:bg-secondary hover:text-white transition-all duration-500"
                             >
                                 Upgrade Your Plan
                             </Link>

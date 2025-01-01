@@ -44,6 +44,8 @@ function ImageUpload({
     }
     }
     useEffect(() => {
+        console.log('URL to upload:', urlToUpload); // Debugging
+        console.log('Image File:', imageFile); // Debugging
         if (imageFile !== null) uploadImageToCloudinary();
     }, [imageFile]);
     

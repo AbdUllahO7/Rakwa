@@ -1,4 +1,4 @@
-import BusinessCard from "@/components/UserComponents/business/BusinessCard";
+import BusinessCard from "@/components/common/BusinessCard";
 import Pagination from "@/components/common/Pagination";
 import { fetchAllBusinesses } from "@/store/userSlice/businessServiceSlice";
 import { useEffect, useState } from "react";

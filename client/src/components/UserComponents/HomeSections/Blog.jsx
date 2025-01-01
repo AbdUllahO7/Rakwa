@@ -5,6 +5,7 @@ import { Calendar, Heart, Rss, User } from 'lucide-react';
 import PropTypes from 'prop-types';
 
 function Blog({ blog, handleCardClick }) {
+    console.log(blog);
 
     return (
         <Card

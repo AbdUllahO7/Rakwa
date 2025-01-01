@@ -18,7 +18,7 @@ export const fetchAllCategory = createAsyncThunk('/Admin/fetchAllCategory' ,asyn
 
 export const createCategory = createAsyncThunk('/admin/createCategory/' , 
     async(formData) => {
-        const response = await axios.post(`${stables.API_BASE_URL}AdminCategories/createCategory` , formData ,
+        const response = await axios.post('http://localhost:5000/api/AdminCategories/createCategory' , formData ,
             {
                 withCredentials : true,
             }

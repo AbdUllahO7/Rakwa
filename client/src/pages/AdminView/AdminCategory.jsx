@@ -4,7 +4,6 @@ import Form from "@/components/common/Form";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { addCategoryFormElements, addSubCategoryFormElements } from "@/config";
-import stables from "@/constants/stables";
 import ImageUpload from "@/hooks/ImageUpload";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -225,6 +224,7 @@ function AdminCategory() {
                         setImageLoadingState={setImageLoadingState}
                         imageLoadingState={imageLoadingState}
                         isEditMode={currentEditId !== null}
+                        urlToUpload={'http://localhost:5000/api/AdminCategories/upload-image'}
                     />
 
                     <div className="py-6">
@@ -262,8 +262,7 @@ function AdminCategory() {
                         setUploadedImageUrl={setUploadedImageUrl}
                         setImageLoadingState={setImageLoadingState}
                         imageLoadingState={imageLoadingState}
-                        urlToUpload={`${stables.API_BASE_URL}AdminCategories/upload-image`}
-
+                        urlToUpload={'http://localhost:5000/api/AdminCategories/upload-image'}
                     />
 
                     <div className="py-6">

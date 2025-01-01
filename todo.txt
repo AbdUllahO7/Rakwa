@@ -1,0 +1,22 @@
+- create blog section in backend , create in the admin dashboard 
+- user create blog ???! (why no ? why yes ? ) 
+- (done) update the business and make user add ads (maybe add a column in db and make user chose ad or business  )! 
+- (done) create save business buttons work ! 
+- !!! fix the imageList in the business !!! dose not work 
+- (done) business share buttons not work ! 
+-
+
+--------------------------------------------------------------------------------------------------------- 
+created_at : 16/11/2024
+- (done) !! add a strapi pay method  !! 
+-(done) make user change the plan !! 
+- create the smiler business in backend (BusinessDetails) !!  
+- (done) add filter with category and subCategories ! 
+- (done) make the businessList get the accept !!! 
+
+
+----------------------------------------------------------------------------------------------------
+created_at : 20/11/2024 
+- remove the filter from AllCategory just make the filter after user select the category and subCategories ! 
+- create pages all business and make the sideBarFilter is there ! 
+

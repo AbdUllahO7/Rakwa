@@ -8,7 +8,6 @@ import { createBusiness } from "@/store/userSlice/businessServiceSlice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import stables from '@/constants/stables';
 
 const initialFormData = {
     title: "",
@@ -123,8 +122,7 @@ export function JobDetails({ selectedCategoryIds, selectedSubCategoryIds , selec
                             setImageLoadingState={setImageLoadingState}
                             imageLoadingState={imageLoadingState}
                             isEditMode={null}
-                            urlToUpload={`${stables.API_BASE_URL}BusinessAndService/upload-image`}
-
+                            urlToUpload={'http://localhost:5000/api/BusinessAndService/upload-image'}
                         />
                         <div className="py-6 mx-auto lg:max-w-[700px]">
                             <Form
@@ -147,8 +145,7 @@ export function JobDetails({ selectedCategoryIds, selectedSubCategoryIds , selec
                             setImageLoadingState={setImageLoadingState}
                             imageLoadingState={imageLoadingState}
                             isEditMode={null}
-                            urlToUpload={`${stables.API_BASE_URL}BusinessAndService/upload-image`}
-
+                            urlToUpload={'http://localhost:5000/api/BusinessAndService/upload-image'}
                         />
                         <div className="py-6 mx-auto lg:max-w-[700px]">
                             <Form

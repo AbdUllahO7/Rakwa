@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import Category from "@/components/common/Category/Category";
+import Category from "@/components/common/Category";
 import { CircleArrowRight, MessageCircleWarningIcon } from "lucide-react";
 import { useSelector } from 'react-redux';
 import BackButton from '@/components/common/BackButton';

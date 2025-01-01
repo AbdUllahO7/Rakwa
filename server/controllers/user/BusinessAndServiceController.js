@@ -4,7 +4,7 @@ const { imageUploadUtil } = require('../../helpers/cloudinary');
 const BusinessAndService = require('../../models/BusinessAndService');
 const AdminCategories = require('../../models/Categories');
 const mongoose = require('mongoose');
-const { createErrorResponse, getSortOption, buildSearchQuery } = require('../../utils/utils');
+const { createErrorResponse, getSortOption, buildSearchQuery, validateCategories, validateSubCategories, createSuccessResponse } = require('../../utils/utils');
 
 exports.handleImageUpload = async (req, res) => {
     try {
@@ -22,9 +22,13 @@ exports.handleImageUpload = async (req, res) => {
 
 // Create a new business
 exports.createBusiness = async (req, res) => {
+
+
+    console.log("create ")
     const { BusinessType, category = [], subCategory = [], features = [] } = req.body;
 
     const commonRequiredFields = ['title', 'description', 'BusinessType', 'category', 'owner', 'email', 'images', 'BusinessOrAd'];
+    console.log(req.body)
     const locationRequiredFields = BusinessType === "Location" ? ['country', 'state', 'city', 'fullAddress'] : [];
     const requiredFields = [...commonRequiredFields, ...locationRequiredFields];
 
@@ -34,15 +38,18 @@ exports.createBusiness = async (req, res) => {
     }
 
     try {
-        const invalidCategories = await this.validateCategories(category);
+
+        const invalidCategories = await validateCategories(category);
         if (invalidCategories.length > 0) {
             return createErrorResponse(res, 400, `Invalid category IDs: ${invalidCategories.join(', ')}`);
         }
 
-        const invalidSubCategories = await this.validateSubCategories(subCategory);
+
+        const invalidSubCategories = await validateSubCategories(subCategory);
         if (invalidSubCategories.length > 0) {
             return createErrorResponse(res, 400, `Invalid subCategory IDs: ${invalidSubCategories.join(', ')}`);
         }
+        console.log("saved")
 
         if (!Array.isArray(features)) {
             return createErrorResponse(res, 400, 'Features must be an array.');
@@ -57,7 +64,9 @@ exports.createBusiness = async (req, res) => {
 
         const newBusiness = new BusinessAndService(newBusinessData);
         const savedBusiness = await newBusiness.save();
-        return this.createSuccessResponse(res, 201, savedBusiness);
+        console.log(savedBusiness)
+
+        return createSuccessResponse(res, 201, savedBusiness);
     } catch (error) {
         return createErrorResponse(res, 400, error.message);
     }

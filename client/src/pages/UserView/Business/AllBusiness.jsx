@@ -1,6 +1,6 @@
 import BackButton from "@/components/common/BackButton";
 import { SkeletonCard } from "@/components/common/CardSkeleton";
-import FilterComponent from "@/components/common/Category/FilterComponent";
+import FilterComponent from "@/components/common/FilterComponent";
 import HeaderSectionTitle from "@/components/common/HeaderSectionTitle";
 import Pagination from "@/components/common/Pagination";
 import SortByComponent from "@/components/common/SortByComponent";

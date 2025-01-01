@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import BusinessCard from "@/components/UserComponents/business/BusinessCard";
+import BusinessCard from "@/components/common/BusinessCard";
 import Pagination from "@/components/common/Pagination";
 import { fetchBusinessByUserId } from "@/store/userSlice/businessServiceSlice";
 

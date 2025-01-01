@@ -13,7 +13,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import stables from "@/constants/stables";
 
 function BusinessInfo({ isAdmin }) {
   const { businessId } = useParams();
@@ -155,8 +154,7 @@ function BusinessInfo({ isAdmin }) {
       setImageFile={setImageFile}
       uploadedImageUrl={businessData.imageUrl}
       setUploadedImageUrl={(url) => setBusinessData((prev) => ({ ...prev, imageUrl: url }))}
-      urlToUpload={`${stables.API_BASE_URL}BusinessAndService/upload-image`}
-
+      urlToUpload={'http://localhost:5000/api/BusinessAndService/upload-image'}
     />
   ), [imageFile, businessData.imageUrl]);
 
